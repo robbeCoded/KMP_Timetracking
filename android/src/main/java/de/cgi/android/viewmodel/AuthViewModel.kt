@@ -24,9 +24,9 @@ class AuthViewModel(
     private val resultChannel = Channel<AuthResult<Unit>>()
     val authResult = resultChannel.receiveAsFlow()
 
-    init {
+   /* init {
         authenticate()
-    }
+    }*/
     fun onEvent(event: AuthUiEvent) {
         when(event){
             //Sign in

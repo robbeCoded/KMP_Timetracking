@@ -7,11 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.spec.Direction
 
 @Composable
-@Destination(route = "secret_screen")
-fun secretScreen() {
+@Destination
+fun SecretScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

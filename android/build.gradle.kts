@@ -67,7 +67,14 @@ android {
             }
         }
     }
+    applicationVariants.all {
+        addJavaSourceFoldersToModel(
+            File(buildDir, "generated/ksp/$name/kotlin")
+        )
+    }
 }
+
+
 
 dependencies {
     with(Deps.Android) {
@@ -117,8 +124,8 @@ dependencies {
         implementation(clientAndroid)
     }
 
-    implementation("io.github.raamcosta.compose-destinations:core:1.1.2-beta")
-    ksp ("io.github.raamcosta.compose-destinations:ksp:1.1.2-beta")
+    implementation("io.github.raamcosta.compose-destinations:core:1.7.36-beta")
+    ksp ("io.github.raamcosta.compose-destinations:ksp:1.7.36-beta")
 
     implementation(project(":common"))
 }

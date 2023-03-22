@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import de.cgi.android.ui.EntryPoint
+import com.ramcosta.composedestinations.DestinationsNavHost
+import de.cgi.android.NavGraphs
 
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            EntryPoint()
+            DestinationsNavHost(navGraph = NavGraphs.root)
         }
     }
 }
