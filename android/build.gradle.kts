@@ -110,9 +110,15 @@ dependencies {
     }
 
     with(Deps.Koin) {
-        implementation(android)
-        implementation(compose)
+        api(android)
+        api(compose)
     }
+    with(Deps.Ktor){
+        implementation(clientAndroid)
+    }
+
+    implementation("io.github.raamcosta.compose-destinations:core:1.1.2-beta")
+    ksp ("io.github.raamcosta.compose-destinations:ksp:1.1.2-beta")
 
     implementation(project(":common"))
 }

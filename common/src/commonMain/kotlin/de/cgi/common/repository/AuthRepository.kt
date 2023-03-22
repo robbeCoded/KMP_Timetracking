@@ -5,6 +5,6 @@ import de.cgi.common.data.model.responses.AuthResult
 
 interface AuthRepository {
     suspend fun signUp(name: String, email: String, password: String): AuthResult<Unit>
-    suspend fun signIn(email: String, password: String): AuthResult<AuthResponse>
+    suspend fun signIn(email: String, password: String): AuthResult<Unit>
     suspend fun authenticate(): AuthResult<Unit>
 }

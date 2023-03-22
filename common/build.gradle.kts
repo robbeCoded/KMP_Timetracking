@@ -27,7 +27,6 @@ kotlin {
 
     val sdkName: String? = System.getenv("SDK_NAME")
     android()
-    jvm()
     js(IR) {
         useCommonJs()
         browser()

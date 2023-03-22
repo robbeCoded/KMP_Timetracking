@@ -1,16 +1,13 @@
-package android.api
+package de.cgi.common.api
 
-// commonAndroid
-import de.cgi.common.AuthApi
 import de.cgi.common.data.model.requests.AuthRequest
 import de.cgi.common.data.model.requests.SignUpRequest
-import de.cgi.common.routes
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 
-class AndroidAuthApi(private val client: HttpClient) : AuthApi {
+class AuthApiImpl(private val client: HttpClient) : AuthApi {
     override suspend fun signUp(request: SignUpRequest): HttpResponse {
         return client.post(routes.SIGNUP) {
             contentType(ContentType.Application.Json)

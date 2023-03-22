@@ -1,4 +1,4 @@
-package de.cgi.common
+package de.cgi.common.api
 
 import de.cgi.common.data.model.requests.AuthRequest
 import de.cgi.common.data.model.requests.SignUpRequest

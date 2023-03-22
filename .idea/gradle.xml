@@ -14,7 +14,6 @@
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/compose-desktop" />
             <option value="$PROJECT_DIR$/compose-web" />
           </set>
         </option>
