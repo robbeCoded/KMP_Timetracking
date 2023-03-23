@@ -20,6 +20,7 @@ fun Application.configureRouting(
         signIn(userDataSource, hashingService, tokenService, tokenConfig)
         signUp(hashingService,userDataSource)
         newTimeEntry(timeEntryDataSource)
+        getTimeEntries(timeEntryDataSource)
         authenticate()
         getSecretInfo()
 

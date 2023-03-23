@@ -34,4 +34,5 @@ dependencies {
         implementation(serialization)
         implementation(commonsCodec)
     }
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 }

@@ -44,3 +44,12 @@ fun Route.newTimeEntry(
         call.respond(HttpStatusCode.OK)
     }
 }
+
+fun Route.getTimeEntries(
+    timeEntryDataSource: TimeEntryDataSource
+) {
+    get("timeentries") {
+        val timeEntriesList = timeEntryDataSource.getTimeEntries()
+        call.respond(HttpStatusCode.OK, timeEntriesList)
+    }
+}
