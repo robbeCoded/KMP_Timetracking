@@ -12,5 +12,4 @@ data class TimeEntry(
     val project: String?,
     val description: String?,
     val userId: String
-
 )

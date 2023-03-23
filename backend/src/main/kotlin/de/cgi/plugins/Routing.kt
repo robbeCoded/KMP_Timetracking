@@ -19,9 +19,11 @@ fun Application.configureRouting(
     routing {
         signIn(userDataSource, hashingService, tokenService, tokenConfig)
         signUp(hashingService,userDataSource)
+        authenticate()
         newTimeEntry(timeEntryDataSource)
         getTimeEntries(timeEntryDataSource)
-        authenticate()
+        getTimeEntry(timeEntryDataSource)
+        deleteTimeEntry(timeEntryDataSource)
         getSecretInfo()
 
     }
