@@ -1,5 +1,6 @@
 package de.cgi.data.models
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -8,6 +9,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.bson.types.ObjectId
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = ObjectId::class)
 object ObjectIdSerializer : KSerializer<ObjectId> {
     override val descriptor = PrimitiveSerialDescriptor("ObjectId", PrimitiveKind.STRING)

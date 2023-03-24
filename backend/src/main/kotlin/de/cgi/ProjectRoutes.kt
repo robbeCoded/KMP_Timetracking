@@ -12,9 +12,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.bson.types.ObjectId
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
 
 fun Route.newProject(
     projectDataSource: ProjectDataSource

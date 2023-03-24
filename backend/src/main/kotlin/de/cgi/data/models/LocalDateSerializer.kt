@@ -1,5 +1,6 @@
 package de.cgi.data.models
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import java.time.LocalDate
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
@@ -11,6 +12,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import java.time.format.DateTimeFormatter
 
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = LocalDate::class)
 object LocalDateSerializer : KSerializer<LocalDate> {
     private val formatter = DateTimeFormatter.ISO_LOCAL_DATE
