@@ -1,6 +1,7 @@
 package de.cgi.plugins
 
 import de.cgi.*
+import de.cgi.data.datasource.ProjectDataSource
 import de.cgi.data.datasource.TimeEntryDataSource
 import de.cgi.data.datasource.UserDataSource
 import de.cgi.security.hashing.HashingService
@@ -14,16 +15,25 @@ fun Application.configureRouting(
     hashingService: HashingService,
     tokenService: TokenService,
     tokenConfig: TokenConfig,
-    timeEntryDataSource: TimeEntryDataSource
+    timeEntryDataSource: TimeEntryDataSource,
+    projectDataSource: ProjectDataSource
 ) {
     routing {
         signIn(userDataSource, hashingService, tokenService, tokenConfig)
         signUp(hashingService,userDataSource)
+
         authenticate()
+
         newTimeEntry(timeEntryDataSource)
         getTimeEntries(timeEntryDataSource)
         getTimeEntry(timeEntryDataSource)
         deleteTimeEntry(timeEntryDataSource)
+
+        newProject(projectDataSource)
+        getProjects(projectDataSource)
+        getProject(projectDataSource)
+        deleteProject(projectDataSource)
+
         getSecretInfo()
 
     }

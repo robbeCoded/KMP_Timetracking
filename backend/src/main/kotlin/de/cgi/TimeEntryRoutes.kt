@@ -2,8 +2,8 @@ package de.cgi
 
 import de.cgi.data.datasource.TimeEntryDataSource
 import de.cgi.data.models.TimeEntry
-import de.cgi.data.requests.NewTimeEntry
-import de.cgi.data.requests.TimeEntryById
+import de.cgi.data.requests.NewTimeEntryRequest
+import de.cgi.data.requests.TimeEntryByIdRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -20,22 +20,22 @@ fun Route.newTimeEntry(
     authenticate {
         post("timeentry/new") {
 
-            val request = call.receiveNullable<NewTimeEntry>() ?: kotlin.run {
+            val request = call.receiveNullable<NewTimeEntryRequest>() ?: kotlin.run {
                 call.respond(HttpStatusCode.BadRequest)
                 return@post
             }
             //TODO: Fehlerbehandlung - empty Fields etc
-            val formatter = DateTimeFormatter.ofPattern("yy-MM-dd'T'HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
             val startTime = LocalDateTime.parse(request.startTime, formatter)
             val endTime = LocalDateTime.parse(request.endTime, formatter)
-            println(startTime)
-            println(endTime)
+            val userId = ObjectId(request.userId)
+            val project = request.projectId?.let {ObjectId(it)}
             val timeEntry = TimeEntry(
                 startTime = startTime,
                 endTime = endTime,
-                userId = request.userId,
+                userId = userId,
                 description = request.description,
-                project = request.projectId,
+                projectId = project,
                 timestamp = LocalDateTime.now()
             )
 
@@ -68,15 +68,14 @@ fun Route.getTimeEntry(
 ) {
     authenticate{
         get("timeentry/getOne") {
-            val timeEntryRequest = call.receiveNullable<TimeEntryById>()
+            val timeEntryRequest = call.receiveNullable<TimeEntryByIdRequest>()
             if(timeEntryRequest != null) {
                 val timeEntryId = timeEntryRequest.id
-                println(timeEntryId)
                 val bsonId = ObjectId(timeEntryId)
                 val timeEntry = timeEntryDataSource.getTimeEntryById(bsonId)
                 if(timeEntry != null){
-                    println("INSIDE THE IF")
                     call.respond(HttpStatusCode.OK, timeEntry)
+                    return@get
                 }
             }
             call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")
@@ -88,14 +87,15 @@ fun Route.deleteTimeEntry(
     timeEntryDataSource: TimeEntryDataSource
 ) {
     authenticate{
-        get("timeentry/delete") {
-            val timeEntryRequest = call.receiveNullable<TimeEntryById>()
+        delete("timeentry/delete") {
+            val timeEntryRequest = call.receiveNullable<TimeEntryByIdRequest>()
             if(timeEntryRequest != null) {
                 val timeEntryId = timeEntryRequest.id
                 val bsonId = ObjectId(timeEntryId)
                 val timeEntry = timeEntryDataSource.deleteTimeEntry(bsonId)
                 if(timeEntry){
                     call.respond(HttpStatusCode.OK)
+                    return@delete
                 }
             }
             call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")

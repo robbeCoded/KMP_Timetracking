@@ -1,13 +1,25 @@
 package de.cgi.data.models
 
+import kotlinx.serialization.Serializable
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
-import java.time.LocalDateTime
-
+import java.time.LocalDate
+@Serializable
 data class Project(
+
     val name: String,
+
+    val description: String?,
+
+    @Serializable(with = ObjectIdSerializer::class)
     @BsonId val id: ObjectId = ObjectId(),
-    val startDate: LocalDateTime,
-    val endDate: LocalDateTime,
-    val userId: String,
+
+    @Serializable(with = LocalDateSerializer::class)
+    val startDate: LocalDate,
+
+    @Serializable(with = LocalDateSerializer::class)
+    val endDate: LocalDate,
+
+    @Serializable(with = ObjectIdSerializer::class)
+    val userId: ObjectId,
 )

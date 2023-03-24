@@ -88,6 +88,7 @@ fun Route.signIn(
         val user = userDataSource.getUserByEmail(request.email)
         if (user == null) {
             call.respond(HttpStatusCode.Conflict, "User not found")
+            return@post
         } else {
             val saltedHash = SaltedHash(user.hashedPassword, user.salt)
             val validPassword = hashingService.verify(
@@ -98,6 +99,7 @@ fun Route.signIn(
 
             if (!validPassword) {
                 call.respond(HttpStatusCode.Conflict, "Incorrect email or password")
+                return@post
             }
 
             val token = tokenService.generates(

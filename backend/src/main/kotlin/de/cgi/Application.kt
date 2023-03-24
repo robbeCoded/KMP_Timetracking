@@ -1,5 +1,6 @@
 package de.cgi
 
+import de.cgi.data.datasource.MongoProjectDataSource
 import de.cgi.data.datasource.MongoTimeEntryDataSource
 import de.cgi.data.datasource.MongoUserDataSource
 import io.ktor.server.application.*
@@ -24,6 +25,7 @@ fun Application.module() {
 
     val userDataSource = MongoUserDataSource(db)
     val timeEntryDataSource = MongoTimeEntryDataSource(db)
+    val projectDataSource = MongoProjectDataSource(db)
     val tokenService = JwtTokenService()
     val tokenConfig = TokenConfig(
         issuer = environment.config.property("jwt.issuer").getString(),
@@ -42,6 +44,7 @@ fun Application.module() {
         tokenConfig = tokenConfig,
         tokenService = tokenService,
         hashingService = hashingService,
-        timeEntryDataSource = timeEntryDataSource
+        timeEntryDataSource = timeEntryDataSource,
+        projectDataSource =projectDataSource
     )
 }
