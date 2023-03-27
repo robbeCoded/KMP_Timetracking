@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 plugins {
     kotlin("multiplatform")
     id("kotlinx-serialization")
@@ -51,6 +52,8 @@ kotlin {
                 with(Deps.Koin) {
                     implementation(core)
                 }
+                implementation ("com.google.code.gson:gson:2.8.9")
+
             }
         }
         val commonTest by getting {

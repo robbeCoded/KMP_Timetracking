@@ -10,9 +10,11 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.bson.types.ObjectId
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+
 
 fun Route.newTimeEntry(
     timeEntryDataSource: TimeEntryDataSource
@@ -25,18 +27,16 @@ fun Route.newTimeEntry(
                 return@post
             }
             //TODO: Fehlerbehandlung - empty Fields etc
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-            val startTime = LocalDateTime.parse(request.startTime, formatter)
-            val endTime = LocalDateTime.parse(request.endTime, formatter)
+
             val userId = ObjectId(request.userId)
             val project = request.projectId?.let {ObjectId(it)}
             val timeEntry = TimeEntry(
-                startTime = startTime,
-                endTime = endTime,
+                startTime = request.startTime,
+                endTime = request.endTime,
                 userId = userId,
                 description = request.description,
                 projectId = project,
-                timestamp = LocalDateTime.now()
+                timestamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
             )
 
             val wasAcknowledged = timeEntryDataSource.insertTimeEntry(timeEntry)
@@ -45,7 +45,7 @@ fun Route.newTimeEntry(
                 return@post
             }
 
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.OK, timeEntry)
         }
     }
 
@@ -54,7 +54,7 @@ fun Route.newTimeEntry(
 fun Route.getTimeEntries(
     timeEntryDataSource: TimeEntryDataSource
 ) {
-    authenticate{
+    authenticate {
         get("timeentry/getAll") {
             val timeEntriesList = timeEntryDataSource.getTimeEntries()
             call.respond(HttpStatusCode.OK, timeEntriesList)

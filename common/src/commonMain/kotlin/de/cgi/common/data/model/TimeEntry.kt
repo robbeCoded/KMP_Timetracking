@@ -9,7 +9,7 @@ data class TimeEntry(
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     val id: String,
-    val project: String?,
+    val projectId: String?,
     val description: String?,
     val userId: String
 )

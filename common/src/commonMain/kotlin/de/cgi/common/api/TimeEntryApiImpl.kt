@@ -23,9 +23,10 @@ class TimeEntryApiImpl(
         }
     }
 
+
     override suspend fun getTimeEntryById(id: String, token: String): HttpResponse {
         return client.get(routes.GET_TIME_ENTRY_BY_ID) {
-            header("Authorization", "Bearer $token")
+            header(HttpHeaders.Authorization, "Bearer $token")
             contentType(ContentType.Application.Json)
             setBody(id)
         }

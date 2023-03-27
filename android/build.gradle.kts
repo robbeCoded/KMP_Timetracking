@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -114,6 +112,9 @@ dependencies {
         androidTestImplementation(composeUiTestJUnit)
         androidTestImplementation(composeNavTesting)
         debugImplementation(composeUiTestManifest)
+    }
+    with(Deps.Kotlinx) {
+        implementation(dateTime)
     }
 
     with(Deps.Koin) {

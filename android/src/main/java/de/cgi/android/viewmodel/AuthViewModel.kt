@@ -25,6 +25,7 @@ class AuthViewModel(
     val authResult = resultChannel.receiveAsFlow()
 
     init {
+        println("TRYING TO AUTHENTICATE")
         authenticate()
     }
 

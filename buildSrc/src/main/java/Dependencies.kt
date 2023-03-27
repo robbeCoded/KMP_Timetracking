@@ -157,6 +157,7 @@ object Deps {
         const val clientJava = "io.ktor:ktor-client-java:${Versions.ktor}"
         const val clientDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
         const val clientJs = "io.ktor:ktor-client-js:${Versions.ktor}"
+        const val features = "io.ktor:ktor-client-features:${Versions.ktor}"
     }
 
     object KMongo {

@@ -1,6 +1,8 @@
 package de.cgi.common.api
 
+import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
+import de.cgi.common.data.model.responses.TimeEntryResponse
 import io.ktor.client.statement.*
 
 interface TimeEntryApi {

@@ -11,4 +11,9 @@ object routes {
     const val GET_TIME_ENTRIES = "$BASE_URL/timeentry/getAll"
     const val GET_TIME_ENTRY_BY_ID = "$BASE_URL/timeentry/getOne"
     const val DELETE_TIME_ENTRY = "$BASE_URL/timeentry/delete"
+
+    const val NEW_PROJECT = "$BASE_URL/project/new"
+    const val GET_PROJECTS = "$BASE_URL/project/getAll"
+    const val GET_PROJECT_BY_ID = "$BASE_URL/project/getOne"
+    const val DELETE_PROJECT = "$BASE_URL/project/delete"
 }
