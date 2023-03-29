@@ -7,11 +7,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.android.TimeEntryState
+import de.cgi.common.data.model.KeyValueStorage
+import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.data.model.responses.TimeEntryResponse
 import de.cgi.common.repository.TimeEntryRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
 class TimeEntryViewModel(

@@ -158,10 +158,36 @@ object Deps {
         const val clientDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
         const val clientJs = "io.ktor:ktor-client-js:${Versions.ktor}"
         const val features = "io.ktor:ktor-client-features:${Versions.ktor}"
+
+        const val cors = "io.ktor:ktor-server-cors:${Versions.ktor}"
+
     }
 
     object KMongo {
         const val core = "org.litote.kmongo:kmongo:${Versions.kmongo}"
         const val coroutine = "org.litote.kmongo:kmongo-coroutine:${Versions.kmongo}"
+    }
+
+    object ArkIvanov {
+        object MVIKotlin {
+            private const val VERSION = "3.0.0"
+            const val rx = "com.arkivanov.mvikotlin:rx:$VERSION"
+            const val mvikotlin = "com.arkivanov.mvikotlin:mvikotlin:$VERSION"
+            const val mvikotlinMain = "com.arkivanov.mvikotlin:mvikotlin-main:$VERSION"
+            const val mvikotlinLogging = "com.arkivanov.mvikotlin:mvikotlin-logging:$VERSION"
+            const val mvikotlinTimeTravel = "com.arkivanov.mvikotlin:mvikotlin-timetravel:$VERSION"
+            const val mvikotlinExtensionsReaktive = "com.arkivanov.mvikotlin:mvikotlin-extensions-reaktive:$VERSION"
+        }
+
+        object Decompose {
+            private const val VERSION = "1.0.0-alpha-05"
+            const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
+            const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
+        }
+
+        object Essenty {
+            private const val VERSION = "0.6.0"
+            const val lifecycle = "com.arkivanov.essenty:lifecycle:$VERSION"
+        }
     }
 }

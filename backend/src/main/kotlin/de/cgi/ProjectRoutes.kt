@@ -10,8 +10,9 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.datetime.LocalDate
 import org.bson.types.ObjectId
-import java.time.LocalDate
+
 
 fun Route.newProject(
     projectDataSource: ProjectDataSource

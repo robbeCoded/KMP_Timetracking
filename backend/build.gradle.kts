@@ -33,8 +33,11 @@ dependencies {
         implementation(logback)
         implementation(serialization)
         implementation(commonsCodec)
+        implementation(cors)
     }
     with(Deps.Kotlinx) {
         implementation(dateTime)
     }
+
+
 }

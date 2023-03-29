@@ -3,11 +3,15 @@ package de.cgi
 import de.cgi.data.datasource.MongoProjectDataSource
 import de.cgi.data.datasource.MongoTimeEntryDataSource
 import de.cgi.data.datasource.MongoUserDataSource
-import io.ktor.server.application.*
 import de.cgi.plugins.*
 import de.cgi.security.hashing.SHA256HashingService
 import de.cgi.security.token.JwtTokenService
 import de.cgi.security.token.TokenConfig
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.cors.*
+import io.ktor.server.plugins.cors.CORS
+import io.ktor.server.plugins.cors.routing.*
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
@@ -16,6 +20,21 @@ fun main(args: Array<String>): Unit =
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
 fun Application.module() {
+
+    install(CORS) {
+        allowMethod(HttpMethod.Options)
+        allowMethod(HttpMethod.Put)
+        allowMethod(HttpMethod.Delete)
+        allowMethod(HttpMethod.Patch)
+        allowHeader(HttpHeaders.Authorization)
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.AccessControlAllowOrigin)
+        // header("any header") if you want to add any header
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
+        anyHost()
+    }
+
     val mongoPw = System.getenv("MONGO_PW")
     val dbName = "timetrackingDB"
     val db = KMongo.createClient(

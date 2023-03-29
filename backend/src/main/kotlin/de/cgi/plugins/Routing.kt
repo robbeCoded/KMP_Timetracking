@@ -10,6 +10,7 @@ import de.cgi.security.token.TokenService
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
 
+
 fun Application.configureRouting(
     userDataSource: UserDataSource,
     hashingService: HashingService,
@@ -34,7 +35,7 @@ fun Application.configureRouting(
         getProject(projectDataSource)
         deleteProject(projectDataSource)
 
-        getSecretInfo()
+        getUserId()
 
     }
 }

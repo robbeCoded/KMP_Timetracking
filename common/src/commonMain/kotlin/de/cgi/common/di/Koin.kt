@@ -27,6 +27,7 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
         modules(commonModule(enableNetworkLogs = enableNetworkLogs), platformModule())
     }
 
+fun initKoin() = initKoin(enableNetworkLogs = false) {}
 fun commonModule(enableNetworkLogs: Boolean) = module {
     single { createJson() }
     single { createHttpClient(get(), get(), enableNetworkLogs = enableNetworkLogs) }

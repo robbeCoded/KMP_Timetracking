@@ -1,9 +1,10 @@
 package de.cgi.data.models
 
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.serializers.LocalDateIso8601Serializer
 import kotlinx.serialization.Serializable
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
-import java.time.LocalDate
 @Serializable
 data class Project(
 
@@ -14,10 +15,10 @@ data class Project(
     @Serializable(with = ObjectIdSerializer::class)
     @BsonId val id: ObjectId = ObjectId(),
 
-    @Serializable(with = LocalDateSerializer::class)
+    @Serializable(with = LocalDateIso8601Serializer::class)
     val startDate: LocalDate,
 
-    @Serializable(with = LocalDateSerializer::class)
+    @Serializable(with = LocalDateIso8601Serializer::class)
     val endDate: LocalDate,
 
     @Serializable(with = ObjectIdSerializer::class)

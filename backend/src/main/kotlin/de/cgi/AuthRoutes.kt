@@ -127,12 +127,12 @@ fun Route.authenticate() {
     }
 }
 
-fun Route.getSecretInfo() {
+fun Route.getUserId() {
     authenticate {
         get("secret") {
             val principal = call.principal<JWTPrincipal>()
             val userId = principal?.getClaim("userId", String::class)
-            call.respond(HttpStatusCode.OK, "Ur userId is $userId")
+            call.respond(HttpStatusCode.OK, "$userId")
         }
     }
 }
