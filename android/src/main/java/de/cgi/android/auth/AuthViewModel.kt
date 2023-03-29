@@ -1,12 +1,12 @@
-package de.cgi.android.viewmodel
+package de.cgi.android.auth
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.AuthState
-import de.cgi.android.AuthUiEvent
+import de.cgi.android.auth.AuthState
+import de.cgi.android.auth.AuthUiEvent
 
 import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.repository.AuthRepository
@@ -20,6 +20,7 @@ class AuthViewModel(
 ) : ViewModel(){
 
     var state by mutableStateOf(AuthState())
+
 
     private val resultChannel = Channel<AuthResult<Unit>>()
     val authResult = resultChannel.receiveAsFlow()

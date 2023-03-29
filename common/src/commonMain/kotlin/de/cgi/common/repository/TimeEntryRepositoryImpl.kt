@@ -11,9 +11,18 @@ import io.ktor.http.*
 
 class TimeEntryRepositoryImpl(
     private val api: TimeEntryApi
-) : TimeEntryRepository{
-    override suspend fun newTimeEntry(timeEntry: NewTimeEntry, token: String): AuthResult<TimeEntryResponse?> {
+) : TimeEntryRepository {
+    override suspend fun newTimeEntry(
+        startTime: String,
+        endTime: String,
+        userId: String,
+        description: String?,
+        projectId: String?, token: String
+    ): AuthResult<TimeEntryResponse?> {
+
+        val timeEntry = NewTimeEntry(startTime, endTime, userId, description, projectId)
         val response = api.newTimeEntry(timeEntry, token)
+
         return when (response.status) {
             HttpStatusCode.OK -> {
                 AuthResult.Authorized(response.body())
@@ -47,7 +56,10 @@ class TimeEntryRepositoryImpl(
 
     }
 
-    override suspend fun getTimeEntryById(id: String, token: String): AuthResult<TimeEntryResponse?> {
+    override suspend fun getTimeEntryById(
+        id: String,
+        token: String
+    ): AuthResult<TimeEntryResponse?> {
         val response = api.getTimeEntryById(id, token)
         return when (response.status) {
             HttpStatusCode.OK -> {

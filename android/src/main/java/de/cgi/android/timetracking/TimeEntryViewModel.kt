@@ -1,4 +1,4 @@
-package de.cgi.android.viewmodel
+package de.cgi.android.timetracking
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.getValue

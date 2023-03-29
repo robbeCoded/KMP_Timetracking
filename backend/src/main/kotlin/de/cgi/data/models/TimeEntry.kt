@@ -8,17 +8,12 @@ import org.bson.types.ObjectId
 
 @Serializable
 data class TimeEntry(
-    @Serializable(with = LocalDateTimeIso8601Serializer::class)
-    val timestamp: LocalDateTime,
-
     @Serializable(with = ObjectIdSerializer::class)
     @BsonId val id: ObjectId = ObjectId(),
 
-    @Serializable(with = LocalDateTimeIso8601Serializer::class)
-    val startTime: LocalDateTime,
-
-    @Serializable(with = LocalDateTimeIso8601Serializer::class)
-    val endTime: LocalDateTime,
+    val timestamp: String,
+    val startTime: String,
+    val endTime: String,
 
     @Serializable(with = ObjectIdSerializer::class)
     val projectId: ObjectId?,

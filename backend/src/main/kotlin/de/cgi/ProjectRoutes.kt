@@ -26,14 +26,13 @@ fun Route.newProject(
             }
             //TODO: Fehlerbehandlung - empty Fields etc
 
-            val startDate = LocalDate.parse(request.startDate)
-            val endDate = LocalDate.parse(request.endDate)
+
             val userId = ObjectId(request.userId)
 
             val project = Project(
                 name = request.name,
-                startDate = startDate,
-                endDate = endDate,
+                startDate = request.startDate,
+                endDate = request.endDate,
                 userId = userId,
                 description = request.description
             )

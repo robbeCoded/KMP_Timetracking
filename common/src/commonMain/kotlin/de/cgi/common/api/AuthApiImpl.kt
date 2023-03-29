@@ -3,6 +3,7 @@ package de.cgi.common.api
 import de.cgi.common.data.model.requests.AuthRequest
 import de.cgi.common.data.model.requests.SignUpRequest
 import de.cgi.common.data.model.responses.AuthResponse
+import de.cgi.common.data.model.responses.GetUserIdResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -28,5 +29,11 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
         return client.get(routes.AUTHENTICATE) {
             header("Authorization", "Bearer $token")
         }
+    }
+
+    override suspend fun getUserId(token: String): GetUserIdResponse {
+        return client.get(routes.GET_USER_ID) {
+            header("Authorization", "Bearer $token")
+        }.body()
     }
 }

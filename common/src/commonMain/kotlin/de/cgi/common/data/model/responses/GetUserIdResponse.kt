@@ -1,9 +1,8 @@
-package de.cgi.data.responses
+package de.cgi.common.data.model.responses
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AuthResponse(
-    val token: String,
+data class GetUserIdResponse(
     val userId: String
 )

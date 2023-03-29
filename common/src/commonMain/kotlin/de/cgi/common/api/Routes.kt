@@ -1,11 +1,12 @@
 package de.cgi.common.api
 
 object routes {
-    var BASE_URL = "http://localhost:8080" //"http://10.0.2.2:8085"
+    var BASE_URL = "http://10.0.2.2:8080"
 
     val SIGNUP = "$BASE_URL/signup"
     val SIGNIN = "$BASE_URL/signin"
     val AUTHENTICATE = "$BASE_URL/authenticate"
+    val GET_USER_ID = "$BASE_URL/userId"
 
     val NEW_TIME_ENTRY = "$BASE_URL/timeentry/new"
     val GET_TIME_ENTRIES = "$BASE_URL/timeentry/getAll"

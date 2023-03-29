@@ -127,6 +127,7 @@ dependencies {
 
     implementation("io.github.raamcosta.compose-destinations:core:1.7.36-beta")
     ksp ("io.github.raamcosta.compose-destinations:ksp:1.7.36-beta")
+    implementation("br.com.devsrsouza.compose.icons.android:feather:1.0.0")
 
     implementation(project(":common"))
 }

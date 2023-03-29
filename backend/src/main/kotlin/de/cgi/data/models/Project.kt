@@ -15,11 +15,8 @@ data class Project(
     @Serializable(with = ObjectIdSerializer::class)
     @BsonId val id: ObjectId = ObjectId(),
 
-    @Serializable(with = LocalDateIso8601Serializer::class)
-    val startDate: LocalDate,
-
-    @Serializable(with = LocalDateIso8601Serializer::class)
-    val endDate: LocalDate,
+    val startDate: String,
+    val endDate: String,
 
     @Serializable(with = ObjectIdSerializer::class)
     val userId: ObjectId,

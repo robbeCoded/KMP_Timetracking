@@ -1,11 +1,13 @@
 package de.cgi
 
+import TimetrackingTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ramcosta.composedestinations.DestinationsNavHost
-import de.cgi.android.NavGraphs
+import compose.icons.feathericons.*
+import de.cgi.android.*
 
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +16,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            DestinationsNavHost(navGraph = NavGraphs.root)
+            TimetrackingTheme {
+                DestinationsNavHost(navGraph = NavGraphs.root)
+            }
         }
     }
 }

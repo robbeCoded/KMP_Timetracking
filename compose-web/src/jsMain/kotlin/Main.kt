@@ -16,7 +16,7 @@ private val koin = initKoin(enableNetworkLogs = true).koin
 @InternalCoroutinesApi
 fun main() {
     val repo = koin.get<TimeEntryRepository>()
-
+    setBaseUrl("http://localhost:8080")
 
     renderComposable(rootElementId = "root") {
         Style(TextStyles)

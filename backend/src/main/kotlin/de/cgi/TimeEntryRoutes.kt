@@ -36,7 +36,7 @@ fun Route.newTimeEntry(
                 userId = userId,
                 description = request.description,
                 projectId = project,
-                timestamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                timestamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString()
             )
 
             val wasAcknowledged = timeEntryDataSource.insertTimeEntry(timeEntry)

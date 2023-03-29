@@ -1,4 +1,4 @@
-package de.cgi.android.model
+package de.cgi.android.auth
 
 
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import de.cgi.common.data.model.requests.AuthRequest
 import de.cgi.common.data.model.requests.SignUpRequest
 import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.repository.AuthRepository
-
+import io.ktor.client.call.*
 
 
 class AuthRepositoryImpl(
@@ -38,6 +38,9 @@ class AuthRepositoryImpl(
             prefs.edit()
                 .putString("jwt", response.token)
                 .apply()
+            prefs.edit()
+                .putString("userId", response.userId)
+                .apply()
             AuthResult.Authorized()
         } catch (e: HttpException) {
             if (e.response.code == 401) {
@@ -56,6 +59,28 @@ class AuthRepositoryImpl(
             api.authenticate(token)
             AuthResult.Authorized()
         } catch (e: HttpException) {
+            if (e.response.code == 401) {
+                AuthResult.Unauthorized()
+            } else {
+                println(e.message)
+                AuthResult.UnknownError()
+            }
+        } catch (e: Exception) {
+            println(e.message)
+            AuthResult.UnknownError()
+        }
+    }
+
+    override suspend fun getUserId(): AuthResult<String> {
+        return try {
+            val token = prefs.getString("jwt", null) ?: return AuthResult.Unauthorized()
+            val response = api.getUserId(token)
+            prefs.edit()
+                .putString("userId", response.userId)
+                .apply()
+            AuthResult.Authorized(response.userId)
+        }
+        catch (e: HttpException) {
             if (e.response.code == 401) {
                 AuthResult.Unauthorized()
             } else {
