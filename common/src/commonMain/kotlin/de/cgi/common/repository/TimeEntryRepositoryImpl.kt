@@ -38,11 +38,9 @@ class TimeEntryRepositoryImpl(
 
 
     override suspend fun getTimeEntries(token: String): AuthResult<List<TimeEntryResponse>> {
-        println("HELLO FROM THE REPO")
         val response = api.getTimeEntries(token)
         return when (response.status) {
             HttpStatusCode.OK -> {
-                println(response.bodyAsText())
                 AuthResult.Authorized(response.body())
             }
             HttpStatusCode.Unauthorized -> {

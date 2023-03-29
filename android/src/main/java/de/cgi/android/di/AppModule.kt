@@ -6,7 +6,7 @@ import de.cgi.android.model.AndroidSharedPreferencesStorage
 import de.cgi.android.auth.AuthRepositoryImpl
 import de.cgi.android.auth.AuthViewModel
 import de.cgi.android.auth.UserSessionManager
-import de.cgi.android.timetracking.AddTimeEntryViewModel
+import de.cgi.android.timetracking.newTimeEntry.AddTimeEntryViewModel
 import de.cgi.android.timetracking.TimeEntryViewModel
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.repository.AuthRepository
