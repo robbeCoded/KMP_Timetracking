@@ -3,10 +3,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
-    id("kotlinx-serialization")
-    id("com.android.library")
+    id ("kotlinx-serialization")
+    id("com.squareup.sqldelight")
+    id ("com.android.library")
     id ("com.google.devtools.ksp")
-    id("com.rickclephas.kmp.nativecoroutines")
+    id ("com.rickclephas.kmp.nativecoroutines")
+    id ("de.comahe.i18n4k") version "0.5.0"
+}
+
+i18n4k {
+    sourceCodeLocales = listOf("en", "de")
 }
 
 android {
@@ -52,7 +58,12 @@ kotlin {
                 with(Deps.Koin) {
                     implementation(core)
                 }
-                implementation ("com.google.code.gson:gson:2.8.9")
+                with(Deps.sqlDelight){
+                    implementation(runtime)
+                }
+                //internationalisation
+                implementation("de.comahe.i18n4k:i18n4k-core:0.5.0")
+
 
             }
         }
@@ -77,6 +88,9 @@ kotlin {
                 with(Deps.Koin){
                     implementation(android)
                 }
+                with(Deps.sqlDelight){
+                    implementation(android)
+                }
 
             }
         }
@@ -84,6 +98,9 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(Deps.Ktor.clientJs)
+                implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
+                implementation(npm("sql.js", "1.6.2"))
+                implementation(devNpm("copy-webpack-plugin", "9.1.0"))
             }
         }
 
@@ -96,6 +113,11 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+sqldelight {
+    database("AppDatabase") {
+        packageName = "de.cgi.shared.cache"
+    }
+}
 
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")

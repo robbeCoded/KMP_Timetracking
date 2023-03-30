@@ -16,10 +16,12 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${kotlinVersion}")
 
+
         with(Deps.Gradle) {
             classpath(shadow)
             classpath(kotlinter)
             classpath(gradleVersionsPlugin)
+            classpath(sqlDelight)
             classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.8.0-1.0.8")
             classpath("com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin:${Versions.kmpNativeCoroutinesVersion}")
         }

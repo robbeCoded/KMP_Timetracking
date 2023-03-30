@@ -5,8 +5,8 @@ import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.data.model.responses.TimeEntryResponse
 import io.ktor.client.call.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
+
 
 
 class TimeEntryRepositoryImpl(

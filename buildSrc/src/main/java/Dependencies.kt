@@ -42,6 +42,9 @@ object Versions {
     const val gradleVersionsPlugin = "0.39.0"
 
     const val kmongo = "4.5.1"
+
+    const val androidNavigation = "1.7.36-beta"
+    const val icons = "1.0.0"
 }
 
 object AndroidSdk {
@@ -58,6 +61,7 @@ object Deps {
             "gradle.plugin.com.github.jengelman.gradle.plugins:shadow:${Versions.shadow}"
         const val gradleVersionsPlugin =
             "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleVersionsPlugin}"
+        const val sqlDelight = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
     }
 
     object Kotlinx {
@@ -168,26 +172,17 @@ object Deps {
         const val coroutine = "org.litote.kmongo:kmongo-coroutine:${Versions.kmongo}"
     }
 
-    object ArkIvanov {
-        object MVIKotlin {
-            private const val VERSION = "3.0.0"
-            const val rx = "com.arkivanov.mvikotlin:rx:$VERSION"
-            const val mvikotlin = "com.arkivanov.mvikotlin:mvikotlin:$VERSION"
-            const val mvikotlinMain = "com.arkivanov.mvikotlin:mvikotlin-main:$VERSION"
-            const val mvikotlinLogging = "com.arkivanov.mvikotlin:mvikotlin-logging:$VERSION"
-            const val mvikotlinTimeTravel = "com.arkivanov.mvikotlin:mvikotlin-timetravel:$VERSION"
-            const val mvikotlinExtensionsReaktive = "com.arkivanov.mvikotlin:mvikotlin-extensions-reaktive:$VERSION"
-        }
+    object Icons {
+        const val android = "br.com.devsrsouza.compose.icons.android:feather:${Versions.icons}"
+    }
 
-        object Decompose {
-            private const val VERSION = "1.0.0-alpha-05"
-            const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
-            const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
-        }
+    object androidNavigation {
+        const val core = "io.github.raamcosta.compose-destinations:core:${Versions.androidNavigation}"
+        const val ksp = "io.github.raamcosta.compose-destinations:ksp:${Versions.androidNavigation}"
+    }
 
-        object Essenty {
-            private const val VERSION = "0.6.0"
-            const val lifecycle = "com.arkivanov.essenty:lifecycle:$VERSION"
-        }
+    object sqlDelight {
+        const val runtime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
+        const val android = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
     }
 }

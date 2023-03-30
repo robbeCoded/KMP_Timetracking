@@ -6,6 +6,7 @@ plugins {
     id ("com.google.devtools.ksp")
 }
 
+
 android {
     compileSdk = AndroidSdk.compile
 
@@ -124,10 +125,14 @@ dependencies {
     with(Deps.Ktor){
         implementation(clientAndroid)
     }
-
-    implementation("io.github.raamcosta.compose-destinations:core:1.7.36-beta")
+    with(Deps.androidNavigation) {
+        implementation(core)
+    }
     ksp ("io.github.raamcosta.compose-destinations:ksp:1.7.36-beta")
-    implementation("br.com.devsrsouza.compose.icons.android:feather:1.0.0")
+
+    with(Deps.Icons) {
+        implementation(android)
+    }
 
     implementation(project(":common"))
 }

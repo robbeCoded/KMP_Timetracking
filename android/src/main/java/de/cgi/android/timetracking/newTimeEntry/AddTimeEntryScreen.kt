@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.DatePicker
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,13 +16,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import de.cgi.android.auth.AuthUiEvent
-import de.cgi.android.timetracking.TimeEntryViewModel
+import de.cgi.android.timetracking.newTimeEntry.components.SelectableTextField
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import kotlinx.datetime.TimeZone
 import org.koin.androidx.compose.getViewModel
 import java.util.*
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +34,7 @@ fun AddTimeEntryScreen(
     navigator: DestinationsNavigator,
 ) {
     val calendar = Calendar.getInstance()
-    val title = "Add time entry"
+    val title = "Timetracking"
 
     val now: Instant = Clock.System.now()
     val today: LocalDate = now.toLocalDateTime(TimeZone.of("UTC+2")).date
@@ -175,21 +174,3 @@ fun AddTimeEntryScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SelectableTextField(
-    modifier: Modifier = Modifier,
-    textValue: String,
-    label: String,
-    onClick: () -> Unit,
-) {
-    TextField(
-        value = textValue,
-        onValueChange = { },
-        label = { Text(label) },
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        enabled = false
-    )
-}
