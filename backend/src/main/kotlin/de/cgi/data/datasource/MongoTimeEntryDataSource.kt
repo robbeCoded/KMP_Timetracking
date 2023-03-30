@@ -8,7 +8,7 @@ class MongoTimeEntryDataSource(
     db: CoroutineDatabase
 ): TimeEntryDataSource {
 
-    val timeEntries = db.getCollection<TimeEntry>()
+    private val timeEntries = db.getCollection<TimeEntry>()
     override suspend fun insertTimeEntry(timeEntry: TimeEntry): Boolean {
         return timeEntries.insertOne(timeEntry).wasAcknowledged()
     }

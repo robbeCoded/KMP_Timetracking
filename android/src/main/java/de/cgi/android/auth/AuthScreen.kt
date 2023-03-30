@@ -17,31 +17,35 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import de.cgi.android.auth.AuthUiEvent
 import de.cgi.android.destinations.AuthScreenDestination
-import de.cgi.android.destinations.SecretScreenDestination
-import de.cgi.android.viewmodel.AuthViewModel
+import de.cgi.android.destinations.TimeEntryScreenDestination
+
+import de.cgi.android.auth.AuthViewModel
 import de.cgi.common.data.model.responses.AuthResult
 import org.koin.androidx.compose.getViewModel
 
-
 @RootNavGraph(start = true)
- @Destination
+@Destination
 @Composable
 fun AuthScreen(
-     navigator: DestinationsNavigator,
-     viewModel: AuthViewModel = getViewModel<AuthViewModel>()
+    navigator: DestinationsNavigator,
+    viewModel: AuthViewModel = getViewModel<AuthViewModel>()
 ) {
+
+
     val state = viewModel.state
     val context = LocalContext.current
     LaunchedEffect(viewModel, context) {
         viewModel.authResult.collect { result ->
             when (result) {
                 is AuthResult.Authorized -> {
-                    navigator.navigate(SecretScreenDestination) {
+                    navigator.navigate(TimeEntryScreenDestination()) {
                         popUpTo(AuthScreenDestination.route) {
                             inclusive = true
                         }
                     }
+
                 }
                 is AuthResult.Unauthorized -> {
                     Toast.makeText(

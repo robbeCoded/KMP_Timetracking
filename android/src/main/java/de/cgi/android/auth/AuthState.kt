@@ -1,4 +1,4 @@
-package de.cgi.android
+package de.cgi.android.auth
 
 data class AuthState(
     val isLoading: Boolean = false,

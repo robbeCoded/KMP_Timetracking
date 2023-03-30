@@ -1,4 +1,4 @@
-package de.cgi.android
+package de.cgi.android.auth
 
 sealed class AuthUiEvent {
     data class SignUpEmailChanged(val value: String): AuthUiEvent()

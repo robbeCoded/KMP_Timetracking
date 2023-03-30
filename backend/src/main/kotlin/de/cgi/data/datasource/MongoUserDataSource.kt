@@ -8,7 +8,7 @@ class MongoUserDataSource (
     db: CoroutineDatabase
 ): UserDataSource {
 
-    val users = db.getCollection<User>()
+    private val users = db.getCollection<User>()
 
     override suspend fun getUserByEmail(email: String): User? {
         return users.findOne(User::email eq email)

@@ -1,8 +1,22 @@
 package de.cgi.common.api
 
 object routes {
-    private const val BASE_URL = "http://10.0.2.2:8080" //"http://localhost:8080"
-    const val SIGNUP = "$BASE_URL/signup"
-    const val SIGNIN = "$BASE_URL/signin"
-    const val AUTHENTICATE = "$BASE_URL/authenticate"
+    var BASE_URL = "http://10.0.2.2:8080"
+
+    val SIGNUP = "$BASE_URL/signup"
+    val SIGNIN = "$BASE_URL/signin"
+    val AUTHENTICATE = "$BASE_URL/authenticate"
+    val GET_USER_ID = "$BASE_URL/userId"
+
+    val NEW_TIME_ENTRY = "$BASE_URL/timeentry/new"
+    val GET_TIME_ENTRIES = "$BASE_URL/timeentry/getAll"
+    val GET_TIME_ENTRY_BY_ID = "$BASE_URL/timeentry/getOne"
+    val DELETE_TIME_ENTRY = "$BASE_URL/timeentry/delete"
+
+    val NEW_PROJECT = "$BASE_URL/project/new"
+    val GET_PROJECTS = "$BASE_URL/project/getAll"
+    val GET_PROJECT_BY_ID = "$BASE_URL/project/getOne"
+    val DELETE_PROJECT = "$BASE_URL/project/delete"
+
 }
+expect fun setBaseUrl(url: String)

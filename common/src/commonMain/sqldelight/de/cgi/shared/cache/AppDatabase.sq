@@ -1,0 +1,28 @@
+CREATE TABLE TimeEntry (
+    id  TEXT NOT NULL PRIMARY KEY,
+    timestamp TEXT NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
+    project_id TEXT,
+    description TEXT,
+    user_id TEXT NOT NULL
+);
+
+insertTimeEntry:
+INSERT INTO TimeEntry(id, timestamp, start_time, end_time, project_id, description, user_id)
+VALUES(?, ?, ?, ?, ?, ?, ?);
+
+clearTimeEntries:
+DELETE FROM TimeEntry;
+
+selectTimeEntryById:
+SELECT * FROM TimeEntry
+WHERE id = ?;
+
+selectAllTimeEntries:
+SELECT *
+FROM TimeEntry;
+
+deleteTimeEntryById:
+DELETE FROM TimeEntry
+WHERE id = ?;

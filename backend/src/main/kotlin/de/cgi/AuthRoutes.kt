@@ -5,6 +5,7 @@ import de.cgi.data.responses.AuthResponse
 import de.cgi.data.models.User
 import de.cgi.data.datasource.UserDataSource
 import de.cgi.data.requests.SignUpRequest
+import de.cgi.data.responses.GetUserIdResponse
 import de.cgi.security.hashing.HashingService
 import de.cgi.security.hashing.SaltedHash
 import de.cgi.security.token.TokenClaim
@@ -88,6 +89,7 @@ fun Route.signIn(
         val user = userDataSource.getUserByEmail(request.email)
         if (user == null) {
             call.respond(HttpStatusCode.Conflict, "User not found")
+            return@post
         } else {
             val saltedHash = SaltedHash(user.hashedPassword, user.salt)
             val validPassword = hashingService.verify(
@@ -98,6 +100,7 @@ fun Route.signIn(
 
             if (!validPassword) {
                 call.respond(HttpStatusCode.Conflict, "Incorrect email or password")
+                return@post
             }
 
             val token = tokenService.generates(
@@ -110,7 +113,7 @@ fun Route.signIn(
 
             call.respond(
                 status = HttpStatusCode.OK,
-                message = AuthResponse(token)
+                message = AuthResponse(token, user.id.toString())
             )
         }
     }
@@ -125,12 +128,17 @@ fun Route.authenticate() {
     }
 }
 
-fun Route.getSecretInfo() {
+fun Route.getUserId() {
     authenticate {
-        get("secret") {
+        get("userId") {
             val principal = call.principal<JWTPrincipal>()
             val userId = principal?.getClaim("userId", String::class)
-            call.respond(HttpStatusCode.OK, "Ur userId is $userId")
+            if(userId != null) {
+                call.respond(status = HttpStatusCode.OK, message = GetUserIdResponse(userId))
+            } else {
+                call.respond(HttpStatusCode.Conflict, "No user found")
+            }
+
         }
     }
 }

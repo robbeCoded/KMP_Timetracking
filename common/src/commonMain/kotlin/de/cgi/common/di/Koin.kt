@@ -1,12 +1,14 @@
 package de.cgi.common.di
 
-import de.cgi.common.api.AuthApi
-import de.cgi.common.api.AuthApiImpl
+import de.cgi.common.api.*
 import de.cgi.common.platformModule
+import de.cgi.common.repository.TimeEntryRepository
+import de.cgi.common.repository.TimeEntryRepositoryImpl
 
 
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
@@ -25,14 +27,15 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
         modules(commonModule(enableNetworkLogs = enableNetworkLogs), platformModule())
     }
 
-// called by iOS etc
 fun initKoin() = initKoin(enableNetworkLogs = false) {}
-
 fun commonModule(enableNetworkLogs: Boolean) = module {
     single { createJson() }
     single { createHttpClient(get(), get(), enableNetworkLogs = enableNetworkLogs) }
     single { CoroutineScope(Dispatchers.Default + SupervisorJob() ) }
     single<AuthApi>{AuthApiImpl(get())}
+    single<ProjectApi>{ProjectApiImpl(get())}
+    single<TimeEntryApi>{TimeEntryApiImpl(get())}
+    single<TimeEntryRepository>{TimeEntryRepositoryImpl(get())}
 }
 
 fun createJson() = Json { isLenient = true; ignoreUnknownKeys = true }
@@ -42,6 +45,7 @@ fun createHttpClient(httpClientEngine: HttpClientEngine, json: Json, enableNetwo
     install(ContentNegotiation) {
         json(json)
     }
+    HttpResponseValidator {}
     if (enableNetworkLogs) {
         install(Logging) {
             logger = Logger.DEFAULT

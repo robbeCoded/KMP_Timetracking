@@ -42,6 +42,9 @@ object Versions {
     const val gradleVersionsPlugin = "0.39.0"
 
     const val kmongo = "4.5.1"
+
+    const val androidNavigation = "1.7.36-beta"
+    const val icons = "1.0.0"
 }
 
 object AndroidSdk {
@@ -58,6 +61,7 @@ object Deps {
             "gradle.plugin.com.github.jengelman.gradle.plugins:shadow:${Versions.shadow}"
         const val gradleVersionsPlugin =
             "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleVersionsPlugin}"
+        const val sqlDelight = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
     }
 
     object Kotlinx {
@@ -157,10 +161,28 @@ object Deps {
         const val clientJava = "io.ktor:ktor-client-java:${Versions.ktor}"
         const val clientDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
         const val clientJs = "io.ktor:ktor-client-js:${Versions.ktor}"
+        const val features = "io.ktor:ktor-client-features:${Versions.ktor}"
+
+        const val cors = "io.ktor:ktor-server-cors:${Versions.ktor}"
+
     }
 
     object KMongo {
         const val core = "org.litote.kmongo:kmongo:${Versions.kmongo}"
         const val coroutine = "org.litote.kmongo:kmongo-coroutine:${Versions.kmongo}"
+    }
+
+    object Icons {
+        const val android = "br.com.devsrsouza.compose.icons.android:feather:${Versions.icons}"
+    }
+
+    object androidNavigation {
+        const val core = "io.github.raamcosta.compose-destinations:core:${Versions.androidNavigation}"
+        const val ksp = "io.github.raamcosta.compose-destinations:ksp:${Versions.androidNavigation}"
+    }
+
+    object sqlDelight {
+        const val runtime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
+        const val android = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
     }
 }
