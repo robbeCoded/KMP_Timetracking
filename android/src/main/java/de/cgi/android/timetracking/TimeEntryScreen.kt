@@ -18,6 +18,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
 import de.cgi.android.destinations.*
+import de.cgi.android.timetracking.TimeEntryListItem
 import de.cgi.android.ui.components.*
 import de.cgi.android.timetracking.TimeEntryViewModel
 import kotlinx.coroutines.launch

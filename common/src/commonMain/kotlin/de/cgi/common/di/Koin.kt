@@ -35,7 +35,6 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     single<AuthApi>{AuthApiImpl(get())}
     single<ProjectApi>{ProjectApiImpl(get())}
     single<TimeEntryApi>{TimeEntryApiImpl(get())}
-    single<TimeEntryRepository>{TimeEntryRepositoryImpl(get())}
 }
 
 fun createJson() = Json { isLenient = true; ignoreUnknownKeys = true }

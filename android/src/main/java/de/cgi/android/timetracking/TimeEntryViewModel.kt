@@ -7,17 +7,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.android.TimeEntryState
-import de.cgi.common.data.model.KeyValueStorage
-import de.cgi.common.data.model.responses.AuthResult
-import de.cgi.common.data.model.responses.TimeEntryResponse
+import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.TimeEntryRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
 class TimeEntryViewModel(
@@ -27,7 +21,7 @@ class TimeEntryViewModel(
 
     var state by mutableStateOf(TimeEntryState())
 
-    private val resultChannel = Channel<List<TimeEntryResponse>>()
+    private val resultChannel = Channel<List<TimeEntry>>()
     val timeEntries = resultChannel.receiveAsFlow()
 
     init {
@@ -38,8 +32,8 @@ class TimeEntryViewModel(
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             val token = prefs.getString("jwt", null) ?: ""
-            val result = timeEntryRepository.getTimeEntries(token)
-            resultChannel.send(result.data ?: emptyList())
+            val result = timeEntryRepository.getTimeEntries(token, false)
+            resultChannel.send(result)
             state = state.copy(isLoading = false)
         }
     }

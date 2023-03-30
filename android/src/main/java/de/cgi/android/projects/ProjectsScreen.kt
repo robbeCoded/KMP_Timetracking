@@ -1,4 +1,4 @@
-package de.cgi.android
+package de.cgi.android.projects
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -12,13 +12,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
 import de.cgi.android.destinations.*
+import de.cgi.android.timetracking.TimeEntryListItem
 import de.cgi.android.ui.components.*
 import de.cgi.android.timetracking.TimeEntryViewModel
 import kotlinx.coroutines.launch

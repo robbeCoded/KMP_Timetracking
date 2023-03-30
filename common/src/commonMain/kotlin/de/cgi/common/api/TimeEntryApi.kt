@@ -7,7 +7,7 @@ import io.ktor.client.statement.*
 
 interface TimeEntryApi {
     suspend fun newTimeEntry(timeEntry: NewTimeEntry, token: String): HttpResponse
-    suspend fun getTimeEntries(token: String): HttpResponse
-    suspend fun getTimeEntryById(id: String, token: String): HttpResponse
+    suspend fun getTimeEntries(token: String): List<TimeEntry>
+    suspend fun getTimeEntryById(id: String, token: String): TimeEntry?
     suspend fun deleteTimeEntry(id: String, token: String): HttpResponse
 }

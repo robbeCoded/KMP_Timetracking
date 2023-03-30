@@ -1,4 +1,4 @@
-package de.cgi.android.ui.components
+package de.cgi.android.timetracking
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -6,10 +6,10 @@ import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.cgi.common.data.model.responses.TimeEntryResponse
+import de.cgi.common.data.model.TimeEntry
 
 @Composable
-fun TimeEntryListItem(timeEntry: TimeEntryResponse) {
+fun TimeEntryListItem(timeEntry: TimeEntry) {
 
     Card(
         modifier = Modifier
@@ -28,8 +28,8 @@ fun TimeEntryListItem(timeEntry: TimeEntryResponse) {
 
 
             Text(
-                text = timeEntry.startTime.time.toString() + " - "
-                        + timeEntry.endTime.time.toString()
+                text = timeEntry.startTime + " - "
+                        + timeEntry.endTime
             )
 
             Spacer(modifier = Modifier.height(8.dp))
