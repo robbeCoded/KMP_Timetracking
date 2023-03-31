@@ -13,24 +13,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import androidx.navigation.NavController
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
-import de.cgi.android.destinations.*
+import de.cgi.android.navigation.Screen
 import de.cgi.android.timetracking.TimeEntryListItem
-import de.cgi.android.ui.components.*
 import de.cgi.android.timetracking.TimeEntryViewModel
+import de.cgi.android.ui.components.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-@Destination
 fun TimeEntryScreen(
     viewModel: TimeEntryViewModel = getViewModel<TimeEntryViewModel>(),
-    navigator: DestinationsNavigator,
+    navController: NavController,
 ) {
     val title = "Timetracking"
     val timeEntries by viewModel.timeEntries.collectAsState(emptyList())
@@ -41,7 +39,7 @@ fun TimeEntryScreen(
         floatingActionButton = {
             FloatingActionButton(
                 shape = CircleShape,
-                onClick = { navigator.navigate(AddTimeEntryScreenDestination) }
+                onClick = { navController.navigate(Screen.AddEditTimeEntryScreen.route) }
             ) {
                 Icon(imageVector = FeatherIcons.Plus, contentDescription = "Add time entry")
             }
@@ -96,19 +94,19 @@ fun TimeEntryScreen(
                 ), onItemClick = {
                     when (it.id) {
                         MenuId.Calender -> {
-                            navigator.navigate(CalenderScreenDestination())
+                            navController.navigate(Screen.CalenderScreen.route)
                         }
                         MenuId.Timetracking -> {
-                            navigator.navigate(TimeEntryScreenDestination())
+                            navController.navigate(Screen.TimeEntryScreen.route)
                         }
                         MenuId.Projects -> {
-                            navigator.navigate(ProjectsScreenDestination())
+                            navController.navigate(Screen.ProjectScreen.route)
                         }
                         MenuId.Account -> {
-                            navigator.navigate(AccountScreenDestination())
+                            navController.navigate(Screen.AccountScreen.route)
                         }
                         MenuId.Settings -> {
-                            navigator.navigate(SettingsScreenDestination())
+                            navController.navigate(Screen.SettingsScreen.route)
                         }
                     }
 
@@ -125,7 +123,10 @@ fun TimeEntryScreen(
         } else {
             LazyColumn {
                 items(timeEntries) { timeEntry ->
-                    TimeEntryListItem(timeEntry)
+                    TimeEntryListItem(
+                        timeEntry,
+                        onClick =  { navController.navigate(Screen.AddEditTimeEntryScreen.route + "?timeentry_id=${timeEntry.id}") }
+                    )
                 }
             }
         }

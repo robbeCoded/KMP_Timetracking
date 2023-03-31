@@ -11,19 +11,19 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         dbQuery.transaction {
             timeEntries.forEach { timeEntry ->
                 dbQuery.insertTimeEntry(
-                    timeEntry.id,
-                    timeEntry.timestamp,
-                    timeEntry.startTime,
-                    timeEntry.endTime,
-                    timeEntry.projectId,
-                    timeEntry.description,
-                    timeEntry.userId
+                    id = timeEntry.id,
+                    timestamp = timeEntry.timestamp,
+                    start_time = timeEntry.startTime,
+                    end_time = timeEntry.endTime,
+                    project_id = timeEntry.projectId,
+                    description = timeEntry.description,
+                    user_id = timeEntry.userId
                 )
             }
         }
     }
 
-    internal fun createTimeEntryById(timeEntry: TimeEntry) {
+    internal fun createTimeEntry(timeEntry: TimeEntry) {
         dbQuery.transaction {
             dbQuery.insertTimeEntry(
                 timeEntry.id,

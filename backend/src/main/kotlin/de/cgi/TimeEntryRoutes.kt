@@ -68,17 +68,16 @@ fun Route.getTimeEntry(
 ) {
     authenticate{
         get("timeentry/getOne") {
-            val timeEntryRequest = call.receiveNullable<TimeEntryByIdRequest>()
-            if(timeEntryRequest != null) {
-                val timeEntryId = timeEntryRequest.id
-                val bsonId = ObjectId(timeEntryId)
+            val id = call.parameters["id"]
+            if ( id != null) {
+                val bsonId = ObjectId(id)
                 val timeEntry = timeEntryDataSource.getTimeEntryById(bsonId)
                 if(timeEntry != null){
                     call.respond(HttpStatusCode.OK, timeEntry)
                     return@get
                 }
             }
-            call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")
+            call.respond(HttpStatusCode.NotFound, "No time entry with this id found")
         }
     }
 }
@@ -88,17 +87,16 @@ fun Route.deleteTimeEntry(
 ) {
     authenticate{
         delete("timeentry/delete") {
-            val timeEntryRequest = call.receiveNullable<TimeEntryByIdRequest>()
-            if(timeEntryRequest != null) {
-                val timeEntryId = timeEntryRequest.id
-                val bsonId = ObjectId(timeEntryId)
-                val timeEntry = timeEntryDataSource.deleteTimeEntry(bsonId)
-                if(timeEntry){
-                    call.respond(HttpStatusCode.OK)
+            val id = call.parameters["id"]
+            if ( id != null) {
+                val bsonId = ObjectId(id)
+                val result = timeEntryDataSource.deleteTimeEntry(bsonId)
+                if(result){
+                    call.respond(HttpStatusCode.NoContent)
                     return@delete
                 }
             }
-            call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")
+            call.respond(HttpStatusCode.NotFound, "No time entry with this id found")
         }
     }
 }

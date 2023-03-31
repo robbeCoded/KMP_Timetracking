@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ramcosta.composedestinations.DestinationsNavHost
-import de.cgi.android.NavGraphs
-
+import de.cgi.android.navigation.Navigation
 
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +15,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TimetrackingTheme {
-                DestinationsNavHost(navGraph = NavGraphs.root)
+                Navigation()
             }
         }
     }

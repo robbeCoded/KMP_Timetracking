@@ -14,22 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import androidx.navigation.NavController
 import de.cgi.android.auth.AuthUiEvent
-import de.cgi.android.destinations.AuthScreenDestination
-import de.cgi.android.destinations.TimeEntryScreenDestination
-
 import de.cgi.android.auth.AuthViewModel
+import de.cgi.android.navigation.Screen
 import de.cgi.common.data.model.responses.AuthResult
 import org.koin.androidx.compose.getViewModel
 
-@RootNavGraph(start = true)
-@Destination
 @Composable
 fun AuthScreen(
-    navigator: DestinationsNavigator,
+    navController: NavController,
     viewModel: AuthViewModel = getViewModel<AuthViewModel>()
 ) {
 
@@ -40,12 +34,7 @@ fun AuthScreen(
         viewModel.authResult.collect { result ->
             when (result) {
                 is AuthResult.Authorized -> {
-                    navigator.navigate(TimeEntryScreenDestination()) {
-                        popUpTo(AuthScreenDestination.route) {
-                            inclusive = true
-                        }
-                    }
-
+                    navController.navigate(Screen.TimeEntryScreen.route)
                 }
                 is AuthResult.Unauthorized -> {
                     Toast.makeText(

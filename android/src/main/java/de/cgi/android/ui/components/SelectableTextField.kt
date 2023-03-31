@@ -1,4 +1,4 @@
-package de.cgi.android.timetracking.newTimeEntry.components
+package de.cgi.android.timetracking.addedittimeentry.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

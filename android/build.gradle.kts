@@ -3,7 +3,6 @@ plugins {
     kotlin("android")
     id ("com.github.ben-manes.versions")
     id ("kotlin-kapt")
-    id ("com.google.devtools.ksp")
 }
 
 
@@ -125,10 +124,6 @@ dependencies {
     with(Deps.Ktor){
         implementation(clientAndroid)
     }
-    with(Deps.androidNavigation) {
-        implementation(core)
-    }
-    ksp ("io.github.raamcosta.compose-destinations:ksp:1.7.36-beta")
 
     with(Deps.Icons) {
         implementation(android)

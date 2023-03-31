@@ -1,15 +1,13 @@
 package de.cgi.common.data.model
 
 import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.Serializable
 
-@Serializable
-data class TimeEntry(
-    val timestamp: String,
-    val startTime: String,
-    val endTime: String,
+data class TimeEntryWithObjects(
+    val timestamp: LocalDateTime,
+    val startTime: LocalDateTime,
+    val endTime: LocalDateTime,
     val id: String,
     val projectId: String?,
     val description: String?,
     val userId: String
-    )
+)

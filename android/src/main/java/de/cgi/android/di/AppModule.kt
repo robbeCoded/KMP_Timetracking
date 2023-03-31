@@ -2,12 +2,11 @@ package de.cgi.android.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.squareup.sqldelight.db.SqlDriver
 import de.cgi.android.model.AndroidSharedPreferencesStorage
 import de.cgi.android.auth.AuthRepositoryImpl
 import de.cgi.android.auth.AuthViewModel
 import de.cgi.android.auth.UserSessionManager
-import de.cgi.android.timetracking.newTimeEntry.AddTimeEntryViewModel
+import de.cgi.android.timetracking.addedittimeentry.AddEditTimeEntryViewModel
 import de.cgi.android.timetracking.TimeEntryViewModel
 import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.KeyValueStorage
@@ -28,7 +27,7 @@ val appModule = module {
 
     viewModel{ AuthViewModel(get()) }
     viewModel{ TimeEntryViewModel(get(), get()) }
-    viewModel{ AddTimeEntryViewModel(get(), get()) }
+    viewModel{ AddEditTimeEntryViewModel(get(), get()) }
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {

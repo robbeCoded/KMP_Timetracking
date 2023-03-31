@@ -1,9 +1,9 @@
-package de.cgi.android.timetracking.newTimeEntry
+package de.cgi.android.timetracking.addedittimeentry
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
-data class AddTimeEntryState(
+data class AddEditTimeEntryState(
     val isLoading: Boolean = false,
     val day: LocalDate = LocalDate(1,1,1),
     val duration: LocalTime = LocalTime(0,0),

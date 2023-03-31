@@ -32,7 +32,7 @@ class TimeEntryViewModel(
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             val token = prefs.getString("jwt", null) ?: ""
-            val result = timeEntryRepository.getTimeEntries(token, false)
+            val result = timeEntryRepository.getTimeEntries(token, true)
             resultChannel.send(result)
             state = state.copy(isLoading = false)
         }
