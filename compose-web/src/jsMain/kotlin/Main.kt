@@ -43,7 +43,7 @@ fun main() {
                     }
                 ) {
                     Span(attrs = { classes(TextStyles.itemText) }) {
-                        Text("${entry.description}: ${entry.startTime.time} - ${entry.endTime.time}, Project: ${entry.projectId}")
+                        Text("${entry.description}: ${entry.startTime} - ${entry.endTime}, Project: ${entry.projectId}")
                     }
                 }
             }

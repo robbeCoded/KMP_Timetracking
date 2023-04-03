@@ -2,6 +2,8 @@ package de.cgi.android.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import androidx.annotation.RequiresApi
 import de.cgi.android.model.AndroidSharedPreferencesStorage
 import de.cgi.android.auth.AuthRepositoryImpl
 import de.cgi.android.auth.AuthViewModel
@@ -17,15 +19,16 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+@RequiresApi(Build.VERSION_CODES.M)
 val appModule = module {
     single { UserSessionManager() }
-    single { provideDatabaseDriverFactory(androidContext())}
+    single { provideDatabaseDriverFactory( androidContext())}
     single { provideSharedPreferences(androidContext()) }
     single<KeyValueStorage>{ AndroidSharedPreferencesStorage(get()) }
     single<AuthRepository>{ AuthRepositoryImpl(get(), get()) }
     single<TimeEntryRepository>{ TimeEntryRepositoryImpl(get(), get())}
 
-    viewModel{ AuthViewModel(get()) }
+    viewModel{ AuthViewModel( androidContext(), get(), get()) }
     viewModel{ TimeEntryViewModel(get(), get()) }
     viewModel{ AddEditTimeEntryViewModel(get(), get()) }
 }

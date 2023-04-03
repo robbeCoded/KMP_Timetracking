@@ -1,6 +1,8 @@
-package de.cgi.android
+package de.cgi.android.auth
 
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -15,18 +17,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import de.cgi.android.auth.AuthUiEvent
 import de.cgi.android.auth.AuthViewModel
 import de.cgi.android.navigation.Screen
 import de.cgi.common.data.model.responses.AuthResult
 import org.koin.androidx.compose.getViewModel
 
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun AuthScreen(
-    navController: NavController,
-    viewModel: AuthViewModel = getViewModel<AuthViewModel>()
+    viewModel: AuthViewModel = getViewModel<AuthViewModel>(),
+    navController: NavController
 ) {
-
 
     val state = viewModel.state
     val context = LocalContext.current

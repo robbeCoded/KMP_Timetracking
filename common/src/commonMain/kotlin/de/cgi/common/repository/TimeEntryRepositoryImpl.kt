@@ -72,7 +72,6 @@ class TimeEntryRepositoryImpl(
                 id = id
             )
         ).status == HttpStatusCode.NoContent
-        println("TIME ENTRY FOUND: $result")
         if (result) {
             database.deleteTimeEntry(id)
         }

@@ -100,7 +100,7 @@ fun TimeEntryScreen(
                             navController.navigate(Screen.TimeEntryScreen.route)
                         }
                         MenuId.Projects -> {
-                            navController.navigate(Screen.ProjectScreen.route)
+                            navController.navigate(Screen.ProjectsScreen.route)
                         }
                         MenuId.Account -> {
                             navController.navigate(Screen.AccountScreen.route)

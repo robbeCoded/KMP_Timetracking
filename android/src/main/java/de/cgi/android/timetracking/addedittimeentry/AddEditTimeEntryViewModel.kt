@@ -85,8 +85,8 @@ class AddEditTimeEntryViewModel (
         private fun getTimeEntry(id: String) {
             viewModelScope.launch {
                 state = state.copy(isLoading = true)
-                val token = prefs.getString("jwt", null) ?: ""
-                val result = timeEntryRepository.getTimeEntryById(id = id, token = token, forceReload = true)
+                val token = prefs.getString("jwt", null) ?: "" //TODO handle case were token is empty
+                val result = timeEntryRepository.getTimeEntryById(id = id, token = token, forceReload = false)
                 resultChannel.send(result)
                 state = state.copy(project = result?.projectId ?: "")
                 state = state.copy(description = result?.description ?: "")
