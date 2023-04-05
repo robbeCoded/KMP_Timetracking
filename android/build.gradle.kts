@@ -128,7 +128,8 @@ dependencies {
     with(Deps.Icons) {
         implementation(android)
     }
-
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.24.12-rc")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.12-rc")
     implementation(project(":common"))
 }
 

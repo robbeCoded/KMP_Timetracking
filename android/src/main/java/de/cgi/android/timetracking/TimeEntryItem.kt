@@ -13,11 +13,11 @@ import de.cgi.common.data.model.TimeEntry
 @Composable
 fun TimeEntryListItem(
     timeEntry: TimeEntry,
-    onClick: () -> Unit,
+    onClick: (TimeEntry) -> Unit,
+    onDeleteTimeEntry: (TimeEntry) -> Unit,
 ) {
 
     Card(
-        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp)

@@ -1,151 +1,141 @@
 package de.cgi.android.auth
 
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import de.cgi.android.auth.AuthUiEvent
-import de.cgi.android.auth.AuthViewModel
-import de.cgi.android.navigation.Screen
-import de.cgi.common.data.model.responses.AuthResult
-import org.koin.androidx.compose.getViewModel
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import kotlin.reflect.KFunction1
+import kotlin.reflect.KFunction2
+import kotlin.reflect.KFunction3
 
 @RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun AuthScreen(
-    viewModel: AuthViewModel = getViewModel<AuthViewModel>(),
-    navController: NavController
+    signInState: SignInState?,
+    signUpState: SignUpState?,
+    isEmailValid: () -> Boolean,
+    isPasswordValid: () -> Boolean,
+    onSignInEmailChanged: KFunction1<String, Unit>,
+    onSignInPasswordChanged: KFunction1<String, Unit>,
+    onSignUpPasswordChanged: KFunction1<String, Unit>,
+    onSignUpEmailChanged: KFunction1<String, Unit>,
+    onSignUpNameChanged: KFunction1<String, Unit>,
+    onSignInClick: KFunction2<String, String, Unit>,
+    onSignUpClick: KFunction3<String, String, String, Unit>,
+    onSignInSuccess: () -> Unit,
 ) {
 
-    val state = viewModel.state
-    val context = LocalContext.current
-    LaunchedEffect(viewModel, context) {
-        viewModel.authResult.collect { result ->
-            when (result) {
-                is AuthResult.Authorized -> {
-                    navController.navigate(Screen.TimeEntryScreen.route)
-                }
-                is AuthResult.Unauthorized -> {
-                    Toast.makeText(
-                        context,
-                        "You're not authorized",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                is AuthResult.UnknownError -> {
-                    Toast.makeText(
-                        context,
-                        "An unknown error occurred",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    // Create states for TextField inputs
+    val signUpEmail = remember { mutableStateOf("") }
+    val signUpName = remember { mutableStateOf("") }
+    val signUpPassword = remember { mutableStateOf("") }
+    val signInEmail = remember { mutableStateOf("") }
+    val signInPassword = remember { mutableStateOf("") }
+
+    val signUpEmailError = remember { mutableStateOf(false) }
+    val signUpPasswordError = remember { mutableStateOf(false) }
+
+
+    Column {
         TextField(
-            value = state.signUpName,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignUpNameChanged(it))
+            value = signUpEmail.value,
+            onValueChange = { value ->
+                signUpEmail.value = value
+                onSignUpEmailChanged(value)
             },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Name")
-            }
+            label = { Text("Email") },
+            isError = signUpEmailError.value
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = state.signUpEmail,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignUpEmailChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Email")
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = state.signUpPassword,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignUpPasswordChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Password")
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                viewModel.onEvent(AuthUiEvent.SignUp)
-            },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Sign up")
+        AnimatedVisibility(visible = signUpEmailError.value) {
+            Text(
+                text = "Not a valid e-mail address",
+                style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error)
+            )
         }
 
-        Spacer(modifier = Modifier.height(64.dp))
+        TextField(
+            value = signUpName.value,
+            onValueChange = { value ->
+                signUpName.value = value
+                onSignUpNameChanged(value)
+            },
+            label = { Text("Name") }
+        )
 
         TextField(
-            value = state.signInEmail,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignInEmailChanged(it))
+            value = signUpPassword.value,
+            onValueChange = { value ->
+                signUpPassword.value = value
+                onSignUpPasswordChanged(value)
             },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Email")
-            }
+            label = { Text("Password") },
+            isError = signUpPasswordError.value,
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        AnimatedVisibility(visible = signUpPasswordError.value) {
+            Text(
+                text = "Password must be at least 8 characters",
+                style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error)
+            )
+        }
+
+        Button(onClick = {
+            if (isEmailValid() && isPasswordValid()) {
+                onSignUpClick(signUpName.value, signUpEmail.value, signUpPassword.value)
+                signUpPasswordError.value = false
+                signUpEmailError.value = false
+            } else {
+                signUpPasswordError.value = true
+                signUpEmailError.value = true
+            }
+        }) {
+            Text("Sign Up")
+        }
+
+        // ... SignIn UI components ...
         TextField(
-            value = state.signInPassword,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignInPasswordChanged(it))
+            value = signInEmail.value,
+            onValueChange = { value ->
+                signInEmail.value = value
+                onSignInEmailChanged(value)
             },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Password")
-            }
+            label = { Text("Email") }
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                viewModel.onEvent(AuthUiEvent.SignIn)
+
+        TextField(
+            value = signInPassword.value,
+            onValueChange = { value ->
+                signInPassword.value = value
+                onSignInPasswordChanged(value)
             },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Sign in")
+            label = { Text("Password") }
+        )
+
+        Button(onClick = { onSignInClick(signInEmail.value, signInPassword.value) }) {
+            Text("Sign In")
         }
     }
-    if (state.isLoading) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+
+    LaunchedEffect(signUpState) {
+        when(signUpState) {
+            is SignUpState.Loading -> {println("SignUp Loading") }
+            is SignUpState.Success -> {
+
+            }
+            is SignUpState.Failure -> { println("SignUpFailure")}
+            is SignUpState.Error -> { println("SignUp Error")}
+            else -> {println("SignUp other error") }
+        }
+    }
+
+    LaunchedEffect(signInState) {
+        when(signInState) {
+            is SignInState.Loading -> {println("Loading") }
+            is SignInState.Success -> { onSignInSuccess() }
+            is SignInState.Failure -> { println("Failure")}
+            is SignInState.Error -> { println("Error")}
+            else -> {println("Else Error") }
         }
     }
 }

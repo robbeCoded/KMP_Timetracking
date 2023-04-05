@@ -1,40 +1,39 @@
 package de.cgi.android.timetracking
 
-import android.content.SharedPreferences
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.TimeEntryState
 import de.cgi.common.data.model.TimeEntry
-import de.cgi.common.repository.TimeEntryRepository
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
-
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 
 class TimeEntryViewModel(
-    private val timeEntryRepository: TimeEntryRepository,
-    private val prefs: SharedPreferences,
-) : ViewModel(){
+    private val timeEntryUseCase: TimeEntryUseCase
+) : ViewModel() {
 
-    var state by mutableStateOf(TimeEntryState())
+    private var loadTimeEntriesJob: Job? = null
+    private var deleteTimeEntryJob: Job? = null
 
-    private val resultChannel = Channel<List<TimeEntry>>()
-    val timeEntries = resultChannel.receiveAsFlow()
+    private val _listState = MutableStateFlow(TimeEntryListState())
+    val listState =  _listState.asStateFlow()
 
     init {
-        receive()
+        getTimeEntries()
     }
 
-    private fun receive() {
-        viewModelScope.launch {
-            state = state.copy(isLoading = true)
-            val token = prefs.getString("jwt", null) ?: ""
-            val result = timeEntryRepository.getTimeEntries(token, false) //TODO wann passiert automatischer reload??
-            resultChannel.send(result)
-            state = state.copy(isLoading = false)
-        }
+    fun getTimeEntries() {
+        loadTimeEntriesJob?.cancel()
+        loadTimeEntriesJob = timeEntryUseCase.getTimeEntries(true).onEach { resultState ->
+            _listState.update { it.copy(timeEntryListState = resultState) }
+        }.launchIn(viewModelScope)
     }
+
+    fun deleteTimeEntry(timeEntry: TimeEntry) {
+        deleteTimeEntryJob?.cancel()
+        deleteTimeEntryJob = timeEntryUseCase.deleteTimeEntry(timeEntry.id).onEach {
+            _listState.update {
+                it.copy(removeTimeEntryState = null)
+            }
+        }.launchIn(viewModelScope)
+    }
+
 }

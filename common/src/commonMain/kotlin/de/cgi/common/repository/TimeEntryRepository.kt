@@ -1,18 +1,20 @@
 package de.cgi.common.repository
 
+import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.responses.AuthResult
+import kotlinx.coroutines.flow.Flow
 
 interface TimeEntryRepository {
-    suspend fun newTimeEntry(
+    fun newTimeEntry(
         startTime: String,
         endTime: String,
         userId: String,
         description: String?,
-        projectId: String?, token: String
-    ): TimeEntry?
+        projectId: String?
+    ): Flow<ResultState<TimeEntry?>>
 
-    suspend fun getTimeEntries(token: String, forceReload: Boolean): List<TimeEntry>
-    suspend fun getTimeEntryById(id: String, token: String, forceReload: Boolean): TimeEntry?
-    suspend fun deleteTimeEntry(id: String, token: String): Boolean
+    fun getTimeEntries(forceReload: Boolean): Flow<ResultState<List<TimeEntry>>>
+    fun getTimeEntryById(id: String, forceReload: Boolean): Flow<ResultState<TimeEntry?>>
+    fun deleteTimeEntry(id: String): Flow<ResultState<Boolean>>
 }

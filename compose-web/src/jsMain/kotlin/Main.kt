@@ -1,5 +1,6 @@
 import androidx.compose.runtime.*
 import de.cgi.common.api.setBaseUrl
+import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.di.initKoin
 import de.cgi.common.repository.TimeEntryRepository
@@ -11,6 +12,7 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.renderComposable
 
+private val keyValueStorage: KeyValueStorage = koin.get<KeyValueStorage>()
 private val koin = initKoin(enableNetworkLogs = true).koin
 
 @InternalCoroutinesApi

@@ -1,5 +1,6 @@
 package de.cgi.common.repository
 
+import de.cgi.common.ResultState
 import de.cgi.common.api.TimeEntryApi
 import de.cgi.common.cache.Database
 import de.cgi.common.cache.DatabaseDriverFactory
@@ -8,6 +9,9 @@ import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.requests.TimeEntryRequest
 import io.ktor.client.call.*
 import io.ktor.http.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
 class TimeEntryRepositoryImpl(
     databaseDriverFactory: DatabaseDriverFactory,
@@ -15,66 +19,68 @@ class TimeEntryRepositoryImpl(
 ) : TimeEntryRepository {
 
     private val database = Database(databaseDriverFactory)
-    override suspend fun newTimeEntry(
+    override fun newTimeEntry(
         startTime: String,
         endTime: String,
         userId: String,
         description: String?,
-        projectId: String?,
-        token: String
-    ): TimeEntry? {
+        projectId: String?
+    ): Flow<ResultState<TimeEntry?>> {
         val timeEntry = NewTimeEntry(startTime, endTime, userId, description, projectId)
-        return api.newTimeEntry(timeEntry, token)?.also {
-            database.createTimeEntry(it)
+        return api.newTimeEntry(timeEntry).map { result ->
+            if (result is ResultState.Success) {
+                result.data?.let { database.createTimeEntry(it) }
+            }
+            result
         }
     }
 
 
-    override suspend fun getTimeEntries(token: String, forceReload: Boolean): List<TimeEntry> {
+    override fun getTimeEntries(forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
         val cachedTimeEntries = database.getAllTimeEntries()
         return if (cachedTimeEntries.isNotEmpty() && !forceReload) {
-            cachedTimeEntries
+            flowOf(ResultState.Success(cachedTimeEntries))
         } else {
-            api.getTimeEntries(token).also {
-                database.clearTimeEntries()
-                database.createTimeEntries(it)
+            api.getTimeEntries().map { result ->
+                if (result is ResultState.Success) {
+                    database.clearTimeEntries()
+                    database.createTimeEntries(result.data)
+                }
+                result
             }
         }
     }
 
-    override suspend fun getTimeEntryById(
+    override fun getTimeEntryById(
         id: String,
-        token: String,
         forceReload: Boolean
-    ): TimeEntry? {
+    ): Flow<ResultState<TimeEntry?>> {
         val cachedTimeEntry = database.getTimeEntryById(id)
-        val timeEntryRequest = TimeEntryRequest(token = token, id = id)
+        val timeEntryRequest = TimeEntryRequest(id = id)
         return if (cachedTimeEntry != null && !forceReload) {
-            cachedTimeEntry
+            flowOf(ResultState.Success(cachedTimeEntry))
         } else {
-            val result = api.getTimeEntryById(timeEntryRequest)
-            if (result.status == HttpStatusCode.NoContent) {
-                val timeEntry = result.body<TimeEntry>()
-                database.deleteTimeEntry(id)
-                database.createTimeEntry(timeEntry)
-                timeEntry
-            } else {
-                null
+            api.getTimeEntryById(timeEntryRequest).map { result ->
+                if (result is ResultState.Success && result.data != null) {
+                    database.deleteTimeEntry(id)
+                    database.createTimeEntry(result.data)
+                }
+                result
             }
         }
     }
 
 
-    override suspend fun deleteTimeEntry(id: String, token: String): Boolean {
-        val result = api.deleteTimeEntry(
+    override fun deleteTimeEntry(id: String): Flow<ResultState<Boolean>> {
+        return api.deleteTimeEntry(
             TimeEntryRequest(
-                token = token,
                 id = id
             )
-        ).status == HttpStatusCode.NoContent
-        if (result) {
-            database.deleteTimeEntry(id)
+        ).map { result ->
+            if (result is ResultState.Success && result.data) {
+                database.deleteTimeEntry(id)
+            }
+            result
         }
-        return result
     }
 }
