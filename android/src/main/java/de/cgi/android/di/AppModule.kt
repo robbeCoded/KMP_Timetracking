@@ -20,24 +20,25 @@ import org.koin.dsl.module
 
 @RequiresApi(Build.VERSION_CODES.M)
 val appModule = module {
-    single { provideDatabaseDriverFactory( androidContext())}
+    single { provideDatabaseDriverFactory(androidContext()) }
     single { provideSharedPreferences(androidContext()) }
 
-    single{ KeyValueStorage(get()) }
+    single { KeyValueStorage(get()) }
 
-    single<AuthRepository>{ AuthRepositoryImpl(get(), get()) }
-    single<TimeEntryRepository>{ TimeEntryRepositoryImpl(get(), get())}
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+    single<TimeEntryRepository> { TimeEntryRepositoryImpl(get(), get()) }
 
-    single {AuthUseCase(get())}
-    single {TimeEntryUseCase(get())}
+    single { AuthUseCase(get()) }
+    single { TimeEntryUseCase(get()) }
 
-    viewModel{ AuthViewModel(get()) }
-    viewModel{ TimeEntryViewModel(get()) }
+    viewModel { AuthViewModel(get()) }
+    viewModel { TimeEntryViewModel(get()) }
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {
     return DatabaseDriverFactory(context)
 }
+
 fun provideSharedPreferences(context: Context): SharedPreferences {
     return context.getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE)
 }

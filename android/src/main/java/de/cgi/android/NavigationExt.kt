@@ -7,7 +7,6 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import com.google.accompanist.navigation.animation.composable
 
 private const val transitionDuration = 400

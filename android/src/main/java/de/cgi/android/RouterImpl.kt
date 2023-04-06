@@ -1,22 +1,23 @@
 package de.cgi.android
 
 import androidx.navigation.NavHostController
-import de.cgi.android.navigation.Screen
+import de.cgi.android.auth.AuthScreenRoute
 import de.cgi.android.navigation.timeentry.AddEditTimeEntryRoute
+import de.cgi.android.navigation.timeentry.TimeEntryListRoute
 import de.cgi.common.data.model.TimeEntry
 
 class RouterImpl(
     private val navigationController: NavHostController
 ) : Router {
     override fun showAuth() {
-        navigationController.navigate(Screen.AuthScreen.route) {
+        navigationController.navigate(AuthScreenRoute.route) {
             popUpTo(0)
         }
     }
 
     override fun showTimeEntryList() {
-        navigationController.navigate(Screen.TimeEntryScreen.route) {
-            popUpTo(Screen.AuthScreen.route) {
+        navigationController.navigate(TimeEntryListRoute.route) {
+            popUpTo(AuthScreenRoute.route) {
                 inclusive = true
                 saveState = false
             }

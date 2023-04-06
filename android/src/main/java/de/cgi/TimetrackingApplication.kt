@@ -2,6 +2,7 @@ package de.cgi
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import de.cgi.android.di.appModule
 
 import de.cgi.common.di.commonModule
@@ -19,7 +20,6 @@ class TimetrackingApplication : Application() {
         initKoin(enableNetworkLogs = true, appDeclaration = appDeclaration())
         instance = this
     }
-
     private fun appDeclaration(): KoinAppDeclaration = {
         androidContext(this@TimetrackingApplication)
         modules(commonModule(false), appModule)

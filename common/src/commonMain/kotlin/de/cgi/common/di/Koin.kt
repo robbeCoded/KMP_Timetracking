@@ -16,6 +16,7 @@ import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,7 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
 fun initKoin() = initKoin(enableNetworkLogs = false) {}
 fun commonModule(enableNetworkLogs: Boolean) = module {
     single { createJson() }
+
     single { createHttpClient(get(), get(), get(), enableNetworkLogs = enableNetworkLogs) }
 
     single { CoroutineScope(Dispatchers.Default + SupervisorJob() ) }
@@ -51,16 +53,16 @@ fun createHttpClient(httpClientEngine: HttpClientEngine, json: Json, keyValueSto
     install(ContentNegotiation) {
         json(json)
     }
-    install(Auth) {
-        bearer {
-            val token = keyValueStorage.getString("jwt", "") ?: ""
-            BearerTokens(token, "") //TODO: Refresh token??
+    defaultRequest {
+        val token = keyValueStorage.getString("jwt", "") ?: ""
+        if (token.isNotEmpty()) {
+            headers.append(HttpHeaders.Authorization, "Bearer $token")
         }
     }
     if (enableNetworkLogs) {
         install(Logging) {
             logger = Logger.DEFAULT
-            level = LogLevel.INFO
+            level = LogLevel.ALL
         }
     }
 }

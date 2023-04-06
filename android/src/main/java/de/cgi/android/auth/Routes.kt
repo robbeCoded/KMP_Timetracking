@@ -1,4 +1,4 @@
-package de.cgi.android.navigation.auth
+package de.cgi.android.auth
 
 import de.cgi.android.navigation.AppRoutes
 

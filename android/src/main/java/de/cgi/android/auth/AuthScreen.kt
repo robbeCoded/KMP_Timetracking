@@ -117,25 +117,44 @@ fun AuthScreen(
         }
     }
 
-    LaunchedEffect(signUpState) {
-        when(signUpState) {
-            is SignUpState.Loading -> {println("SignUp Loading") }
-            is SignUpState.Success -> {
-
+    LaunchedEffect(key1 = signUpState) {
+        when (signUpState) {
+            is SignUpState.Loading -> {
+                println("SignUp Loading")
             }
-            is SignUpState.Failure -> { println("SignUpFailure")}
-            is SignUpState.Error -> { println("SignUp Error")}
-            else -> {println("SignUp other error") }
+            is SignUpState.Success -> {
+                println("SignUpState Success")
+            }
+
+            is SignUpState.Failure -> {
+                println("SignUpFailure")
+            }
+            is SignUpState.Error -> {
+                println("SignUp Error")
+            }
+            else -> {
+                println("SignUp other error")
+            }
         }
     }
 
-    LaunchedEffect(signInState) {
-        when(signInState) {
-            is SignInState.Loading -> {println("Loading") }
-            is SignInState.Success -> { onSignInSuccess() }
-            is SignInState.Failure -> { println("Failure")}
-            is SignInState.Error -> { println("Error")}
-            else -> {println("Else Error") }
+    LaunchedEffect(key1 = signInState) {
+        when (signInState) {
+            is SignInState.Loading -> {
+                println("Loading")
+            }
+            is SignInState.Success -> {
+                onSignInSuccess()
+            }
+            is SignInState.Failure -> {
+                println("Failure")
+            }
+            is SignInState.Error -> {
+                println("Error")
+            }
+            else -> {
+                println("Else Error")
+            }
         }
     }
 }
