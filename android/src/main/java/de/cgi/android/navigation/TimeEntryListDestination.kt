@@ -1,11 +1,12 @@
-package de.cgi.android.timetracking
+package de.cgi.android.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import de.cgi.android.Router
+import de.cgi.android.timeentry.TimeEntryListScreen
+import de.cgi.android.timeentry.TimeEntryViewModel
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -20,7 +21,7 @@ fun TimeEntryListDestination(
     TimeEntryListScreen(
         timeEntryListState = timeEntryListState.timeEntryListState,
         onNewTimeEntryClick = { router.showTimeEntryDetails() },
-        onTimeEntryClick = {router.showTimeEntryDetails()},
+        onTimeEntryClick = { router.showTimeEntryDetails() },
         onDeleteTimeEntry = viewModel::deleteTimeEntry,
         removeTimeEntryState = timeEntryListState.removeTimeEntryState,
         reloadTimeEntries = viewModel::getTimeEntries

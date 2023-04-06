@@ -8,7 +8,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.NavHost
-import com.google.accompanist.navigation.animation.AnimatedNavHost
 import de.cgi.android.AppState
 import de.cgi.android.auth.AuthFeature
 import de.cgi.android.auth.authGraph

@@ -1,4 +1,4 @@
-package de.cgi.android
+package de.cgi.android.navigation
 
 import de.cgi.common.data.model.TimeEntry
 

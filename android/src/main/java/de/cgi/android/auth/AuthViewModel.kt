@@ -47,7 +47,7 @@ class AuthViewModel(
     private var authJob: Job? = null
 
     init {
-        //authenticate()
+        authenticate()
     }
 
     fun signUp(name: String, email: String, password: String) {

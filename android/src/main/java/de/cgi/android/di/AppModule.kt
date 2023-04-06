@@ -6,8 +6,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import de.cgi.android.auth.AuthUseCase
 import de.cgi.android.auth.AuthViewModel
-import de.cgi.android.timetracking.TimeEntryUseCase
-import de.cgi.android.timetracking.TimeEntryViewModel
+import de.cgi.android.timeentry.TimeEntryUseCase
+import de.cgi.android.timeentry.TimeEntryViewModel
 import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.repository.AuthRepository

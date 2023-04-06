@@ -1,4 +1,4 @@
-package de.cgi.android
+package de.cgi.android.navigation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween

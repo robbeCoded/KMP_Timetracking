@@ -1,4 +1,4 @@
-package de.cgi.android
+package de.cgi.android.navigation
 
 import androidx.navigation.NavHostController
 import de.cgi.android.auth.AuthScreenRoute

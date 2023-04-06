@@ -143,6 +143,7 @@ fun AuthScreen(
             is SignInState.Loading -> {
                 println("Loading")
             }
+            is SignInState.Authorized -> { onSignInSuccess() }
             is SignInState.Success -> {
                 onSignInSuccess()
             }

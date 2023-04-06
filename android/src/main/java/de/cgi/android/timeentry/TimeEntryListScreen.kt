@@ -1,4 +1,4 @@
-package de.cgi.android.timetracking
+package de.cgi.android.timeentry
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
@@ -8,14 +8,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
 import de.cgi.android.util.AsyncData
 import de.cgi.android.util.GenericError
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
-import kotlinx.coroutines.launch
 
 
 @ExperimentalFoundationApi
@@ -29,18 +27,14 @@ fun TimeEntryListScreen(
     onDeleteTimeEntry: (TimeEntry) -> Unit,
     reloadTimeEntries: () -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    Scaffold(scaffoldState = scaffoldState, topBar = {
-        TopAppBar(title = {
-            Text(text = "Timetracking")
-        })
-    }, floatingActionButton = {
-        FloatingActionButton(onClick = onNewTimeEntryClick) {
-            Icon(imageVector = FeatherIcons.Plus, contentDescription = "Add time entry")
-        }
-    }) {
+    Scaffold(scaffoldState = scaffoldState,
+        floatingActionButton = {
+            FloatingActionButton(onClick = onNewTimeEntryClick) {
+                Icon(imageVector = FeatherIcons.Plus, contentDescription = "Add time entry")
+            }
+        }) {
         Box(Modifier.padding(it)) {
             AsyncData(resultState = timeEntryListState, errorContent = {
                 GenericError(

@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import de.cgi.android.Router
+import de.cgi.android.navigation.Router
 import org.koin.androidx.compose.getViewModel
 
 @RequiresApi(Build.VERSION_CODES.M)
@@ -20,7 +20,6 @@ fun NavGraphBuilder.authGraph(
         route = AuthFeature.route,
         startDestination = AuthScreenRoute.route,
     ) {
-        println("Hello From Auth")
         composable(AuthScreenRoute.route) {
             val viewModel = getViewModel<AuthViewModel>()
             val signUpState by viewModel.signUpState.collectAsState()

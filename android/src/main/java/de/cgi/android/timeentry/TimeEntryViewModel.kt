@@ -1,4 +1,4 @@
-package de.cgi.android.timetracking
+package de.cgi.android.timeentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

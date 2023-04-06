@@ -5,7 +5,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import compose.icons.feathericons.*
-import de.cgi.android.timetracking.TimeEntryViewModel
+import de.cgi.android.timeentry.TimeEntryViewModel
 import de.cgi.android.ui.components.*
 import org.koin.androidx.compose.getViewModel
 

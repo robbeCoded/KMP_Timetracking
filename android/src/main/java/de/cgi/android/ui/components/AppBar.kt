@@ -13,7 +13,7 @@ fun AppBar(
     onNavigationIconClick: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text(text = "Placeholder") },
+        title = { Text(text = "Timetracking") },
         backgroundColor = LocalColor.current.topAppbar,
         contentColor = LocalColor.current.black,
         navigationIcon = {

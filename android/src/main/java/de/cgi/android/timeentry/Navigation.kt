@@ -7,10 +7,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import de.cgi.android.Router
-import de.cgi.android.composablePopup
-import de.cgi.android.composableScreen
-import de.cgi.android.timetracking.TimeEntryListDestination
+import de.cgi.android.navigation.Router
+import de.cgi.android.navigation.TimeEntryListDestination
+import de.cgi.android.ui.components.MainAppScaffold
 
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi
@@ -27,14 +26,16 @@ fun NavGraphBuilder.timeEntryGraph(
         startDestination = TimeEntryListRoute.route,
     ) {
 
-        composable(
-            TimeEntryListRoute.route,
-        ) {
-            TimeEntryListDestination(router = router)
+        composable(TimeEntryListRoute.route) {
+            MainAppScaffold (content = { TimeEntryListDestination(router = router) }, router = router)
         }
+
         composable(
             AddEditTimeEntryRoute.route,
+            arguments = AddEditTimeEntryRoute.navArguments,
         ) {
+            MainAppScaffold(content = {
+            }, router = router)
 
         }
 

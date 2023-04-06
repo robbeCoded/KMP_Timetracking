@@ -6,7 +6,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import de.cgi.android.navigation.Router
+import de.cgi.android.navigation.RouterImpl
 
 
 @ExperimentalAnimationApi

@@ -57,11 +57,10 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
 
     override fun authenticate(): Flow<ResultState<AuthResult<Unit>>> {
         return callbackFlow {
-            val response = client.get(routes.AUTHENTICATE) {
-                contentType(ContentType.Application.Json)
-            }
+            val response = client.get(routes.AUTHENTICATE)
             when (response.status) {
-                HttpStatusCode.OK -> trySend(ResultState.Success(AuthResult.Authorized()))
+                HttpStatusCode.OK -> {trySend(ResultState.Success(AuthResult.Authorized()))
+                println("RESPONSE WAS OK, SEND SUCCESS")}
                 HttpStatusCode.Conflict -> trySend(
                     ResultState.Success(
                         AuthResult.Unauthorized()
