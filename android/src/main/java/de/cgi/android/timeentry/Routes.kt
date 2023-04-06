@@ -1,4 +1,4 @@
-package de.cgi.android.navigation.timeentry
+package de.cgi.android.timeentry
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
@@ -10,8 +10,8 @@ object TimeEntryFeature : AppRoutes("TimeEntryFeature")
 // Screens
 object TimeEntryListRoute : AppRoutes("TimeEntryList")
 
-object AddEditTimeEntryRoute : AppRoutes("AddEditTimeEntryRoute") {
-    private const val paramTimeEntryId = "timeentryId"
+object TimeEntryEditRoute : AppRoutes("TimeEntryEdit") {
+    private const val paramTimeEntryId = "timeEntryId"
     override val route: String = "$baseRoute/{$paramTimeEntryId}"
     val navArguments = listOf(
         navArgument(paramTimeEntryId) {
@@ -22,5 +22,5 @@ object AddEditTimeEntryRoute : AppRoutes("AddEditTimeEntryRoute") {
     fun getTimeEntryId(backStackEntry: NavBackStackEntry): String? =
         backStackEntry.arguments?.getString(paramTimeEntryId)
 
-    fun buildAddEditTimeEntryRoute(id: String?) = id?.let { "$baseRoute?$paramTimeEntryId=$id" } ?: baseRoute
+    fun buildAddEditTimeEntryRoute(id: String) = "$baseRoute/$id"
 }

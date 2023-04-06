@@ -28,19 +28,19 @@ class AuthViewModel(
     val signUpState: StateFlow<SignUpState?> = _signUpState
 
     private val _signUpEmail = MutableStateFlow("")
-    val signUpEmail: StateFlow<String> = _signUpEmail
+    private val signUpEmail: StateFlow<String> = _signUpEmail
 
     private val _signUpPassword = MutableStateFlow("")
-    val signUpPassword: StateFlow<String> = _signUpPassword
+    private val signUpPassword: StateFlow<String> = _signUpPassword
 
     private val _signUpName = MutableStateFlow("")
-    val signUpName: StateFlow<String> = _signUpName
+    private val signUpName: StateFlow<String> = _signUpName
 
     private val _signInEmail = MutableStateFlow("")
-    val signInEmail: StateFlow<String> = _signInEmail
+    private val signInEmail: StateFlow<String> = _signInEmail
 
     private val _signInPassword = MutableStateFlow("")
-    val signInPassword: StateFlow<String> = _signInPassword
+    private val signInPassword: StateFlow<String> = _signInPassword
 
     private var signUpJob: Job? = null
     private var signInJob: Job? = null
@@ -50,16 +50,20 @@ class AuthViewModel(
         authenticate()
     }
 
-    fun signUp(name: String, email: String, password: String) {
+    fun signUp() {
         signUpJob?.cancel()
-        signUpJob = useCase.signUp(name, email, password).onEach {
+        signUpJob = useCase.signUp(
+            name = signUpName.value,
+            email = signUpEmail.value,
+            password = signUpPassword.value
+        ).onEach {
             _signUpState.value = it
         }.launchIn(viewModelScope)
     }
 
-    fun signIn(email: String, password: String) {
+    fun signIn() {
         signInJob?.cancel()
-        signInJob = useCase.signIn(email, password).onEach {
+        signInJob = useCase.signIn(email = signInEmail.value, password = signInPassword.value).onEach {
             _signInState.value = it
         }.launchIn(viewModelScope)
     }

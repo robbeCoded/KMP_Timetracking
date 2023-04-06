@@ -1,14 +1,14 @@
-package de.cgi.android.navigation.timeentry
+package de.cgi.android.timeentry
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import de.cgi.android.navigation.Router
-import de.cgi.android.navigation.TimeEntryListDestination
 import de.cgi.android.ui.components.MainAppScaffold
 
 @ExperimentalFoundationApi
@@ -19,7 +19,7 @@ fun NavGraphBuilder.timeEntryGraph(
     router: Router
 ) {
     val popupScreens = { route: String? ->
-        route == AddEditTimeEntryRoute.route
+        route == TimeEntryEditRoute.route
     }
     navigation(
         route = TimeEntryFeature.route,
@@ -27,16 +27,19 @@ fun NavGraphBuilder.timeEntryGraph(
     ) {
 
         composable(TimeEntryListRoute.route) {
-            MainAppScaffold (content = { TimeEntryListDestination(router = router) }, router = router)
+            MainAppScaffold(
+                content = { TimeEntryListDestination(router = router) },
+                router = router
+            )
         }
 
         composable(
-            AddEditTimeEntryRoute.route,
-            arguments = AddEditTimeEntryRoute.navArguments,
-        ) {
+            TimeEntryEditRoute.route,
+            arguments = TimeEntryEditRoute.navArguments,
+        ) { backStackEntry ->
             MainAppScaffold(content = {
+                TimeEntryEditDestination(backStackEntry = backStackEntry, router = router)
             }, router = router)
-
         }
 
     }

@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import de.cgi.android.AppState
 import de.cgi.android.auth.AuthFeature
 import de.cgi.android.auth.authGraph
-import de.cgi.android.navigation.timeentry.timeEntryGraph
+import de.cgi.android.timeentry.timeEntryGraph
 
 @RequiresApi(Build.VERSION_CODES.M)
 @ExperimentalFoundationApi

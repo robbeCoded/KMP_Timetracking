@@ -6,8 +6,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import de.cgi.android.auth.AuthUseCase
 import de.cgi.android.auth.AuthViewModel
-import de.cgi.android.timeentry.TimeEntryUseCase
-import de.cgi.android.timeentry.TimeEntryViewModel
+import de.cgi.android.timeentry.TimeEntryEditUseCase
+import de.cgi.android.timeentry.TimeEntryEditViewModel
+import de.cgi.android.timeentry.TimeEntryListUseCase
+import de.cgi.android.timeentry.TimeEntryListViewModel
+import de.cgi.common.UserRepository
 import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.repository.AuthRepository
@@ -24,15 +27,18 @@ val appModule = module {
     single { provideSharedPreferences(androidContext()) }
 
     single { KeyValueStorage(get()) }
+    single { UserRepository(get()) }
 
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single<TimeEntryRepository> { TimeEntryRepositoryImpl(get(), get()) }
 
     single { AuthUseCase(get()) }
-    single { TimeEntryUseCase(get()) }
+    single { TimeEntryListUseCase(get()) }
+    single { TimeEntryEditUseCase(get())}
 
+    viewModel {(timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), timeEntryId)}
     viewModel { AuthViewModel(get()) }
-    viewModel { TimeEntryViewModel(get()) }
+    viewModel { TimeEntryListViewModel(get()) }
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {

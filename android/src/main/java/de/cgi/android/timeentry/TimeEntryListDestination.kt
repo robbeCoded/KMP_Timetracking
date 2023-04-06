@@ -1,12 +1,11 @@
-package de.cgi.android.navigation
+package de.cgi.android.timeentry
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import de.cgi.android.timeentry.TimeEntryListScreen
-import de.cgi.android.timeentry.TimeEntryViewModel
+import de.cgi.android.navigation.Router
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -15,13 +14,13 @@ import org.koin.androidx.compose.getViewModel
 fun TimeEntryListDestination(
     router: Router,
 ) {
-    val viewModel = getViewModel<TimeEntryViewModel>()
+    val viewModel = getViewModel<TimeEntryListViewModel>()
     val timeEntryListState by viewModel.listState.collectAsState()
 
     TimeEntryListScreen(
         timeEntryListState = timeEntryListState.timeEntryListState,
-        onNewTimeEntryClick = { router.showTimeEntryDetails() },
-        onTimeEntryClick = { router.showTimeEntryDetails() },
+        onNewTimeEntryClick = {  },
+        onTimeEntryClick = { router.showTimeEntryDetails(it) },
         onDeleteTimeEntry = viewModel::deleteTimeEntry,
         removeTimeEntryState = timeEntryListState.removeTimeEntryState,
         reloadTimeEntries = viewModel::getTimeEntries

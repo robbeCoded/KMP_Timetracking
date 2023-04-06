@@ -6,7 +6,7 @@ interface Router {
     fun showAuth()
 
     fun showTimeEntryList()
-    fun showTimeEntryDetails(timeEntry: TimeEntry? = null)
+    fun showTimeEntryDetails(timeEntry: TimeEntry)
 
     fun showProjectList()
     fun showProjectDetails(id: String? = null)

@@ -6,8 +6,8 @@ import de.cgi.common.data.model.TimeEntry
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 
-class TimeEntryViewModel(
-    private val timeEntryUseCase: TimeEntryUseCase
+class TimeEntryListViewModel(
+    private val timeEntryListUseCase: TimeEntryListUseCase
 ) : ViewModel() {
 
     private var loadTimeEntriesJob: Job? = null
@@ -22,14 +22,14 @@ class TimeEntryViewModel(
 
     fun getTimeEntries() {
         loadTimeEntriesJob?.cancel()
-        loadTimeEntriesJob = timeEntryUseCase.getTimeEntries(true).onEach { resultState ->
+        loadTimeEntriesJob = timeEntryListUseCase.getTimeEntries(true).onEach { resultState ->
             _listState.update { it.copy(timeEntryListState = resultState) }
         }.launchIn(viewModelScope)
     }
 
     fun deleteTimeEntry(timeEntry: TimeEntry) {
         deleteTimeEntryJob?.cancel()
-        deleteTimeEntryJob = timeEntryUseCase.deleteTimeEntry(timeEntry.id).onEach {
+        deleteTimeEntryJob = timeEntryListUseCase.deleteTimeEntry(timeEntry.id).onEach {
             _listState.update {
                 it.copy(removeTimeEntryState = null)
             }

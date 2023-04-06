@@ -6,9 +6,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import kotlin.reflect.KFunction1
-import kotlin.reflect.KFunction2
-import kotlin.reflect.KFunction3
 
 @RequiresApi(Build.VERSION_CODES.M)
 @Composable
@@ -17,13 +14,13 @@ fun AuthScreen(
     signUpState: SignUpState?,
     isEmailValid: () -> Boolean,
     isPasswordValid: () -> Boolean,
-    onSignInEmailChanged: KFunction1<String, Unit>,
-    onSignInPasswordChanged: KFunction1<String, Unit>,
-    onSignUpPasswordChanged: KFunction1<String, Unit>,
-    onSignUpEmailChanged: KFunction1<String, Unit>,
-    onSignUpNameChanged: KFunction1<String, Unit>,
-    onSignInClick: KFunction2<String, String, Unit>,
-    onSignUpClick: KFunction3<String, String, String, Unit>,
+    onSignInEmailChanged: (String) -> Unit,
+    onSignInPasswordChanged: (String) -> Unit,
+    onSignUpPasswordChanged: (String) -> Unit,
+    onSignUpEmailChanged: (String) -> Unit,
+    onSignUpNameChanged: (String) -> Unit,
+    onSignInClick: () -> Unit,
+    onSignUpClick: () -> Unit,
     onSignInSuccess: () -> Unit,
 ) {
 
@@ -82,7 +79,7 @@ fun AuthScreen(
 
         Button(onClick = {
             if (isEmailValid() && isPasswordValid()) {
-                onSignUpClick(signUpName.value, signUpEmail.value, signUpPassword.value)
+                onSignUpClick()
                 signUpPasswordError.value = false
                 signUpEmailError.value = false
             } else {
@@ -112,7 +109,7 @@ fun AuthScreen(
             label = { Text("Password") }
         )
 
-        Button(onClick = { onSignInClick(signInEmail.value, signInPassword.value) }) {
+        Button(onClick = { onSignInClick() }) {
             Text("Sign In")
         }
     }

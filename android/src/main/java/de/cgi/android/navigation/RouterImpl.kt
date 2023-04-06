@@ -2,8 +2,8 @@ package de.cgi.android.navigation
 
 import androidx.navigation.NavHostController
 import de.cgi.android.auth.AuthScreenRoute
-import de.cgi.android.navigation.timeentry.AddEditTimeEntryRoute
-import de.cgi.android.navigation.timeentry.TimeEntryListRoute
+import de.cgi.android.timeentry.TimeEntryEditRoute
+import de.cgi.android.timeentry.TimeEntryListRoute
 import de.cgi.common.data.model.TimeEntry
 
 class RouterImpl(
@@ -24,9 +24,9 @@ class RouterImpl(
         }
     }
 
-    override fun showTimeEntryDetails(timeEntry: TimeEntry?) {
+    override fun showTimeEntryDetails(timeEntry: TimeEntry) {
         navigationController.navigate(
-            AddEditTimeEntryRoute.buildAddEditTimeEntryRoute(timeEntry?.id))
+            TimeEntryEditRoute.buildAddEditTimeEntryRoute(timeEntry.id))
     }
 
     override fun showProjectList() {
@@ -42,10 +42,10 @@ class RouterImpl(
     }
 
     override fun back() {
-        TODO("Not yet implemented")
+        navigationController.popBackStack()
     }
 
     override fun navigationUp(): Boolean {
-        TODO("Not yet implemented")
+        return navigationController.navigateUp()
     }
 }
