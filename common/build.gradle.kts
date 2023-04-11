@@ -36,7 +36,12 @@ kotlin {
     android()
     js(IR) {
         useCommonJs()
-        browser()
+        browser() {
+            commonWebpackConfig {
+
+            }
+        }
+        binaries.executable()
     }
 
     sourceSets {
@@ -48,6 +53,7 @@ kotlin {
                     implementation(clientLogging)
                     implementation(contentNegotiation)
                     implementation(json)
+                    implementation(clientAuth)
                 }
 
                 with(Deps.Kotlinx) {

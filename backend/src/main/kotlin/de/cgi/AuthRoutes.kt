@@ -82,7 +82,7 @@ fun Route.signIn(
         val isPwToShort = request.password.length < 8
         if (areFieldsBlank || isPwToShort) {
             //give more information than just the StatusCode
-            call.respond(HttpStatusCode.Conflict)
+            call.respond(HttpStatusCode.Conflict, "Fields are blank or password less than 8 characters")
             return@post
         }
 

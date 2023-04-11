@@ -1,20 +1,33 @@
-package de.cgi.android.ui.components
+package de.cgi.android.timeentry
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.cgi.common.data.model.responses.TimeEntryResponse
+import de.cgi.common.data.model.TimeEntry
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.toLocalTime
+
 
 @Composable
-fun TimeEntryListItem(timeEntry: TimeEntryResponse) {
+fun TimeEntryListItem(
+    timeEntry: TimeEntry,
+    onClick: (TimeEntry) -> Unit,
+    onDeleteTimeEntry: (TimeEntry) -> Unit,
+) {
+    val startTime: LocalTime = timeEntry.startTime.toLocalTime()
+    val endTime: LocalTime = timeEntry.endTime.toLocalTime()
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp)
+            .clickable { onClick(timeEntry) }
     ) {
         Column(
             modifier = Modifier
@@ -28,8 +41,7 @@ fun TimeEntryListItem(timeEntry: TimeEntryResponse) {
 
 
             Text(
-                text = timeEntry.startTime.time.toString() + " - "
-                        + timeEntry.endTime.time.toString()
+                text = "$startTime - $endTime"
             )
 
             Spacer(modifier = Modifier.height(8.dp))

@@ -11,10 +11,9 @@ import de.cgi.android.ui.theme.LocalColor
 @Composable
 fun AppBar(
     onNavigationIconClick: () -> Unit,
-    title: String,
 ) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = { Text(text = "Timetracking") },
         backgroundColor = LocalColor.current.topAppbar,
         contentColor = LocalColor.current.black,
         navigationIcon = {

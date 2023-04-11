@@ -5,6 +5,7 @@ import org.bson.types.ObjectId
 
 interface TimeEntryDataSource {
     suspend fun insertTimeEntry(timeEntry: TimeEntry): Boolean
+    suspend fun updateTimeEntry(timeEntry: TimeEntry): Boolean
     suspend fun getTimeEntries(): List<TimeEntry>
     suspend fun getTimeEntryById(id: ObjectId): TimeEntry?
     suspend fun deleteTimeEntry(id: ObjectId): Boolean

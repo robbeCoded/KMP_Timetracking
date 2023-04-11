@@ -1,24 +1,32 @@
 package de.cgi
 
-import TimetrackingTheme
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ramcosta.composedestinations.DestinationsNavHost
-import de.cgi.android.NavGraphs
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.ExperimentalComposeUiApi
+import de.cgi.android.MainApp
+import de.cgi.android.rememberAppState
 
-
-
+@RequiresApi(Build.VERSION_CODES.M)
+@OptIn(
+    ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class
+)
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContent {
-            TimetrackingTheme {
-                DestinationsNavHost(navGraph = NavGraphs.root)
-            }
+            val appState = rememberAppState()
+            MainApp(
+                appState = appState,
+            )
         }
     }
 }
+

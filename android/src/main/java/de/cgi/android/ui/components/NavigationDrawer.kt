@@ -21,7 +21,7 @@ fun DrawerHeader() {
             .padding(vertical = 64.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "Header", fontSize = 60.sp)
+        Text(text = "Timetracking", fontSize = 60.sp)
     }
 }
 

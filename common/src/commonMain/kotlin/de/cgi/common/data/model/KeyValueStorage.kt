@@ -1,6 +1,6 @@
 package de.cgi.common.data.model
 
-interface KeyValueStorage {
+expect class KeyValueStorage {
     fun getString(key: String, defaultValue: String?): String?
     fun putString(key: String, value: String)
 }

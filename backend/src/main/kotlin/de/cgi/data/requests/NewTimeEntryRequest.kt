@@ -6,9 +6,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NewTimeEntryRequest(
+    val date: String,
     val startTime: String,
     val endTime: String,
-    val userId: String,
     val projectId: String?,
     val description: String?,
+    val userId: String,
 )

@@ -1,6 +1,7 @@
 import androidx.compose.runtime.*
 import de.cgi.common.api.setBaseUrl
-import de.cgi.common.data.model.responses.TimeEntryResponse
+import de.cgi.common.data.model.KeyValueStorage
+import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.di.initKoin
 import de.cgi.common.repository.TimeEntryRepository
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -11,6 +12,7 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.renderComposable
 
+private val keyValueStorage: KeyValueStorage = koin.get<KeyValueStorage>()
 private val koin = initKoin(enableNetworkLogs = true).koin
 
 @InternalCoroutinesApi
@@ -21,11 +23,11 @@ fun main() {
     renderComposable(rootElementId = "root") {
         Style(TextStyles)
 
-        var timeEntries by remember { mutableStateOf(emptyList<TimeEntryResponse>()) }
+        var timeEntries by remember { mutableStateOf(emptyList<TimeEntry>()) }
 
         LaunchedEffect(true) {
             timeEntries = repo.getTimeEntries(
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ1c2VycyIsImlzcyI6Imh0dHA6Ly8wLjAuMC4wOjgwODAiLCJleHAiOjE3MTA1MDgyODksInVzZXJJZCI6IjY0MTMxNTdhYTZhOWNlNmU5YzUwNmNlYSJ9.IeyhklpFjNm5-TDWDTCJTJ63oa3wEXi6G6zYCUmzy2U").data ?: emptyList()
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ1c2VycyIsImlzcyI6Imh0dHA6Ly8wLjAuMC4wOjgwODAiLCJleHAiOjE3MTA1MDgyODksInVzZXJJZCI6IjY0MTMxNTdhYTZhOWNlNmU5YzUwNmNlYSJ9.IeyhklpFjNm5-TDWDTCJTJ63oa3wEXi6G6zYCUmzy2U", true)
         }
 
         Div(attrs = { style { padding(16.px) } }) {
@@ -43,7 +45,7 @@ fun main() {
                     }
                 ) {
                     Span(attrs = { classes(TextStyles.itemText) }) {
-                        Text("${entry.description}: ${entry.startTime.time} - ${entry.endTime.time}, Project: ${entry.projectId}")
+                        Text("${entry.description}: ${entry.startTime} - ${entry.endTime}, Project: ${entry.projectId}")
                     }
                 }
             }

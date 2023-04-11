@@ -1,159 +1,158 @@
-package de.cgi.android
+package de.cgi.android.auth
 
-import android.widget.Toast
-import androidx.compose.foundation.background
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import de.cgi.android.auth.AuthUiEvent
-import de.cgi.android.destinations.AuthScreenDestination
-import de.cgi.android.destinations.TimeEntryScreenDestination
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 
-import de.cgi.android.auth.AuthViewModel
-import de.cgi.common.data.model.responses.AuthResult
-import org.koin.androidx.compose.getViewModel
-
-@RootNavGraph(start = true)
-@Destination
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun AuthScreen(
-    navigator: DestinationsNavigator,
-    viewModel: AuthViewModel = getViewModel<AuthViewModel>()
+    signInState: SignInState?,
+    signUpState: SignUpState?,
+    isEmailValid: () -> Boolean,
+    isPasswordValid: () -> Boolean,
+    onSignInEmailChanged: (String) -> Unit,
+    onSignInPasswordChanged: (String) -> Unit,
+    onSignUpPasswordChanged: (String) -> Unit,
+    onSignUpEmailChanged: (String) -> Unit,
+    onSignUpNameChanged: (String) -> Unit,
+    onSignInClick: () -> Unit,
+    onSignUpClick: () -> Unit,
+    onSignInSuccess: () -> Unit,
 ) {
 
+    // Create states for TextField inputs
+    val signUpEmail = remember { mutableStateOf("") }
+    val signUpName = remember { mutableStateOf("") }
+    val signUpPassword = remember { mutableStateOf("") }
+    val signInEmail = remember { mutableStateOf("") }
+    val signInPassword = remember { mutableStateOf("") }
 
-    val state = viewModel.state
-    val context = LocalContext.current
-    LaunchedEffect(viewModel, context) {
-        viewModel.authResult.collect { result ->
-            when (result) {
-                is AuthResult.Authorized -> {
-                    navigator.navigate(TimeEntryScreenDestination()) {
-                        popUpTo(AuthScreenDestination.route) {
-                            inclusive = true
-                        }
-                    }
+    val signUpEmailError = remember { mutableStateOf(false) }
+    val signUpPasswordError = remember { mutableStateOf(false) }
 
-                }
-                is AuthResult.Unauthorized -> {
-                    Toast.makeText(
-                        context,
-                        "You're not authorized",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                is AuthResult.UnknownError -> {
-                    Toast.makeText(
-                        context,
-                        "An unknown error occurred",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+
+    Column {
+        TextField(
+            value = signUpEmail.value,
+            onValueChange = { value ->
+                signUpEmail.value = value
+                onSignUpEmailChanged(value)
+            },
+            label = { Text("Email") },
+            isError = signUpEmailError.value
+        )
+        AnimatedVisibility(visible = signUpEmailError.value) {
+            Text(
+                text = "Not a valid e-mail address",
+                style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error)
+            )
+        }
+
+        TextField(
+            value = signUpName.value,
+            onValueChange = { value ->
+                signUpName.value = value
+                onSignUpNameChanged(value)
+            },
+            label = { Text("Name") }
+        )
+
+        TextField(
+            value = signUpPassword.value,
+            onValueChange = { value ->
+                signUpPassword.value = value
+                onSignUpPasswordChanged(value)
+            },
+            label = { Text("Password") },
+            isError = signUpPasswordError.value,
+        )
+        AnimatedVisibility(visible = signUpPasswordError.value) {
+            Text(
+                text = "Password must be at least 8 characters",
+                style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error)
+            )
+        }
+
+        Button(onClick = {
+            if (isEmailValid() && isPasswordValid()) {
+                onSignUpClick()
+                signUpPasswordError.value = false
+                signUpEmailError.value = false
+            } else {
+                signUpPasswordError.value = true
+                signUpEmailError.value = true
+            }
+        }) {
+            Text("Sign Up")
+        }
+
+        // ... SignIn UI components ...
+        TextField(
+            value = signInEmail.value,
+            onValueChange = { value ->
+                signInEmail.value = value
+                onSignInEmailChanged(value)
+            },
+            label = { Text("Email") }
+        )
+
+        TextField(
+            value = signInPassword.value,
+            onValueChange = { value ->
+                signInPassword.value = value
+                onSignInPasswordChanged(value)
+            },
+            label = { Text("Password") }
+        )
+
+        Button(onClick = { onSignInClick() }) {
+            Text("Sign In")
+        }
+    }
+
+    LaunchedEffect(key1 = signUpState) {
+        when (signUpState) {
+            is SignUpState.Loading -> {
+                println("SignUp Loading")
+            }
+            is SignUpState.Success -> {
+                println("SignUpState Success")
+            }
+
+            is SignUpState.Failure -> {
+                println("SignUpFailure")
+            }
+            is SignUpState.Error -> {
+                println("SignUp Error")
+            }
+            else -> {
+                println("SignUp other error")
             }
         }
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TextField(
-            value = state.signUpName,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignUpNameChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Name")
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = state.signUpEmail,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignUpEmailChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Email")
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = state.signUpPassword,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignUpPasswordChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Password")
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                viewModel.onEvent(AuthUiEvent.SignUp)
-            },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Sign up")
-        }
 
-        Spacer(modifier = Modifier.height(64.dp))
-
-        TextField(
-            value = state.signInEmail,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignInEmailChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Email")
+    LaunchedEffect(key1 = signInState) {
+        when (signInState) {
+            is SignInState.Loading -> {
+                println("Loading")
             }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = state.signInPassword,
-            onValueChange = {
-                viewModel.onEvent(AuthUiEvent.SignInPasswordChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = "Password")
+            is SignInState.Authorized -> { onSignInSuccess() }
+            is SignInState.Success -> {
+                onSignInSuccess()
             }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                viewModel.onEvent(AuthUiEvent.SignIn)
-            },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Sign in")
-        }
-    }
-    if (state.isLoading) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+            is SignInState.Failure -> {
+                println("Failure")
+            }
+            is SignInState.Error -> {
+                println("Error")
+            }
+            else -> {
+                println("Else Error")
+            }
         }
     }
 }
