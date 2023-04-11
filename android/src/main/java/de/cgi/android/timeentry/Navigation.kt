@@ -18,9 +18,6 @@ import de.cgi.android.ui.components.MainAppScaffold
 fun NavGraphBuilder.timeEntryGraph(
     router: Router
 ) {
-    val popupScreens = { route: String? ->
-        route == TimeEntryEditRoute.route
-    }
     navigation(
         route = TimeEntryFeature.route,
         startDestination = TimeEntryListRoute.route,
@@ -40,6 +37,13 @@ fun NavGraphBuilder.timeEntryGraph(
             MainAppScaffold(content = {
                 TimeEntryEditDestination(backStackEntry = backStackEntry, router = router)
             }, router = router)
+        }
+
+        composable(TimeEntryAddRoute.route) {
+            MainAppScaffold(
+                content = { TimeEntryAddDestination(router = router) },
+                router = router
+            )
         }
 
     }

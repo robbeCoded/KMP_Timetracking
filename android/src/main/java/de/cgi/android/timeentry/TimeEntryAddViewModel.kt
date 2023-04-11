@@ -12,10 +12,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 
-class TimeEntryEditViewModel(
+class TimeEntryAddViewModel(
     private val useCase: TimeEntryEditUseCase,
     private val userRepository: UserRepository,
-    private val timeEntryId: String,
 ) : ViewModel() {
 
     private val userId: String = userRepository.getUserId()
@@ -30,17 +29,18 @@ class TimeEntryEditViewModel(
         MutableStateFlow<ResultState<TimeEntry?>>(ResultState.Loading)
     val timeEntryFetchState: StateFlow<ResultState<TimeEntry?>> = _timeEntryFetchState
 
+    private val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin"))
 
-    private val _startTime = MutableStateFlow<LocalTime?>(null)
+    private val _startTime = MutableStateFlow<LocalTime?>(LocalTime(currentDateTime.hour, currentDateTime.minute))
     private val startTime: StateFlow<LocalTime?> = _startTime
 
-    private val _endTime = MutableStateFlow<LocalTime?>(null)
+    private val _endTime = MutableStateFlow<LocalTime?>(LocalTime(currentDateTime.hour.plus(1), currentDateTime.minute))
     private val endTime: StateFlow<LocalTime?> = _endTime
 
-    private val _duration = MutableStateFlow<LocalTime?>(null)
+    private val _duration = MutableStateFlow<LocalTime?>(LocalTime(1,0))
     private val duration: StateFlow<LocalTime?> = _duration
 
-    private val _date = MutableStateFlow<LocalDate?>(null)
+    private val _date = MutableStateFlow<LocalDate?>(currentDateTime.date)
     private val date: StateFlow<LocalDate?> = _date
 
     private val _description = MutableStateFlow<String?>(null)
@@ -50,9 +50,6 @@ class TimeEntryEditViewModel(
     private val project: StateFlow<String?> = _project
 
     private var submitJob: Job? = null
-    private var updateJob: Job? = null
-    private var deleteJob: Job? = null
-    private var getTimeEntryJob: Job? = null
 
     fun submitTimeEntry() {
         submitJob?.cancel()
@@ -67,53 +64,21 @@ class TimeEntryEditViewModel(
             _timeEntryEditState.value = it
         }.launchIn(viewModelScope)
     }
+
     fun updateTimeEntry() {
-        updateJob?.cancel()
-        updateJob = useCase.updateTimeEntry(
-            id = timeEntryId,
-            date = date.value.toString(),
-            startTime = startTime.value.toString(),
-            endTime = endTime.value.toString(),
-            userId = userId,
-            description = description.value,
-            projectId = project.value,
-        ).onEach {
-            _timeEntryEditState.value = it
-        }.launchIn(viewModelScope)
+        //not needed here
     }
 
     fun deleteTimeEntry() {
-        deleteJob?.cancel()
-        deleteJob = useCase.deleteTimeEntry(timeEntryId).onEach {
-            _timeEntryDeleteState.value = it
-        }.launchIn(viewModelScope)
-
+        //Not needed here
     }
 
     fun getTimeEntryById() {
-        println("Ran the get TimeEntryById with $timeEntryId")
-        getTimeEntryJob?.cancel()
-        getTimeEntryJob = useCase.getTimeEntryById(timeEntryId, true).onEach { result ->
-            when (result) {
-                is ResultState.Success -> {
-                    _timeEntryFetchState.value = result
-                    result.data?.let { timeEntry -> updateValues(timeEntry) }
-                }
-                else -> _timeEntryFetchState.value = result
-            }
-        }.launchIn(viewModelScope)
+        //Not needed here
     }
 
     private fun updateValues(timeEntry: TimeEntry) {
-        _startTime.value = timeEntry.startTime.toLocalTime()
-        _endTime.value = timeEntry.endTime.toLocalTime()
-        _duration.value = LocalTime(
-            timeEntry.endTime.toLocalTime().hour.minus(timeEntry.startTime.toLocalTime().hour),
-            timeEntry.endTime.toLocalTime().minute.minus(timeEntry.startTime.toLocalTime().minute)
-        )
-        _date.value = timeEntry.date.toLocalDate()
-        _description.value = timeEntry.description
-        _project.value = timeEntry.projectId
+        //Not needed here
     }
 
 

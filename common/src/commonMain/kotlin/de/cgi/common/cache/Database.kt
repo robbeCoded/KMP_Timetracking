@@ -13,6 +13,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 dbQuery.insertTimeEntry(
                     id = timeEntry.id,
                     timestamp = timeEntry.timestamp,
+                    date = timeEntry.date,
                     start_time = timeEntry.startTime,
                     end_time = timeEntry.endTime,
                     project_id = timeEntry.projectId,
@@ -23,20 +24,38 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    internal fun createTimeEntry(timeEntry: TimeEntry) {
+    internal fun insertTimeEntry(timeEntry: TimeEntry) {
         dbQuery.transaction {
             dbQuery.insertTimeEntry(
-                timeEntry.id,
-                timeEntry.timestamp,
-                timeEntry.startTime,
-                timeEntry.endTime,
-                timeEntry.projectId,
-                timeEntry.description,
-                timeEntry.userId
+                id = timeEntry.id,
+                timestamp = timeEntry.timestamp,
+                date = timeEntry.date,
+                start_time = timeEntry.startTime,
+                end_time = timeEntry.endTime,
+                project_id = timeEntry.projectId,
+                description = timeEntry.description,
+                user_id = timeEntry.userId
             )
         }
-
     }
+
+    internal fun updateTimeEntry(timeEntry: TimeEntry) {
+        dbQuery.transaction {
+            dbQuery.updateTimeEntry(
+                id = timeEntry.id,
+                timestamp = timeEntry.timestamp,
+                date = timeEntry.date,
+                start_time = timeEntry.startTime,
+                end_time = timeEntry.endTime,
+                project_id = timeEntry.projectId,
+                description = timeEntry.description,
+                user_id = timeEntry.userId
+            )
+        }
+    }
+
+
+
 
     internal fun clearTimeEntries() {
         dbQuery.transaction {
@@ -55,19 +74,25 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     }
 
     private fun mapToTimeEntry(
-        timestamp: String,
-        startTime: String,
-        endTime: String,
-        id: String,
+        id: String?,
+        timestamp: String?,
+        date: String?,
+        startTime: String?,
+        endTime: String?,
         projectId: String?,
         description: String?,
-        userId: String
+        userId: String?
     ): TimeEntry {
+        if (date == null || timestamp == null || startTime == null || endTime == null || id == null || userId == null) {
+            throw IllegalStateException("Required field is null")
+        }
+
         return TimeEntry(
+            id = id,
             timestamp = timestamp,
+            date = date,
             startTime = startTime,
             endTime = endTime,
-            id = id,
             projectId = projectId,
             description = description,
             userId = userId
@@ -78,6 +103,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
        val result: TimeEntry? = try {
            val query = dbQuery.selectTimeEntryById(id).executeAsOne()
            TimeEntry(
+               query.date,
                query.timestamp,
                query.start_time,
                query.end_time,

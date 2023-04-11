@@ -5,6 +5,7 @@ import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.requests.TimeEntryRequest
+import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -20,6 +21,21 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
         return callbackFlow {
             trySend(ResultState.Loading)
             val response = client.post(routes.NEW_TIME_ENTRY) {
+                contentType(ContentType.Application.Json)
+                setBody(timeEntry)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose {  }
+        }
+    }
+
+    override fun updateTimeEntry(timeEntry: UpdateTimeEntryRequest): Flow<ResultState<TimeEntry?>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.post(routes.UPDATE_TIME_ENTRY) {
                 contentType(ContentType.Application.Json)
                 setBody(timeEntry)
             }

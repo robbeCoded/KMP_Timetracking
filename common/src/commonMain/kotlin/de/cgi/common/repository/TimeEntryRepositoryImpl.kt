@@ -7,6 +7,7 @@ import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.requests.TimeEntryRequest
+import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
 import io.ktor.client.call.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
@@ -20,16 +21,36 @@ class TimeEntryRepositoryImpl(
 
     private val database = Database(databaseDriverFactory)
     override fun newTimeEntry(
+        date: String,
         startTime: String,
         endTime: String,
         userId: String,
         description: String?,
         projectId: String?
     ): Flow<ResultState<TimeEntry?>> {
-        val timeEntry = NewTimeEntry(startTime, endTime, userId, description, projectId)
+        val timeEntry = NewTimeEntry(date, startTime, endTime, userId, description, projectId)
         return api.newTimeEntry(timeEntry).map { result ->
             if (result is ResultState.Success) {
-                result.data?.let { database.createTimeEntry(it) }
+                result.data?.let { database.insertTimeEntry(it) }
+            }
+            result
+        }
+    }
+
+    override fun updateTimeEntry(
+        id: String,
+        date: String,
+        startTime: String,
+        endTime: String,
+        userId: String,
+        description: String?,
+        projectId: String?
+    ): Flow<ResultState<TimeEntry?>> {
+        val timeEntry =
+            UpdateTimeEntryRequest(id, date, startTime, endTime, projectId, description, userId)
+        return api.updateTimeEntry(timeEntry).map { result ->
+            if (result is ResultState.Success) {
+                result.data?.let { database.updateTimeEntry(it) }
             }
             result
         }
@@ -63,7 +84,7 @@ class TimeEntryRepositoryImpl(
             api.getTimeEntryById(timeEntryRequest).map { result ->
                 if (result is ResultState.Success && result.data != null) {
                     database.deleteTimeEntry(id)
-                    database.createTimeEntry(result.data)
+                    database.insertTimeEntry(result.data)
                 }
                 result
             }

@@ -1,11 +1,10 @@
-package de.cgi.data.requests
+package de.cgi.common.data.model.requests
 
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.serializers.LocalDateTimeIso8601Serializer
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NewTimeEntryRequest(
+data class UpdateTimeEntryRequest(
+    val id: String,
     val date: String,
     val startTime: String,
     val endTime: String,

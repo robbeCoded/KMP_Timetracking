@@ -6,10 +6,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import de.cgi.android.auth.AuthUseCase
 import de.cgi.android.auth.AuthViewModel
-import de.cgi.android.timeentry.TimeEntryEditUseCase
-import de.cgi.android.timeentry.TimeEntryEditViewModel
-import de.cgi.android.timeentry.TimeEntryListUseCase
-import de.cgi.android.timeentry.TimeEntryListViewModel
+import de.cgi.android.timeentry.*
 import de.cgi.common.UserRepository
 import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.KeyValueStorage
@@ -39,6 +36,7 @@ val appModule = module {
     viewModel {(timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), timeEntryId)}
     viewModel { AuthViewModel(get()) }
     viewModel { TimeEntryListViewModel(get()) }
+    viewModel { TimeEntryAddViewModel(get(), get()) }
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {

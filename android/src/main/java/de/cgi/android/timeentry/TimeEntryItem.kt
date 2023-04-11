@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.cgi.common.data.model.TimeEntry
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.toLocalTime
 
 
 @Composable
@@ -18,8 +20,8 @@ fun TimeEntryListItem(
     onClick: (TimeEntry) -> Unit,
     onDeleteTimeEntry: (TimeEntry) -> Unit,
 ) {
-    val startTime: LocalDateTime = timeEntry.startTime.toLocalDateTime()
-    val endTime: LocalDateTime = timeEntry.endTime.toLocalDateTime()
+    val startTime: LocalTime = timeEntry.startTime.toLocalTime()
+    val endTime: LocalTime = timeEntry.endTime.toLocalTime()
 
     Card(
         modifier = Modifier
@@ -39,7 +41,7 @@ fun TimeEntryListItem(
 
 
             Text(
-                text = startTime.time.toString() + " - " + endTime.time.toString()
+                text = "$startTime - $endTime"
             )
 
             Spacer(modifier = Modifier.height(8.dp))

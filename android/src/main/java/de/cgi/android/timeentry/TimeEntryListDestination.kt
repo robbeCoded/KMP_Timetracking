@@ -19,8 +19,8 @@ fun TimeEntryListDestination(
 
     TimeEntryListScreen(
         timeEntryListState = timeEntryListState.timeEntryListState,
-        onNewTimeEntryClick = {  },
-        onTimeEntryClick = { router.showTimeEntryDetails(it) },
+        onNewTimeEntryClick = { router.showTimeEntryAdd() },
+        onTimeEntryClick = { router.showTimeEntryEdit(it) },
         onDeleteTimeEntry = viewModel::deleteTimeEntry,
         removeTimeEntryState = timeEntryListState.removeTimeEntryState,
         reloadTimeEntries = viewModel::getTimeEntries

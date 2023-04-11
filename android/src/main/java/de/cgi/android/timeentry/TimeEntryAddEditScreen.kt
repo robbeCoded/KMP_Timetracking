@@ -2,28 +2,20 @@ package de.cgi.android.timeentry
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.widget.DatePicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.toLocalDate
-import kotlinx.datetime.toLocalTime
+import kotlinx.datetime.*
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimeEntryEditScreen(
+fun TimeEntryAddEditScreen(
     onDateChanged: (LocalDate) -> Unit,
     onStartTimeChanged: (LocalTime) -> Unit,
     onEndTimeChanged: (LocalTime) -> Unit,
@@ -32,17 +24,43 @@ fun TimeEntryEditScreen(
     onDescriptionChanged: (String) -> Unit,
     onSubmitTimeEntry: () -> Unit,
     onDeleteTimeEntry: () -> Unit,
-    onNavigateBack: () -> Unit
+    onUpdateTimeEntry: () -> Unit,
+    onNavigateBack: () -> Unit,
+    onGetTimeEntryById: () -> Unit,
+    editTimeEntry: Boolean,
+    onGetStartTime: () -> LocalTime?,
+    onGetEndTime: () -> LocalTime?,
+    onGetDuration: () -> LocalTime?,
+    onGetDate: () -> LocalDate?,
+    onGetDescription: () -> String?,
+    onGetProject: () -> String?,
 ) {
-    val context = LocalContext.current
 
-    // State variables for each input field
-    val date = remember { mutableStateOf(LocalDate(1,1,1)) }
-    val startTime = remember { mutableStateOf(LocalTime(1,1)) }
-    val endTime = remember { mutableStateOf(LocalTime(1,1)) }
-    val duration = remember { mutableStateOf(LocalTime(1,1)) }
+    val context = LocalContext.current
+    val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin"))
+
+
+    if (editTimeEntry) {
+        LaunchedEffect(key1 = "edit") {
+            onGetTimeEntryById()
+        }
+    }
+
+    val date = remember { mutableStateOf<LocalDate?>(null) }
+    val startTime =
+        remember { mutableStateOf<LocalTime?>(null) }
+    val endTime =
+        remember { mutableStateOf<LocalTime?>(null) }
+    val duration = remember { mutableStateOf<LocalTime?>(null) }
     val project = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
+
+    date.value = onGetDate() ?: currentDateTime.date
+    startTime.value = onGetStartTime() ?: currentDateTime.time
+    endTime.value = onGetEndTime() ?: currentDateTime.time
+    duration.value = onGetDuration() ?: LocalTime(0, 0)
+    project.value = onGetProject() ?: ""
+    description.value = onGetDescription() ?: ""
 
     val datePickerDialog = remember {
         DatePickerDialog(
@@ -51,61 +69,38 @@ fun TimeEntryEditScreen(
                 // Update the state of the selected date
 
                 date.value = LocalDate(year, month, dayOfMonth)
-                onDateChanged(date.value)
+                onDateChanged(date.value!!)
             },
-            date.value.year,
-            date.value.monthNumber,
-            date.value.dayOfMonth,
-        )
-    }
-
-    val startTimePickerDialog = remember {
-        TimePickerDialog(
-            context,
-            { _, hourOfDay, minute ->
-                startTime.value = LocalTime(hourOfDay, minute)
-                onStartTimeChanged(startTime.value)
-            },
-            startTime.value.hour,
-            startTime.value.minute,
-            true
+            date.value!!.year,
+            date.value!!.monthNumber,
+            date.value!!.dayOfMonth,
         )
     }
 
     fun timePickerDialog(
-        time: MutableState<LocalTime>,
+        time: MutableState<LocalTime?>,
         onTimeChanged: (LocalTime) -> Unit
     ): TimePickerDialog {
         return TimePickerDialog(
             context,
             { _, hourOfDay, minute ->
                 time.value = LocalTime(hourOfDay, minute)
-                onTimeChanged(time.value)
+                onTimeChanged(time.value!!)
             },
-            time.value.hour,
-            time.value.minute,
+            time.value!!.hour,
+            time.value!!.minute,
             true
         )
     }
-    val endTimePickerDialog = remember {
-        TimePickerDialog(
-            context,
-            { _, hourOfDay, minute ->
-                endTime.value = LocalTime(hourOfDay, minute)
-                onEndTimeChanged(endTime.value)
-            },
-            endTime.value.hour,
-            endTime.value.minute,
-            true
-        )
-    }
+
+
 
 
     Column(
-    modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 16.dp),
-    verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.Center,
     ) {
         SelectableTextField(
             value = date.value.toString(),
@@ -129,7 +124,23 @@ fun TimeEntryEditScreen(
             label = "Start time",
             modifier = Modifier
                 .fillMaxWidth(),
-            onClick = { timePickerDialog(startTime, onStartTimeChanged) }
+            onClick = { timePickerDialog(startTime, onStartTimeChanged).show() }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SelectableTextField(
+            value = duration.value.toString(),
+            onValueChange = { newValue ->
+                duration.value = newValue.toLocalTime()
+                onDurationChanged(
+                    newValue.toLocalTime()
+                )
+            },
+            label = "Duration",
+            modifier = Modifier
+                .fillMaxWidth(),
+            onClick = { timePickerDialog(duration, onDurationChanged).show() }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -138,26 +149,12 @@ fun TimeEntryEditScreen(
             value = endTime.value.toString(),
             onValueChange = { newValue ->
                 endTime.value = newValue.toLocalTime()
-                onStartTimeChanged(newValue.toLocalTime())
+                onEndTimeChanged(newValue.toLocalTime())
             },
             label = "End time",
             modifier = Modifier
                 .fillMaxWidth(),
-            onClick = { timePickerDialog(endTime, onEndTimeChanged) }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        SelectableTextField(
-            value = endTime.value.toString(),
-            onValueChange = { newValue ->
-                endTime.value = newValue.toLocalTime()
-                onStartTimeChanged(newValue.toLocalTime())
-            },
-            label = "End time",
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = { timePickerDialog(duration, onDurationChanged) }
+            onClick = { timePickerDialog(endTime, onEndTimeChanged).show() }
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -185,33 +182,52 @@ fun TimeEntryEditScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Button(
-                onClick = {
-                    onSubmitTimeEntry()
-                    onNavigateBack()
-                },
-                modifier = Modifier
-                    .weight(1f)
-                    .wrapContentWidth(),
-            ) {
-                Text("Submit")
+            if(editTimeEntry) {
+                Button(
+                    onClick = {
+                        onUpdateTimeEntry()
+                        onNavigateBack()
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .wrapContentWidth(),
+                ) {
+                    Text("Update")
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Button(
+                    onClick = {
+                        onDeleteTimeEntry()
+                        onNavigateBack()
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .wrapContentWidth(),
+                ) {
+                    Text("Delete")
+                }
+            } else {
+                Button(
+                    onClick = {
+                        onSubmitTimeEntry()
+                        onNavigateBack()
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .wrapContentWidth(),
+                ) {
+                    Text("Submit")
+                }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Button(
-                onClick = {
-                    onDeleteTimeEntry()
-                    onNavigateBack()
-                },
-                modifier = Modifier
-                    .weight(1f)
-                    .wrapContentWidth(),
-            ) {
-                Text("Delete")
-            }
         }
     }
+}
+
+private fun LocalTime.minus(value: LocalTime): LocalTime {
+    return LocalTime(this.hour.minus(value.hour), this.minute.minus(value.minute))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

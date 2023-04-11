@@ -4,6 +4,7 @@ import de.cgi.data.datasource.TimeEntryDataSource
 import de.cgi.data.models.TimeEntry
 import de.cgi.data.requests.NewTimeEntryRequest
 import de.cgi.data.requests.TimeEntryByIdRequest
+import de.cgi.data.requests.UpdateTimeEntryRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -31,6 +32,7 @@ fun Route.newTimeEntry(
             val userId = ObjectId(request.userId)
             val project = request.projectId?.let {ObjectId(it)}
             val timeEntry = TimeEntry(
+                date = request.date,
                 startTime = request.startTime,
                 endTime = request.endTime,
                 userId = userId,
@@ -40,6 +42,43 @@ fun Route.newTimeEntry(
             )
 
             val wasAcknowledged = timeEntryDataSource.insertTimeEntry(timeEntry)
+            if(!wasAcknowledged){
+                call.respond(HttpStatusCode.Conflict)
+                return@post
+            }
+
+            call.respond(HttpStatusCode.OK, timeEntry)
+        }
+    }
+
+}
+fun Route.updateTimeEntry(
+    timeEntryDataSource: TimeEntryDataSource
+) {
+    authenticate {
+        post("timeentry/update") {
+
+            val request = call.receiveNullable<UpdateTimeEntryRequest>() ?: kotlin.run {
+                call.respond(HttpStatusCode.BadRequest)
+                return@post
+            }
+            //TODO: Fehlerbehandlung - empty Fields etc
+
+            val userId = ObjectId(request.userId)
+            val project = request.projectId?.let {ObjectId(it)}
+            val id = ObjectId(request.id)
+            val timeEntry = TimeEntry(
+                id = id,
+                date = request.date,
+                startTime = request.startTime,
+                endTime = request.endTime,
+                userId = userId,
+                description = request.description,
+                projectId = project,
+                timestamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString()
+            )
+
+            val wasAcknowledged = timeEntryDataSource.updateTimeEntry(timeEntry)
             if(!wasAcknowledged){
                 call.respond(HttpStatusCode.Conflict)
                 return@post

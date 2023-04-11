@@ -12,14 +12,14 @@ data class TimeEntry(
     @BsonId val id: ObjectId = ObjectId(),
 
     val timestamp: String,
+    val date: String,
     val startTime: String,
     val endTime: String,
 
     @Serializable(with = ObjectIdSerializer::class)
     val projectId: ObjectId?,
+    val description: String?,
 
     @Serializable(with = ObjectIdSerializer::class)
     val userId: ObjectId,
-
-    val description: String?,
 )

@@ -24,3 +24,5 @@ object TimeEntryEditRoute : AppRoutes("TimeEntryEdit") {
 
     fun buildAddEditTimeEntryRoute(id: String) = "$baseRoute/$id"
 }
+
+object TimeEntryAddRoute : AppRoutes("TimeEntryAdd")
