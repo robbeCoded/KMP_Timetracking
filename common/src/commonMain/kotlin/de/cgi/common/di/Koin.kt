@@ -3,19 +3,11 @@ package de.cgi.common.di
 import de.cgi.common.api.*
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.platformModule
-import de.cgi.common.repository.AuthRepository
-import de.cgi.common.repository.AuthRepositoryImpl
-import de.cgi.common.repository.TimeEntryRepository
-import de.cgi.common.repository.TimeEntryRepositoryImpl
-import io.ktor.client.plugins.auth.*
-
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.*
-import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.CoroutineScope

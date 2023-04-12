@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.*
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.toLocalDate
+import kotlinx.datetime.toLocalTime
 
 class TimeEntryEditViewModel(
     private val useCase: TimeEntryEditUseCase,

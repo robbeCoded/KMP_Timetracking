@@ -4,7 +4,6 @@ import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.TimeEntryRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class TimeEntryEditUseCase(
     private val repository: TimeEntryRepository

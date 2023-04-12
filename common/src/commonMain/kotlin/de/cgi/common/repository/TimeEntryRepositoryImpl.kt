@@ -8,8 +8,6 @@ import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.requests.TimeEntryRequest
 import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
-import io.ktor.client.call.*
-import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map

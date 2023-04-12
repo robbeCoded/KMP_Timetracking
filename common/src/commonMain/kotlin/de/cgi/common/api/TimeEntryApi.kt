@@ -5,7 +5,6 @@ import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.requests.TimeEntryRequest
 import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
-import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 
 interface TimeEntryApi {

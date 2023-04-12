@@ -5,7 +5,6 @@ import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.requests.NewProjectRequest
 import de.cgi.common.data.model.requests.ProjectRequest
 import de.cgi.common.data.model.requests.UpdateProjectRequest
-import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 
 interface ProjectApi {
