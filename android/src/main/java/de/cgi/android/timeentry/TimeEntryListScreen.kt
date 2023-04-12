@@ -21,6 +21,7 @@ import de.cgi.common.data.model.TimeEntry
 @Composable
 fun TimeEntryListScreen(
     timeEntryListState: ResultState<List<TimeEntry>>,
+    projectMapState: ResultState<Map<String, String>>,
     removeTimeEntryState: ResultState<Unit>?, //TODO: refresh time entries when submit / delete
     onNewTimeEntryClick: () -> Unit,
     onTimeEntryClick: (TimeEntry) -> Unit,
@@ -44,11 +45,19 @@ fun TimeEntryListScreen(
                 timeEntryList?.let {
                     LazyColumn {
                         items(timeEntryList, key = { timeEntry -> timeEntry.id }) { item ->
-                            TimeEntryListItem(
-                                onClick = onTimeEntryClick,
-                                timeEntry = item,
-                                onDeleteTimeEntry = onDeleteTimeEntry
-                            )
+                            when (projectMapState) {
+                                is ResultState.Success -> {
+                                    val projectMap = projectMapState.data
+                                    TimeEntryListItem(
+                                        onClick = onTimeEntryClick,
+                                        timeEntry = item,
+                                        onDeleteTimeEntry = onDeleteTimeEntry,
+                                        projectMap = projectMap
+                                    )
+                                }
+
+                                else -> { /*TODO: handle error*/ }
+                            }
                         }
                     }
                 }
@@ -57,5 +66,4 @@ fun TimeEntryListScreen(
             }
         }
     }
-
 }

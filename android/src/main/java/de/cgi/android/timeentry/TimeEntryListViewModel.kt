@@ -2,6 +2,7 @@ package de.cgi.android.timeentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
 import kotlinx.coroutines.Job
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.*
 
 class TimeEntryListViewModel(
     private val timeEntryListUseCase: TimeEntryListUseCase,
+    private val getProjectsUseCase: TimeEntryGetProjectsUseCase,
     userRepository: UserRepository,
 ) : ViewModel() {
 
@@ -20,8 +22,11 @@ class TimeEntryListViewModel(
     private val _listState = MutableStateFlow(TimeEntryListState())
     val listState =  _listState.asStateFlow()
 
+
+    private var loadProjectsJob: Job? = null
     init {
         getTimeEntries()
+        getProjectMapping()
     }
 
     fun getTimeEntries() {
@@ -39,5 +44,27 @@ class TimeEntryListViewModel(
             }
         }.launchIn(viewModelScope)
     }
+
+    fun getProjectMapping() {
+        loadProjectsJob?.cancel()
+        loadProjectsJob = getProjectsUseCase.getProjects(userId = userId, forceReload = true).onEach { resultState ->
+            when (resultState) {
+                is ResultState.Success -> {
+                    val projectMap = resultState.data.associateBy({ it.id }, { it.name })
+                    _listState.update { it.copy(projectMapState = ResultState.Success(projectMap)) }
+                }
+                is ResultState.Error -> {
+                    _listState.update { it.copy(projectMapState = resultState) }
+                }
+                is ResultState.Loading -> {
+                    _listState.update { it.copy(projectMapState = resultState) }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+
+
+
 
 }

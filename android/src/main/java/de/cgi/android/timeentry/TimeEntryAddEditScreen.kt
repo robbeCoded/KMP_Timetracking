@@ -9,7 +9,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import de.cgi.android.ui.components.ProjectDropdownMenu
 import de.cgi.android.ui.components.SelectableTextField
+import de.cgi.common.ResultState
+import de.cgi.common.data.model.Project
 import kotlinx.datetime.*
 
 //interfaces für viewModel
@@ -18,11 +21,12 @@ import kotlinx.datetime.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeEntryAddEditScreen(
+    projectListState: ResultState<List<Project>>,
     onDateChanged: (LocalDate) -> Unit,
     onStartTimeChanged: (LocalTime) -> Unit,
     onEndTimeChanged: (LocalTime) -> Unit,
     onDurationChanged: (LocalTime) -> Unit,
-    onProjectChanged: (String) -> Unit,
+    onProjectChanged: (String, String) -> Unit,
     onDescriptionChanged: (String) -> Unit,
     onSubmitTimeEntry: () -> Unit,
     onDeleteTimeEntry: () -> Unit,
@@ -35,11 +39,13 @@ fun TimeEntryAddEditScreen(
     onGetDuration: () -> LocalTime?,
     onGetDate: () -> LocalDate?,
     onGetDescription: () -> String?,
-    onGetProject: () -> String?,
+    onGetProjectId: () -> String?,
+    onGetProjects: () -> Unit
 ) {
 
     val context = LocalContext.current
     val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin"))
+    val selectedProject = remember { mutableStateOf("") }
 
 
     if (editTimeEntry) {
@@ -47,6 +53,7 @@ fun TimeEntryAddEditScreen(
             onGetTimeEntryById()
         }
     }
+
 
     val date = remember { mutableStateOf<LocalDate?>(null) }
     val startTime =
@@ -61,7 +68,7 @@ fun TimeEntryAddEditScreen(
     startTime.value = onGetStartTime() ?: currentDateTime.time
     endTime.value = onGetEndTime() ?: currentDateTime.time
     duration.value = onGetDuration() ?: LocalTime(0, 0)
-    project.value = onGetProject() ?: ""
+    project.value = onGetProjectId() ?: ""
     description.value = onGetDescription() ?: ""
 
     val datePickerDialog = remember {
@@ -157,15 +164,8 @@ fun TimeEntryAddEditScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = project.value,
-            onValueChange = {
-                project.value = it
-                onProjectChanged(it)
-            },
-            label = { Text("Project") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        ProjectDropdownMenu(projectListState, selectedProject, onProjectChanged, onGetProjects)
+
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = description.value,

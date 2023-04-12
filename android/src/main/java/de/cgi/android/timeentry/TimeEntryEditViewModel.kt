@@ -2,21 +2,20 @@ package de.cgi.android.timeentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.cgi.android.projects.ProjectListState
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toLocalDate
 import kotlinx.datetime.toLocalTime
 
 class TimeEntryEditViewModel(
-    private val useCase: TimeEntryEditUseCase,
+    private val editUseCase: TimeEntryEditUseCase,
+    private val getProjectsUseCase: TimeEntryGetProjectsUseCase,
     userRepository: UserRepository,
     private val timeEntryId: String,
 ) : ViewModel() {
@@ -32,6 +31,9 @@ class TimeEntryEditViewModel(
     private val _timeEntryFetchState =
         MutableStateFlow<ResultState<TimeEntry?>>(ResultState.Loading)
     val timeEntryFetchState: StateFlow<ResultState<TimeEntry?>> = _timeEntryFetchState
+
+    private val _listState = MutableStateFlow(ProjectListState())
+    val listState =  _listState.asStateFlow()
 
 
     private val _startTime = MutableStateFlow<LocalTime?>(null)
@@ -49,37 +51,36 @@ class TimeEntryEditViewModel(
     private val _description = MutableStateFlow<String?>(null)
     private val description: StateFlow<String?> = _description
 
-    private val _project = MutableStateFlow<String?>(null)
-    private val project: StateFlow<String?> = _project
+    private val _projectId = MutableStateFlow<String?>(null)
+    private val projectId: StateFlow<String?> = _projectId
 
-    private var submitJob: Job? = null
+    private val _projectName = MutableStateFlow<String?>(null)
+    private val projectName: StateFlow<String?> = _projectName
+
+
     private var updateJob: Job? = null
     private var deleteJob: Job? = null
     private var getTimeEntryJob: Job? = null
+    private var loadProjectsJob: Job? = null
 
-    fun submitTimeEntry() {
-        submitJob?.cancel()
-        submitJob = useCase.newTimeEntry(
-            date = date.value.toString(),
-            startTime = startTime.value.toString(),
-            endTime = endTime.value.toString(),
-            userId = userId,
-            description = description.value,
-            projectId = project.value,
-        ).onEach {
-            _timeEntryEditState.value = it
+
+    fun getProjects() {
+        loadProjectsJob?.cancel()
+        loadProjectsJob = getProjectsUseCase.getProjects(userId = userId, forceReload = true).onEach { resultState ->
+            _listState.update { it.copy(projectListState = resultState) }
         }.launchIn(viewModelScope)
     }
+
     fun updateTimeEntry() {
         updateJob?.cancel()
-        updateJob = useCase.updateTimeEntry(
+        updateJob = editUseCase.updateTimeEntry(
             id = timeEntryId,
             date = date.value.toString(),
             startTime = startTime.value.toString(),
             endTime = endTime.value.toString(),
             userId = userId,
             description = description.value,
-            projectId = project.value,
+            projectId = projectId.value,
         ).onEach {
             _timeEntryEditState.value = it
         }.launchIn(viewModelScope)
@@ -87,7 +88,7 @@ class TimeEntryEditViewModel(
 
     fun deleteTimeEntry() {
         deleteJob?.cancel()
-        deleteJob = useCase.deleteTimeEntry(timeEntryId).onEach {
+        deleteJob = editUseCase.deleteTimeEntry(timeEntryId).onEach {
             _timeEntryDeleteState.value = it
         }.launchIn(viewModelScope)
 
@@ -96,7 +97,7 @@ class TimeEntryEditViewModel(
     fun getTimeEntryById() {
         println("Ran the get TimeEntryById with $timeEntryId")
         getTimeEntryJob?.cancel()
-        getTimeEntryJob = useCase.getTimeEntryById(timeEntryId, true).onEach { result ->
+        getTimeEntryJob = editUseCase.getTimeEntryById(timeEntryId, true).onEach { result ->
             when (result) {
                 is ResultState.Success -> {
                     _timeEntryFetchState.value = result
@@ -116,7 +117,7 @@ class TimeEntryEditViewModel(
         )
         _date.value = timeEntry.date.toLocalDate()
         _description.value = timeEntry.description
-        _project.value = timeEntry.projectId
+        _projectId.value = timeEntry.projectId
     }
 
 
@@ -143,8 +144,9 @@ class TimeEntryEditViewModel(
         _description.value = description
     }
 
-    fun projectChanged(project: String) {
-        _project.value = project
+    fun projectChanged(projectId: String, projectName: String) {
+        _projectId.value = projectId
+        _projectName.value = projectName
     }
 
     fun getStartTime(): LocalTime? = startTime.value
@@ -152,6 +154,7 @@ class TimeEntryEditViewModel(
     fun getDuration(): LocalTime? = duration.value
     fun getDate(): LocalDate? = date.value
     fun getDescription(): String? = description.value
-    fun getProject(): String? = project.value
+    fun getProjectId(): String? = projectId.value
+
 
 }

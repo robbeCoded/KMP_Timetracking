@@ -3,6 +3,8 @@ package de.cgi.android.timeentry
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import org.koin.androidx.compose.getViewModel
@@ -19,7 +21,7 @@ fun TimeEntryEditDestination(
     val editTimeEntry = true
 
     val viewModel = getViewModel<TimeEntryEditViewModel>(parameters = { parametersOf(timeEntryId) })
-    // Add any necessary LiveData or StateFlow objects to observe in your composable
+    val projectListState by viewModel.listState.collectAsState()
 
     TimeEntryAddEditScreen(
         onDateChanged = viewModel::dateChanged,
@@ -28,7 +30,7 @@ fun TimeEntryEditDestination(
         onDurationChanged = viewModel::durationChanged,
         onDescriptionChanged = viewModel::descriptionChanged,
         onProjectChanged = viewModel::projectChanged,
-        onSubmitTimeEntry = viewModel::submitTimeEntry,
+        onSubmitTimeEntry = { },
         onUpdateTimeEntry = viewModel::updateTimeEntry,
         onNavigateBack = router::back,
         onDeleteTimeEntry = viewModel::deleteTimeEntry,
@@ -38,7 +40,9 @@ fun TimeEntryEditDestination(
         onGetDescription = viewModel::getDescription,
         onGetDuration = viewModel::getDuration,
         onGetEndTime = viewModel::getEndTime,
-        onGetProject = viewModel::getProject,
+        onGetProjectId = viewModel::getProjectId,
         onGetStartTime = viewModel::getStartTime,
+        projectListState = projectListState.projectListState,
+        onGetProjects = viewModel::getProjects
     )
 }

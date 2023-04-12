@@ -34,12 +34,14 @@ val appModule = module {
     single { ProjectListUseCase(get()) }
     single { ProjectAddUseCase(get()) }
     single { ProjectEditUseCase(get()) }
+    single { TimeEntryGetProjectsUseCase(get()) }
+    single { TimeEntryAddUseCase(get()) }
 
     viewModel { AuthViewModel(get()) }
 
-    viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), timeEntryId) }
-    viewModel { TimeEntryListViewModel(get(), get()) }
-    viewModel { TimeEntryAddViewModel(get(), get()) }
+    viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId) }
+    viewModel { TimeEntryListViewModel(get(), get(), get()) }
+    viewModel { TimeEntryAddViewModel(get(), get(), get()) }
 
     viewModel { (projectId: String) -> ProjectEditViewModel(get(), get(), projectId) }
     viewModel { ProjectListViewModel(get(), get()) }

@@ -17,17 +17,6 @@ class TimeEntryEditUseCase(
         return repository.deleteTimeEntry(id)
     }
 
-    fun newTimeEntry(
-        date: String,
-        startTime: String,
-        endTime: String,
-        userId: String,
-        description: String?,
-        projectId: String?
-    ): Flow<ResultState<TimeEntry?>> {
-        return repository.newTimeEntry(date, startTime, endTime, userId, description, projectId)
-    }
-
     fun updateTimeEntry(
         id: String,
         date: String,

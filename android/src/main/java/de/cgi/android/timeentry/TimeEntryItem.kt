@@ -7,6 +7,7 @@ import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -19,6 +20,7 @@ fun TimeEntryListItem(
     timeEntry: TimeEntry,
     onClick: (TimeEntry) -> Unit,
     onDeleteTimeEntry: (TimeEntry) -> Unit,
+    projectMap: Map<String, String>
 ) {
     val startTime: LocalTime = timeEntry.startTime.toLocalTime()
     val endTime: LocalTime = timeEntry.endTime.toLocalTime()
@@ -47,7 +49,7 @@ fun TimeEntryListItem(
             Spacer(modifier = Modifier.height(8.dp))
 
 
-            Text(text = timeEntry.projectId ?: "No project ID")
+            Text(text = projectMap[timeEntry.projectId] ?: "No project name")
 
         }
     }

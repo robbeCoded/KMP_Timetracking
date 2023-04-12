@@ -3,6 +3,8 @@ package de.cgi.android.timeentry
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import de.cgi.android.navigation.Router
 import org.koin.androidx.compose.getViewModel
 
@@ -14,26 +16,28 @@ fun TimeEntryAddDestination(
 ) {
     val editTimeEntry = false
     val viewModel = getViewModel<TimeEntryAddViewModel>()
-    // Add any necessary LiveData or StateFlow objects to observe in your composable
+    val projectListState by viewModel.listState.collectAsState()
 
     TimeEntryAddEditScreen(
-    onDateChanged = viewModel::dateChanged,
-    onStartTimeChanged = viewModel::startTimeChanged,
-    onEndTimeChanged = viewModel::endTimeChanged,
-    onDurationChanged = viewModel::durationChanged,
-    onDescriptionChanged = viewModel::descriptionChanged,
-    onProjectChanged = viewModel::projectChanged,
-    onSubmitTimeEntry = viewModel::submitTimeEntry,
-    onUpdateTimeEntry = viewModel::updateTimeEntry,
-    onNavigateBack = router::back,
-    onDeleteTimeEntry = viewModel::deleteTimeEntry,
-    onGetTimeEntryById = viewModel::getTimeEntryById,
-    editTimeEntry = editTimeEntry,
-    onGetDate = viewModel::getDate,
-    onGetDescription = viewModel::getDescription,
-    onGetDuration = viewModel::getDuration,
-    onGetEndTime = viewModel::getEndTime,
-    onGetProject = viewModel::getProject,
-    onGetStartTime = viewModel::getStartTime,
+        onDateChanged = viewModel::dateChanged,
+        onStartTimeChanged = viewModel::startTimeChanged,
+        onEndTimeChanged = viewModel::endTimeChanged,
+        onDurationChanged = viewModel::durationChanged,
+        onDescriptionChanged = viewModel::descriptionChanged,
+        onProjectChanged = viewModel::projectChanged,
+        onSubmitTimeEntry = viewModel::submitTimeEntry,
+        onUpdateTimeEntry = { },
+        onNavigateBack = router::back,
+        onDeleteTimeEntry = { },
+        onGetTimeEntryById = { },
+        editTimeEntry = editTimeEntry,
+        onGetDate = viewModel::getDate,
+        onGetDescription = viewModel::getDescription,
+        onGetDuration = viewModel::getDuration,
+        onGetEndTime = viewModel::getEndTime,
+        onGetProjectId = viewModel::getProjectId,
+        onGetStartTime = viewModel::getStartTime,
+        projectListState = projectListState.projectListState,
+        onGetProjects = viewModel::getProjects
     )
 }

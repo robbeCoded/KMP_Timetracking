@@ -2,19 +2,18 @@ package de.cgi.android.timeentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.cgi.android.projects.ProjectListState
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
 
 class TimeEntryAddViewModel(
-    private val useCase: TimeEntryEditUseCase,
-    private val userRepository: UserRepository,
+    private val addUseCase: TimeEntryAddUseCase,
+    private val getProjectsUseCase: TimeEntryGetProjectsUseCase,
+    userRepository: UserRepository,
 ) : ViewModel() {
 
     private val userId: String = userRepository.getUserId()
@@ -29,12 +28,15 @@ class TimeEntryAddViewModel(
         MutableStateFlow<ResultState<TimeEntry?>>(ResultState.Loading)
     val timeEntryFetchState: StateFlow<ResultState<TimeEntry?>> = _timeEntryFetchState
 
+    private val _listState = MutableStateFlow(ProjectListState())
+    val listState =  _listState.asStateFlow()
+
     private val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin"))
 
     private val _startTime = MutableStateFlow<LocalTime?>(LocalTime(currentDateTime.hour, currentDateTime.minute))
     private val startTime: StateFlow<LocalTime?> = _startTime
 
-    private val _endTime = MutableStateFlow<LocalTime?>(LocalTime(currentDateTime.hour.plus(1), currentDateTime.minute))
+    private val _endTime = MutableStateFlow<LocalTime?>(LocalTime(currentDateTime.hour.plus(1), currentDateTime.minute)) //Todo: Handle next day case
     private val endTime: StateFlow<LocalTime?> = _endTime
 
     private val _duration = MutableStateFlow<LocalTime?>(LocalTime(1,0))
@@ -46,41 +48,35 @@ class TimeEntryAddViewModel(
     private val _description = MutableStateFlow<String?>(null)
     private val description: StateFlow<String?> = _description
 
-    private val _project = MutableStateFlow<String?>(null)
-    private val project: StateFlow<String?> = _project
+    private val _projectId = MutableStateFlow<String?>(null)
+    private val projectId: StateFlow<String?> = _projectId
+
+    private val _projectName = MutableStateFlow<String?>(null)
+    private val projectName: StateFlow<String?> = _projectName
 
     private var submitJob: Job? = null
+    private var loadProjectsJob: Job? = null
 
     fun submitTimeEntry() {
         submitJob?.cancel()
-        submitJob = useCase.newTimeEntry(
+        submitJob = addUseCase.newTimeEntry(
             date = date.value.toString(),
             startTime = startTime.value.toString(),
             endTime = endTime.value.toString(),
             userId = userId,
             description = description.value,
-            projectId = project.value,
+            projectId = projectId.value,
         ).onEach {
             _timeEntryEditState.value = it
         }.launchIn(viewModelScope)
     }
 
-    fun updateTimeEntry() {
-        //not needed here
+    fun getProjects() {
+        loadProjectsJob?.cancel()
+        loadProjectsJob = getProjectsUseCase.getProjects(userId = userId, forceReload = true).onEach { resultState ->
+            _listState.update { it.copy(projectListState = resultState) }
+        }.launchIn(viewModelScope)
     }
-
-    fun deleteTimeEntry() {
-        //Not needed here
-    }
-
-    fun getTimeEntryById() {
-        //Not needed here
-    }
-
-    private fun updateValues(timeEntry: TimeEntry) {
-        //Not needed here
-    }
-
 
     fun startTimeChanged(startTime: LocalTime) {
         _startTime.value = startTime
@@ -105,8 +101,9 @@ class TimeEntryAddViewModel(
         _description.value = description
     }
 
-    fun projectChanged(project: String) {
-        _project.value = project
+    fun projectChanged(projectId: String, projectName: String) {
+        _projectId.value = projectId
+        _projectName.value = projectName
     }
 
     fun getStartTime(): LocalTime? = startTime.value
@@ -114,6 +111,6 @@ class TimeEntryAddViewModel(
     fun getDuration(): LocalTime? = duration.value
     fun getDate(): LocalDate? = date.value
     fun getDescription(): String? = description.value
-    fun getProject(): String? = project.value
+    fun getProjectId(): String? = projectId.value
 
 }
