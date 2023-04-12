@@ -3,13 +3,13 @@ package de.cgi.android.timeentry
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.DatePicker
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import de.cgi.android.ui.components.SelectableTextField
 import kotlinx.datetime.*
 
 //interfaces für viewModel
@@ -225,27 +225,4 @@ fun TimeEntryAddEditScreen(
     }
 }
 
-private fun LocalTime.minus(value: LocalTime): LocalTime {
-    return LocalTime(this.hour.minus(value.hour), this.minute.minus(value.minute))
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SelectableTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    onClick: () -> Unit,
-) {
-    TextField(
-        value = value,
-        onValueChange = { newValue -> onValueChange(newValue) },
-        label = { Text(label) },
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        enabled = false
-    )
-}
 

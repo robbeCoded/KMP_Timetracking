@@ -19,8 +19,8 @@ fun ProjectListDestination(
 
     ProjectListScreen(
         projectListState = projectListState.projectListState,
-        onNewProjectClick = { router.showTimeEntryAdd() },
-        onProjectClick = { router.showProjectList() },
+        onNewProjectClick = { router.showProjectAdd() },
+        onProjectClick = { router.showProjectEdit(it) },
         onDeleteProject = viewModel::deleteProject,
         removeProjectState = projectListState.removeProjectState,
         reloadProjects = viewModel::getProjects

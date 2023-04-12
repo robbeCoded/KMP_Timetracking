@@ -43,7 +43,7 @@ fun Route.newProject(
                 return@post
             }
 
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.OK, project)
         }
     }
 
@@ -79,7 +79,7 @@ fun Route.updateProject(
                 return@post
             }
 
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.OK, project)
         }
     }
 
@@ -107,17 +107,16 @@ fun Route.getProject(
 ) {
     authenticate {
         get("project/getOne") {
-            val projectRequest = call.receiveNullable<ProjectByIdRequest>()
-            if (projectRequest != null) {
-                val timeEntryId = projectRequest.id
-                val bsonId = ObjectId(timeEntryId)
+            val id = call.parameters["id"]
+            if (id != null) {
+                val bsonId = ObjectId(id)
                 val project = projectDataSource.getProjectById(bsonId)
                 if (project != null) {
                     call.respond(HttpStatusCode.OK, project)
                     return@get
                 }
             }
-            call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")
+            call.respond(HttpStatusCode.NotFound, "No time entry with this id found")
         }
     }
 }
@@ -133,11 +132,11 @@ fun Route.deleteProject(
                 val bsonId = ObjectId(projectId)
                 val project = projectDataSource.deleteProject(bsonId)
                 if (project) {
-                    call.respond(HttpStatusCode.OK)
+                    call.respond(HttpStatusCode.NoContent)
                     return@delete
                 }
             }
-            call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")
+            call.respond(HttpStatusCode.NotFound, "No time entry with this id found")
         }
     }
 }

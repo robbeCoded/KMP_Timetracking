@@ -21,7 +21,7 @@ import de.cgi.common.data.model.TimeEntry
 @Composable
 fun TimeEntryListScreen(
     timeEntryListState: ResultState<List<TimeEntry>>,
-    removeTimeEntryState: ResultState<Unit>?,
+    removeTimeEntryState: ResultState<Unit>?, //TODO: refresh time entries when submit / delete
     onNewTimeEntryClick: () -> Unit,
     onTimeEntryClick: (TimeEntry) -> Unit,
     onDeleteTimeEntry: (TimeEntry) -> Unit,

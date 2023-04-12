@@ -1,5 +1,6 @@
 package de.cgi.android.navigation
 
+import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.TimeEntry
 
 interface Router {
@@ -7,10 +8,11 @@ interface Router {
 
     fun showTimeEntryList()
     fun showTimeEntryEdit(timeEntry: TimeEntry)
-
     fun showTimeEntryAdd()
+
     fun showProjectList()
-    fun showProjectDetails(id: String? = null)
+    fun showProjectEdit(project: Project)
+    fun showProjectAdd()
 
     fun showSettings()
     fun back()
