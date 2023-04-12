@@ -1,11 +1,14 @@
 package de.cgi.data.datasource
 
-import com.mongodb.client.model.UpdateOptions
 import de.cgi.data.models.TimeEntry
+import de.cgi.data.requests.TimeEntryByIdRequest
+import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
-import org.litote.kmongo.*
+import org.litote.kmongo.MongoOperator
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.coroutine.insertOne
+import org.litote.kmongo.eq
+import org.litote.kmongo.set
+import org.litote.kmongo.setTo
 
 class MongoTimeEntryDataSource(
     db: CoroutineDatabase
@@ -32,8 +35,8 @@ class MongoTimeEntryDataSource(
     }
 
 
-    override suspend fun getTimeEntries(): List<TimeEntry> {
-        return timeEntries.find().toList()
+    override suspend fun getTimeEntries(userId: ObjectId): List<TimeEntry> {
+        return timeEntries.find(TimeEntry::userId eq userId).toList()
     }
 
     override suspend fun getTimeEntryById(id: ObjectId): TimeEntry? {

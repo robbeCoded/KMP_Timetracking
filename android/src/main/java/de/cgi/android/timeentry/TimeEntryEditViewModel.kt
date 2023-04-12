@@ -14,7 +14,7 @@ import kotlinx.datetime.*
 
 class TimeEntryEditViewModel(
     private val useCase: TimeEntryEditUseCase,
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     private val timeEntryId: String,
 ) : ViewModel() {
 

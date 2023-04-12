@@ -1,42 +1,95 @@
 package de.cgi.common.api
 
-import de.cgi.common.data.model.requests.NewProjectRequest
+import de.cgi.common.ErrorEntity
+import de.cgi.common.ResultState
+import de.cgi.common.data.model.Project
+import de.cgi.common.data.model.requests.*
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 class ProjectApiImpl(
     private val client: HttpClient
 ) : ProjectApi {
 
-    override suspend fun newProject(project: NewProjectRequest, token: String): HttpResponse {
-        return client.post(routes.NEW_PROJECT) {
-            header("Authorization", "Bearer $token")
-            contentType(ContentType.Application.Json)
-            setBody(project)
+    override fun newProject(project: NewProjectRequest): Flow<ResultState<Project?>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.post(routes.NEW_PROJECT) {
+                contentType(ContentType.Application.Json)
+                setBody(project)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose {  }
         }
     }
 
-    override suspend fun getProjects(token: String): HttpResponse {
-        return client.get(routes.GET_PROJECTS) {
-            header("Authorization", "Bearer $token")
+    override fun updateProject(projectRequest: UpdateProjectRequest): Flow<ResultState<Project?>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.post(routes.UPDATE_PROJECT) {
+                contentType(ContentType.Application.Json)
+                setBody(projectRequest)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose {  }
         }
     }
 
-    override suspend fun getProjectById(id: String, token: String): HttpResponse {
-        return client.get(routes.GET_PROJECT_BY_ID) {
-            header("Authorization", "Bearer $token")
-            contentType(ContentType.Application.Json)
-            setBody(id)
+    override fun getProjects(userId: String): Flow<ResultState<List<Project>>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.get(routes.GET_PROJECTS) {
+                parameter("id", userId)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.bodyAsText()}"))))
+            }
+            awaitClose {  }
         }
     }
 
-    override suspend fun deleteProject(id: String, token: String): HttpResponse {
-        return client.delete(routes.DELETE_PROJECT) {
-            header("Authorization", "Bearer $token")
-            contentType(ContentType.Application.Json)
-            setBody(id)
+    override fun getProjectById(projectRequest: ProjectRequest): Flow<ResultState<Project?>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.get(routes.GET_PROJECT_BY_ID) {
+                parameter("id", projectRequest.id)
+                contentType(ContentType.Application.Json)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                HttpStatusCode.NotFound -> trySend(ResultState.Success(null))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose {  }
+        }
+    }
+
+    override fun deleteProject(projectRequest: ProjectRequest): Flow<ResultState<Boolean>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.delete(routes.DELETE_PROJECT) {
+                parameter("id", projectRequest.id)
+                contentType(ContentType.Application.Json)
+            }
+            when(response.status) {
+                HttpStatusCode.NoContent -> trySend(element = ResultState.Success<Boolean>(true))
+                HttpStatusCode.NotFound -> trySend(element = ResultState.Success<Boolean>(false))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose {  }
         }
     }
 }

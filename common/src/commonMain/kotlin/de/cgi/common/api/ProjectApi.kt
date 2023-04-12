@@ -1,11 +1,17 @@
 package de.cgi.common.api
 
+import de.cgi.common.ResultState
+import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.requests.NewProjectRequest
+import de.cgi.common.data.model.requests.ProjectRequest
+import de.cgi.common.data.model.requests.UpdateProjectRequest
 import io.ktor.client.statement.*
+import kotlinx.coroutines.flow.Flow
 
 interface ProjectApi {
-    suspend fun newProject(project: NewProjectRequest, token: String): HttpResponse
-    suspend fun getProjects(token: String): HttpResponse
-    suspend fun getProjectById(id: String, token: String): HttpResponse
-    suspend fun deleteProject(id: String, token: String): HttpResponse
+    fun newProject(project: NewProjectRequest): Flow<ResultState<Project?>>
+    fun updateProject(projectRequest: UpdateProjectRequest): Flow<ResultState<Project?>>
+    fun getProjects(userId: String): Flow<ResultState<List<Project>>>
+    fun getProjectById(projectRequest: ProjectRequest): Flow<ResultState<Project?>>
+    fun deleteProject(projectRequest: ProjectRequest): Flow<ResultState<Boolean>>
 }

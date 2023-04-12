@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import de.cgi.android.AppState
 import de.cgi.android.auth.AuthFeature
 import de.cgi.android.auth.authGraph
+import de.cgi.android.projects.projectsGraph
 import de.cgi.android.timeentry.timeEntryGraph
 
 @RequiresApi(Build.VERSION_CODES.M)
@@ -30,5 +31,6 @@ fun MainNavigation(
     ) {
         authGraph(appState.router)
         timeEntryGraph(appState.router)
+        projectsGraph(appState.router)
     }
 }

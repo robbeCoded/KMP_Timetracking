@@ -6,9 +6,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import compose.icons.FeatherIcons
-import compose.icons.feathericons.Home
-import compose.icons.feathericons.Info
-import compose.icons.feathericons.Settings
+import compose.icons.feathericons.*
 import de.cgi.android.navigation.Router
 import kotlinx.coroutines.launch
 
@@ -37,23 +35,36 @@ fun MainAppScaffold(
             DrawerBody(
                 items = listOf(
                     MenuItem(
-                        id = MenuId.Timetracking,
-                        title = "Home",
-                        contentDescription = "Go to home screen",
-                        icon = FeatherIcons.Home
+                        id = MenuId.Calender,
+                        title = "Kalender",
+                        contentDescription = "Get help",
+                        icon = FeatherIcons.Calendar
                     ),
                     MenuItem(
-                        id = MenuId.Settings,
-                        title = "Settings",
-                        contentDescription = "Go to settings screen",
-                        icon = FeatherIcons.Settings
+                        id = MenuId.Timetracking,
+                        title = "Zeiterfassung",
+                        contentDescription = "Go to home screen",
+                        icon = FeatherIcons.Clock
                     ),
                     MenuItem(
                         id = MenuId.Projects,
-                        title = "Help",
-                        contentDescription = "Get help",
-                        icon = FeatherIcons.Info
+                        title = "Projekte",
+                        contentDescription = "Go to settings screen",
+                        icon = FeatherIcons.Archive
                     ),
+                    MenuItem(
+                        id = MenuId.Account,
+                        title = "Account",
+                        contentDescription = "Get help",
+                        icon = FeatherIcons.User
+                    ),
+                    MenuItem(
+                        id = MenuId.Settings,
+                        title = "Einstellungen",
+                        contentDescription = "Get help",
+                        icon = FeatherIcons.Settings
+                    ),
+
                 ),
                 onItemClick = {
                     when (it.id) {

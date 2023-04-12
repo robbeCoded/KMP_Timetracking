@@ -12,7 +12,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
 
-
+//interfaces für viewModel
+//Adapter pattern anschauen
+//strategy pattern
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeEntryAddEditScreen(
@@ -92,9 +94,6 @@ fun TimeEntryAddEditScreen(
             true
         )
     }
-
-
-
 
     Column(
         modifier = Modifier

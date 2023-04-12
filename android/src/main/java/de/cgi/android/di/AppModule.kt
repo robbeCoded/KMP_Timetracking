@@ -6,14 +6,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import de.cgi.android.auth.AuthUseCase
 import de.cgi.android.auth.AuthViewModel
+import de.cgi.android.projects.ProjectListUseCase
+import de.cgi.android.projects.ProjectListViewModel
 import de.cgi.android.timeentry.*
 import de.cgi.common.UserRepository
 import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.KeyValueStorage
-import de.cgi.common.repository.AuthRepository
-import de.cgi.common.repository.AuthRepositoryImpl
-import de.cgi.common.repository.TimeEntryRepository
-import de.cgi.common.repository.TimeEntryRepositoryImpl
+import de.cgi.common.repository.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -28,15 +27,18 @@ val appModule = module {
 
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single<TimeEntryRepository> { TimeEntryRepositoryImpl(get(), get()) }
+    single<ProjectRepository> {ProjectRepositoryImpl(get(), get())}
 
     single { AuthUseCase(get()) }
     single { TimeEntryListUseCase(get()) }
     single { TimeEntryEditUseCase(get())}
+    single { ProjectListUseCase(get())}
 
     viewModel {(timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), timeEntryId)}
     viewModel { AuthViewModel(get()) }
-    viewModel { TimeEntryListViewModel(get()) }
+    viewModel { TimeEntryListViewModel(get(), get()) }
     viewModel { TimeEntryAddViewModel(get(), get()) }
+    viewModel { ProjectListViewModel(get(), get())}
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {

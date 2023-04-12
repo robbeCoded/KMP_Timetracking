@@ -32,6 +32,7 @@ fun Application.configureRouting(
         deleteTimeEntry(timeEntryDataSource)
 
         newProject(projectDataSource)
+        updateProject(projectDataSource)
         getProjects(projectDataSource)
         getProject(projectDataSource)
         deleteProject(projectDataSource)

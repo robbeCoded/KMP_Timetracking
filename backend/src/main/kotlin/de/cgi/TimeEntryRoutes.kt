@@ -95,8 +95,13 @@ fun Route.getTimeEntries(
 ) {
     authenticate {
         get("timeentry/getAll") {
-            val timeEntriesList = timeEntryDataSource.getTimeEntries()
-            call.respond(HttpStatusCode.OK, timeEntriesList)
+            val userId = call.parameters["id"]
+            if(userId != null) {
+                val bsonUserId = ObjectId(userId)
+                val timeEntries = timeEntryDataSource.getTimeEntries(bsonUserId)
+                call.respond(HttpStatusCode.OK, timeEntries)
+            }
+            call.respond(HttpStatusCode.BadRequest, "Something went wrong")
         }
     }
 

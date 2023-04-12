@@ -9,6 +9,15 @@ CREATE TABLE TimeEntry (
     user_id TEXT NOT NULL
 );
 
+CREATE TABLE Project (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    startDate TEXT NOT NULL,
+    endDate TEXT NOT NULL,
+    userId TEXT NOT NULL
+);
+
 insertTimeEntry:
 INSERT INTO TimeEntry(id, timestamp, date, start_time, end_time, project_id, description, user_id)
 VALUES(?, ?, ?, ?, ?, ?, ?, ?);
@@ -35,8 +44,41 @@ WHERE id = ?;
 
 selectAllTimeEntries:
 SELECT *
-FROM TimeEntry;
+FROM TimeEntry
+WHERE user_id = ?;
 
 deleteTimeEntryById:
 DELETE FROM TimeEntry
+WHERE id = ?;
+
+
+insertProject:
+INSERT INTO Project(id, name, startDate, endDate, description, userId)
+VALUES(?, ?, ?, ?, ?, ?);
+
+updateProject:
+UPDATE Project
+SET
+    name = ?,
+    startDate = ?,
+    endDate = ?,
+    description = ?,
+    userId = ?
+WHERE id = ?;
+
+
+clearProjects:
+DELETE FROM Project;
+
+selectProjectById:
+SELECT * FROM Project
+WHERE id = ?;
+
+selectAllProjects:
+SELECT *
+FROM Project
+WHERE userId = ?;
+
+deleteProjectById:
+DELETE FROM Project
 WHERE id = ?;

@@ -47,10 +47,12 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
         }
     }
 
-    override fun getTimeEntries(): Flow<ResultState<List<TimeEntry>>> {
+    override fun getTimeEntries(userId: String): Flow<ResultState<List<TimeEntry>>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_TIME_ENTRIES)
+            val response = client.get(routes.GET_TIME_ENTRIES) {
+                parameter("id", userId)
+            }
             when (response.status) {
                 HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
                 else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.bodyAsText()}"))))

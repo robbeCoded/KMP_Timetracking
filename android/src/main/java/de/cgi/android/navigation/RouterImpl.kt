@@ -2,6 +2,7 @@ package de.cgi.android.navigation
 
 import androidx.navigation.NavHostController
 import de.cgi.android.auth.AuthScreenRoute
+import de.cgi.android.projects.ProjectListRoute
 import de.cgi.android.timeentry.TimeEntryAddRoute
 import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.TimeEntryListRoute
@@ -35,7 +36,12 @@ class RouterImpl(
     }
 
     override fun showProjectList() {
-        TODO("Not yet implemented")
+        navigationController.navigate(ProjectListRoute.route){
+            popUpTo(AuthScreenRoute.route) {
+                inclusive = true
+                saveState = false
+            }
+        }
     }
 
     override fun showProjectDetails(id: String?) {

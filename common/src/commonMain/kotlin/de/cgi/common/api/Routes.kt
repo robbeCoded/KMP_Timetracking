@@ -15,6 +15,7 @@ object routes {
     val DELETE_TIME_ENTRY = "$BASE_URL/timeentry/delete"
 
     val NEW_PROJECT = "$BASE_URL/project/new"
+    val UPDATE_PROJECT = "$BASE_URL/project/update"
     val GET_PROJECTS = "$BASE_URL/project/getAll"
     val GET_PROJECT_BY_ID = "$BASE_URL/project/getOne"
     val DELETE_PROJECT = "$BASE_URL/project/delete"

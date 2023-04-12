@@ -4,6 +4,7 @@ import de.cgi.data.datasource.ProjectDataSource
 import de.cgi.data.models.Project
 import de.cgi.data.requests.NewProjectRequest
 import de.cgi.data.requests.ProjectByIdRequest
+import de.cgi.data.requests.UpdateProjectRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -49,16 +50,57 @@ fun Route.newProject(
 
 }
 
+fun Route.updateProject(
+    projectDataSource: ProjectDataSource
+) {
+    authenticate {
+        post("project/update") {
+
+            val request = call.receiveNullable<UpdateProjectRequest>() ?: kotlin.run {
+                call.respond(HttpStatusCode.BadRequest)
+                return@post
+            }
+            //TODO: Fehlerbehandlung - empty Fields etc
+
+
+            val userId = ObjectId(request.userId)
+            val id = ObjectId(request.id)
+            val project = Project(
+                id = id,
+                name = request.name,
+                startDate = request.startDate,
+                endDate = request.endDate,
+                userId = userId,
+                description = request.description
+            )
+
+            val wasAcknowledged = projectDataSource.updateProject(project)
+            if (!wasAcknowledged) {
+                call.respond(HttpStatusCode.Conflict)
+                return@post
+            }
+
+            call.respond(HttpStatusCode.OK)
+        }
+    }
+
+}
+
 fun Route.getProjects(
     projectDataSource: ProjectDataSource
 ) {
     authenticate {
         get("project/getAll") {
-            val projectList = projectDataSource.getProjects().toList()
-            call.respond(HttpStatusCode.OK, projectList)
+            val userId = call.parameters["id"]
+            if (userId != null) {
+                val bsonUserId = ObjectId(userId)
+                val projects = projectDataSource.getProjects(bsonUserId)
+                call.respond(HttpStatusCode.OK, projects)
+            }
+            call.respond(HttpStatusCode.BadRequest, "Something went wrong")
         }
-    }
 
+    }
 }
 
 fun Route.getProject(
@@ -99,6 +141,4 @@ fun Route.deleteProject(
             call.respond(HttpStatusCode.BadRequest, "No time entry with this id found")
         }
     }
-
-
 }

@@ -1,13 +1,13 @@
-package de.cgi.common.data.model
+package de.cgi.data.requests
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Project(
+data class UpdateProjectRequest(
     val id: String,
     val name: String,
-    val description: String?,
     val startDate: String,
     val endDate: String,
-    val userId: String
+    val description: String?,
+    val userId: String,
 )

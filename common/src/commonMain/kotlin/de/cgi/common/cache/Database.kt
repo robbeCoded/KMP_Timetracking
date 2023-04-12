@@ -1,5 +1,6 @@
 package de.cgi.common.cache
 
+import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.shared.cache.AppDatabase
 
@@ -69,8 +70,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    internal fun getAllTimeEntries(): List<TimeEntry> {
-        return dbQuery.selectAllTimeEntries(::mapToTimeEntry).executeAsList()
+    internal fun getAllTimeEntries(userId: String): List<TimeEntry> {
+        return dbQuery.selectAllTimeEntries(userId, ::mapToTimeEntry).executeAsList()
     }
 
     private fun mapToTimeEntry(
@@ -103,14 +104,14 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
        val result: TimeEntry? = try {
            val query = dbQuery.selectTimeEntryById(id).executeAsOne()
            TimeEntry(
-               query.date,
-               query.timestamp,
-               query.start_time,
-               query.end_time,
-               query.id,
-               query.project_id,
-               query.description,
-               query.user_id
+               date = query.date,
+               timestamp = query.timestamp,
+               startTime = query.start_time,
+               endTime = query.end_time,
+               id = query.id,
+               projectId = query.project_id,
+               description = query.description,
+               userId = query.user_id
            )
        } catch (e: Exception){
            null
@@ -118,4 +119,105 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         return result
     }
 
+
+
+
+    internal fun createProjects(projects: List<Project>) {
+        dbQuery.transaction {
+            projects.forEach { project ->
+                dbQuery.insertProject(
+                    id = project.id,
+                    name = project.name,
+                    startDate = project.startDate,
+                    endDate = project.endDate,
+                    description = project.description,
+                    userId = project.userId
+                )
+            }
+        }
+    }
+
+    internal fun insertProject(project: Project) {
+        dbQuery.transaction {
+            dbQuery.insertProject(
+                id = project.id,
+                name = project.name,
+                startDate = project.startDate,
+                endDate = project.endDate,
+                description = project.description,
+                userId = project.userId
+            )
+        }
+    }
+
+    internal fun updateProject(project: Project) {
+        dbQuery.transaction {
+            dbQuery.updateProject(
+                id = project.id,
+                name = project.name,
+                startDate = project.startDate,
+                endDate = project.endDate,
+                description = project.description,
+                userId = project.userId
+            )
+        }
+    }
+
+
+
+
+    internal fun clearProjects() {
+        dbQuery.transaction {
+            dbQuery.clearProjects()
+        }
+    }
+
+    internal fun deleteProject(id: String) {
+        dbQuery.transaction {
+            dbQuery.deleteProjectById(id)
+        }
+    }
+
+    internal fun getAllProjects(userId: String): List<Project> {
+        return dbQuery.selectAllProjects(userId, ::mapToProject).executeAsList()
+    }
+
+    private fun mapToProject(
+        id: String?,
+        name: String?,
+        startDate: String?,
+        endDate: String?,
+        description: String?,
+        userId: String?
+    ): Project {
+        if (name == null || startDate == null || endDate == null || id == null || userId == null) {
+            throw IllegalStateException("Required field is null")
+        }
+
+        return Project(
+            id = id,
+            name = name,
+            startDate = startDate,
+            endDate = endDate,
+            description = description,
+            userId = userId
+        )
+    }
+
+    internal fun getProjectById(id: String): Project? {
+        val result: Project? = try {
+            val query = dbQuery.selectProjectById(id).executeAsOne()
+            Project(
+                id = query.id,
+                name = query.name,
+                description = query.description,
+                startDate =  query.startDate,
+                endDate = query.endDate,
+                userId = query.userId,
+            )
+        } catch (e: Exception){
+            null
+        }
+        return result
+    }
 }
