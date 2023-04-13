@@ -4,7 +4,9 @@ import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.TimeEntry
 
 interface Router {
-    fun showAuth()
+    fun showSignIn()
+
+    fun showSignUp()
 
     fun showTimeEntryList()
     fun showTimeEntryEdit(timeEntry: TimeEntry)

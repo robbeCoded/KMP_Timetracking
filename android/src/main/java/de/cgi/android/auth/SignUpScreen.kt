@@ -9,27 +9,19 @@ import androidx.compose.runtime.*
 
 @RequiresApi(Build.VERSION_CODES.M)
 @Composable
-fun AuthScreen(
-    signInState: SignInState?,
+fun SignUpScreen(
     signUpState: SignUpState?,
     isEmailValid: () -> Boolean,
     isPasswordValid: () -> Boolean,
-    onSignInEmailChanged: (String) -> Unit,
-    onSignInPasswordChanged: (String) -> Unit,
     onSignUpPasswordChanged: (String) -> Unit,
     onSignUpEmailChanged: (String) -> Unit,
     onSignUpNameChanged: (String) -> Unit,
-    onSignInClick: () -> Unit,
     onSignUpClick: () -> Unit,
-    onSignInSuccess: () -> Unit,
 ) {
 
-    // Create states for TextField inputs
     val signUpEmail = remember { mutableStateOf("") }
     val signUpName = remember { mutableStateOf("") }
     val signUpPassword = remember { mutableStateOf("") }
-    val signInEmail = remember { mutableStateOf("") }
-    val signInPassword = remember { mutableStateOf("") }
 
     val signUpEmailError = remember { mutableStateOf(false) }
     val signUpPasswordError = remember { mutableStateOf(false) }
@@ -90,68 +82,25 @@ fun AuthScreen(
             Text("Sign Up")
         }
 
-        // ... SignIn UI components ...
-        TextField(
-            value = signInEmail.value,
-            onValueChange = { value ->
-                signInEmail.value = value
-                onSignInEmailChanged(value)
-            },
-            label = { Text("Email") }
-        )
 
-        TextField(
-            value = signInPassword.value,
-            onValueChange = { value ->
-                signInPassword.value = value
-                onSignInPasswordChanged(value)
-            },
-            label = { Text("Password") }
-        )
+        LaunchedEffect(key1 = signUpState) {
+            when (signUpState) {
+                is SignUpState.Loading -> {
+                    println("SignUp Loading")
+                }
+                is SignUpState.Success -> {
+                    println("SignUpState Success")
+                }
 
-        Button(onClick = { onSignInClick() }) {
-            Text("Sign In")
-        }
-    }
-
-    LaunchedEffect(key1 = signUpState) {
-        when (signUpState) {
-            is SignUpState.Loading -> {
-                println("SignUp Loading")
-            }
-            is SignUpState.Success -> {
-                println("SignUpState Success")
-            }
-
-            is SignUpState.Failure -> {
-                println("SignUpFailure")
-            }
-            is SignUpState.Error -> {
-                println("SignUp Error")
-            }
-            else -> {
-                println("SignUp other error")
-            }
-        }
-    }
-
-    LaunchedEffect(key1 = signInState) {
-        when (signInState) {
-            is SignInState.Loading -> {
-                println("Loading")
-            }
-            is SignInState.Authorized -> { onSignInSuccess() }
-            is SignInState.Success -> {
-                onSignInSuccess()
-            }
-            is SignInState.Failure -> {
-                println("Failure")
-            }
-            is SignInState.Error -> {
-                println("Error")
-            }
-            else -> {
-                println("Else Error")
+                is SignUpState.Failure -> {
+                    println("SignUpFailure")
+                }
+                is SignUpState.Error -> {
+                    println("SignUp Error")
+                }
+                else -> {
+                    println("SignUp other error")
+                }
             }
         }
     }

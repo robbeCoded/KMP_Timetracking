@@ -36,19 +36,19 @@ fun MainAppScaffold(
                 items = listOf(
                     MenuItem(
                         id = MenuId.Calender,
-                        title = "Kalender",
+                        title = "Calender",
                         contentDescription = "Get help",
                         icon = FeatherIcons.Calendar
                     ),
                     MenuItem(
                         id = MenuId.Timetracking,
-                        title = "Zeiterfassung",
+                        title = "Time tracking",
                         contentDescription = "Go to home screen",
                         icon = FeatherIcons.Clock
                     ),
                     MenuItem(
                         id = MenuId.Projects,
-                        title = "Projekte",
+                        title = "Projects",
                         contentDescription = "Go to settings screen",
                         icon = FeatherIcons.Archive
                     ),
@@ -60,7 +60,7 @@ fun MainAppScaffold(
                     ),
                     MenuItem(
                         id = MenuId.Settings,
-                        title = "Einstellungen",
+                        title = "Settings",
                         contentDescription = "Get help",
                         icon = FeatherIcons.Settings
                     ),

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 // commonMain
 interface AuthApi {
-    fun signUp(request: SignUpRequest): Flow<ResultState<AuthResult<String>>>
+    fun signUp(request: SignUpRequest): Flow<ResultState<AuthResult<AuthResponse>>>
     fun signIn(request: AuthRequest): Flow<ResultState<AuthResult<AuthResponse>>>
     fun authenticate(): Flow<ResultState<AuthResult<Unit>>>
     fun getUserId(): Flow<ResultState<AuthResult<GetUserIdResponse>>>

@@ -3,7 +3,7 @@ package de.cgi.android.ui.theme
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-data class CustomColors (
+data class CustomColors(
     internal val background: Color = Color(0xFFFFFDF6),
     internal val topAppbar: Color = Color(0xFFFFFCF3),
     internal val lightGrey: Color = Color(0xFFEBEBEB),
@@ -13,7 +13,8 @@ data class CustomColors (
     internal val actionRed: Color = Color(0xFFff4765),
     internal val itemColor: Color = Color(0xFFe4e4e4),
     internal val white: Color = Color.White,
-    internal val black: Color = Color.Black
+    internal val black: Color = Color.Black,
+    internal val darkBlue: Color = Color(0xFF00008B),
 )
 
 val LocalColor = compositionLocalOf { CustomColors() }

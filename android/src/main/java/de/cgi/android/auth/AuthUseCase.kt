@@ -1,7 +1,6 @@
 package de.cgi.android.auth
 
 import de.cgi.common.ResultState
-import de.cgi.common.data.model.responses.AuthResponse
 import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.data.model.responses.GetUserIdResponse
 import de.cgi.common.repository.AuthRepository
@@ -18,13 +17,13 @@ class AuthUseCase(
                 is ResultState.Loading -> SignUpState.Loading
                 is ResultState.Success -> {
                     when(val authResult = resultState.data) {
-                        is AuthResult.SignUpFailure -> SignUpState.Failure(authResult.data ?: "unknown sign up error")
+                        is AuthResult.AuthFailure -> SignUpState.Failure(authResult.data?.message)
                         is AuthResult.SignUpSuccess -> SignUpState.Success
-                        else -> {SignUpState.Error("unknown error")}
+                        else -> {SignUpState.Error(authResult.data?.message)}
                     }
                 }
-                is ResultState.Error -> SignUpState.Error(resultState.entity.message ?: "unknown error")
-                else -> {SignUpState.Error("unknown error")}
+                is ResultState.Error -> SignUpState.Error(resultState.entity.message)
+                else -> {SignUpState.Error("Unknown error occurred")}
             }
         }
     }
@@ -37,11 +36,12 @@ class AuthUseCase(
                     when(val authResult = resultState.data) {
                         is AuthResult.Authorized -> SignInState.Success(authResult.data)
                         is AuthResult.Unauthorized -> SignInState.Unauthorized
-                        else -> SignInState.Error("unknown error")
+                        is AuthResult.AuthFailure -> SignInState.Failure(authResult.data?.message.toString())
+                        else -> SignInState.Error(authResult.data?.message)
                     }
                 }
-                is ResultState.Error -> SignInState.Error(resultState.entity.message ?: "unknown error")
-                else -> SignInState.Error("unknown error")
+                is ResultState.Error -> SignInState.Error(resultState.entity.message ?: "Unknown error occurred")
+                else -> SignInState.Error("Unknown error occurred")
             }
         }
     }
@@ -54,11 +54,11 @@ class AuthUseCase(
                     when(resultState.data) {
                         is AuthResult.Authorized -> SignInState.Authorized
                         is AuthResult.Unauthorized -> SignInState.Unauthorized
-                        else -> SignInState.Error("unknown error")
+                        else -> SignInState.Error("Unknown error occurred")
                     }
                 }
-                is ResultState.Error -> SignInState.Error(resultState.entity.message ?: "unknown error")
-                else -> SignInState.Error("unknown error")
+                is ResultState.Error -> SignInState.Error(resultState.entity.message)
+                else -> SignInState.Error("Unknown error occurred")
             }
         }
     }

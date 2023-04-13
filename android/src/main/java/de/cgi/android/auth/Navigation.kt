@@ -18,26 +18,34 @@ fun NavGraphBuilder.authGraph(
 ) {
     navigation(
         route = AuthFeature.route,
-        startDestination = AuthScreenRoute.route,
+        startDestination = SignInScreenRoute.route,
     ) {
-        composable(AuthScreenRoute.route) {
-            val viewModel = getViewModel<AuthViewModel>()
-            val signUpState by viewModel.signUpState.collectAsState()
+        composable(SignInScreenRoute.route) {
+            val viewModel = getViewModel<SignInViewModel>()
             val signInState by viewModel.signInState.collectAsState()
 
-            AuthScreen(
+            SignInScreen(
                 signInState = signInState,
-                signUpState = signUpState,
                 onSignInClick = viewModel::signIn,
-                onSignUpClick = viewModel::signUp,
-                isEmailValid = viewModel::isEmailValid,
-                isPasswordValid = viewModel::isPasswordValid,
                 onSignInEmailChanged = viewModel::signInEmailChanged,
                 onSignInPasswordChanged = viewModel::signInPasswordChanged,
-                onSignUpEmailChanged = viewModel::signUpEmailChanged,
-                onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
-                onSignUpNameChanged = viewModel::signUpNameChanged,
                 onSignInSuccess = router::showTimeEntryList,
+                onSignUpClick = router::showSignUp,
+            )
+        }
+
+        composable(SignUpScreenRoute.route) {
+            val viewModel = getViewModel<SignUpViewModel>()
+            val signUpState by viewModel.signUpState.collectAsState()
+
+            SignUpScreen(
+                signUpState = signUpState,
+                isEmailValid = viewModel::isEmailValid,
+                isPasswordValid = viewModel::isPasswordValid,
+                onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
+                onSignUpEmailChanged = viewModel::signUpEmailChanged,
+                onSignUpNameChanged = viewModel::signUpNameChanged,
+                onSignUpClick = router::showSignIn
             )
         }
     }

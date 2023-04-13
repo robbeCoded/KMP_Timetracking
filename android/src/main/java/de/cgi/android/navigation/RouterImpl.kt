@@ -1,7 +1,8 @@
 package de.cgi.android.navigation
 
 import androidx.navigation.NavHostController
-import de.cgi.android.auth.AuthScreenRoute
+import de.cgi.android.auth.SignInScreenRoute
+import de.cgi.android.auth.SignUpScreenRoute
 import de.cgi.android.projects.ProjectAddRoute
 import de.cgi.android.projects.ProjectEditRoute
 import de.cgi.android.projects.ProjectListRoute
@@ -14,15 +15,24 @@ import de.cgi.common.data.model.TimeEntry
 class RouterImpl(
     private val navigationController: NavHostController
 ) : Router {
-    override fun showAuth() {
-        navigationController.navigate(AuthScreenRoute.route) {
+    override fun showSignIn() {
+        navigationController.navigate(SignInScreenRoute.route) {
             popUpTo(0)
+        }
+    }
+
+    override fun showSignUp() {
+        navigationController.navigate(SignUpScreenRoute.route) {
+            popUpTo(SignInScreenRoute.route) {
+                inclusive = true
+                saveState = false
+            }
         }
     }
 
     override fun showTimeEntryList() {
         navigationController.navigate(TimeEntryListRoute.route) {
-            popUpTo(AuthScreenRoute.route) {
+            popUpTo(SignInScreenRoute.route) {
                 inclusive = true
                 saveState = false
             }
@@ -40,7 +50,7 @@ class RouterImpl(
 
     override fun showProjectList() {
         navigationController.navigate(ProjectListRoute.route){
-            popUpTo(AuthScreenRoute.route) {
+            popUpTo(SignInScreenRoute.route) {
                 inclusive = true
                 saveState = false
             }

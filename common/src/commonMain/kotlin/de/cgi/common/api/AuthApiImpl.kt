@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 class AuthApiImpl(private val client: HttpClient) : AuthApi {
-    override fun signUp(request: SignUpRequest): Flow<ResultState<AuthResult<String>>> {
+    override fun signUp(request: SignUpRequest): Flow<ResultState<AuthResult<AuthResponse>>> {
         return callbackFlow {
             val response = client.post(routes.SIGNUP) {
                 contentType(ContentType.Application.Json)
@@ -27,12 +27,12 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
                 HttpStatusCode.OK -> trySend(ResultState.Success(AuthResult.SignUpSuccess()))
                 HttpStatusCode.Conflict -> trySend(
                     ResultState.Success(
-                        AuthResult.SignUpFailure(data = response.bodyAsText())
+                        AuthResult.AuthFailure(response.body())
                     )
                 )
                 else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
             }
-            awaitClose {  }
+            awaitClose { }
         }
     }
 
@@ -46,12 +46,12 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
                 HttpStatusCode.OK -> trySend(ResultState.Success(AuthResult.Authorized(response.body())))
                 HttpStatusCode.Conflict -> trySend(
                     ResultState.Success(
-                            AuthResult.Unauthorized()
+                        AuthResult.AuthFailure(response.body())
                     )
                 )
                 else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
             }
-            awaitClose {  }
+            awaitClose { }
         }
     }
 
@@ -59,8 +59,9 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
         return callbackFlow {
             val response = client.get(routes.AUTHENTICATE)
             when (response.status) {
-                HttpStatusCode.OK -> {trySend(ResultState.Success(AuthResult.Authorized()))
-                println("RESPONSE WAS OK, SEND SUCCESS")}
+                HttpStatusCode.OK -> {
+                    trySend(ResultState.Success(AuthResult.Authorized()))
+                }
                 HttpStatusCode.Conflict -> trySend(
                     ResultState.Success(
                         AuthResult.Unauthorized()
@@ -68,9 +69,10 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
                 )
                 else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
             }
-            awaitClose {  }
+            awaitClose { }
         }
     }
+
 
     override fun getUserId(): Flow<ResultState<AuthResult<GetUserIdResponse>>> {
         return callbackFlow {
@@ -86,7 +88,7 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
                 )
                 else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
             }
-            awaitClose {  }
+            awaitClose { }
         }
     }
 }

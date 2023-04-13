@@ -6,6 +6,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import de.cgi.android.auth.AuthUseCase
 import de.cgi.android.auth.AuthViewModel
+import de.cgi.android.auth.SignInViewModel
+import de.cgi.android.auth.SignUpViewModel
 import de.cgi.android.projects.*
 import de.cgi.android.timeentry.*
 import de.cgi.common.UserRepository
@@ -37,7 +39,8 @@ val appModule = module {
     single { TimeEntryGetProjectsUseCase(get()) }
     single { TimeEntryAddUseCase(get()) }
 
-    viewModel { AuthViewModel(get()) }
+    viewModel { SignInViewModel(get(), get()) }
+    viewModel { SignUpViewModel(get()) }
 
     viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId) }
     viewModel { TimeEntryListViewModel(get(), get(), get()) }

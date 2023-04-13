@@ -34,8 +34,11 @@ fun Route.signUp(
         //implent more validation here
         val areFieldsBlank = request.email.isBlank() || request.password.isBlank()
         val isPwToShort = request.password.length < 8
-        if (areFieldsBlank || isPwToShort) {
-            //give more information than just the StatusCode
+        if (areFieldsBlank) {
+            call.respond(HttpStatusCode.Conflict, "Password or E-Mail was blank")
+            return@post
+        }
+        if(isPwToShort) {
             call.respond(HttpStatusCode.Conflict, "Password to short!")
             return@post
         }
@@ -54,11 +57,10 @@ fun Route.signUp(
                 call.respond(HttpStatusCode.Conflict)
                 return@post
             }
-
             call.respond(HttpStatusCode.OK)
 
         } else {
-            call.respond(HttpStatusCode.Conflict, "E-Mail address already taken")
+            call.respond(HttpStatusCode.Conflict, "User already exists")
         }
 
 
@@ -73,22 +75,25 @@ fun Route.signIn(
 ) {
     post("signin") {
         val request = call.receiveNullable<AuthRequest>() ?: kotlin.run {
-            call.respond(HttpStatusCode.BadRequest)
+            call.respond(
+                status = HttpStatusCode.BadRequest,
+                message = AuthResponse(message = null, token = null, userId = null))
             return@post
         }
 
-        //implent more validation here
         val areFieldsBlank = request.email.isBlank() || request.password.isBlank()
-        val isPwToShort = request.password.length < 8
-        if (areFieldsBlank || isPwToShort) {
-            //give more information than just the StatusCode
-            call.respond(HttpStatusCode.Conflict, "Fields are blank or password less than 8 characters")
+        if (areFieldsBlank) {
+            call.respond(
+                status = HttpStatusCode.Conflict,
+                message = AuthResponse(message = "Password or E-Mail was blank", token = null, userId = null))
             return@post
         }
 
         val user = userDataSource.getUserByEmail(request.email)
         if (user == null) {
-            call.respond(HttpStatusCode.Conflict, "User not found")
+            call.respond(
+                status = HttpStatusCode.Conflict,
+                message = AuthResponse(message = "User not found", token = null, userId = null))
             return@post
         } else {
             val saltedHash = SaltedHash(user.hashedPassword, user.salt)
@@ -99,7 +104,9 @@ fun Route.signIn(
 
 
             if (!validPassword) {
-                call.respond(HttpStatusCode.Conflict, "Incorrect email or password")
+                call.respond(
+                    status = HttpStatusCode.Conflict,
+                    message = AuthResponse(message = "Incorrect E-Mail or Password", token = null, userId = null))
                 return@post
             }
 
@@ -113,7 +120,7 @@ fun Route.signIn(
 
             call.respond(
                 status = HttpStatusCode.OK,
-                message = AuthResponse(token, user.id.toString())
+                message = AuthResponse(message = null, token, user.id.toString())
             )
         }
     }
@@ -123,7 +130,9 @@ fun Route.authenticate() {
     //function takes care of token authentication and respond with Unauthorized Status code if not authorized.
     authenticate {
         get("authenticate") {
-            call.respond(HttpStatusCode.OK)
+            call.respond(
+                status = HttpStatusCode.OK,
+                message = AuthResponse(message = null, token = null, userId = null))
         }
     }
 }
