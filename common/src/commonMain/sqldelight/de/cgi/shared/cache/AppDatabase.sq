@@ -45,7 +45,8 @@ WHERE id = ?;
 selectAllTimeEntries:
 SELECT *
 FROM TimeEntry
-WHERE user_id = ?;
+WHERE user_id = ?
+AND date = ?;
 
 deleteTimeEntryById:
 DELETE FROM TimeEntry

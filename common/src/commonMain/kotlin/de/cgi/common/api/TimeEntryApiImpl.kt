@@ -47,11 +47,12 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
         }
     }
 
-    override fun getTimeEntries(userId: String): Flow<ResultState<List<TimeEntry>>> {
+    override fun getTimeEntries(userId: String, date: String): Flow<ResultState<List<TimeEntry>>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_TIME_ENTRIES) {
+            val response = client.get(routes.GET_TIME_ENTRIES_FOR_DATE) {
                 parameter("id", userId)
+                parameter("date", date)
             }
             when (response.status) {
                 HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))

@@ -23,7 +23,7 @@ interface TimeEntryRepository {
         description: String?,
         projectId: String?
     ): Flow<ResultState<TimeEntry?>>
-    fun getTimeEntries(userId: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>>
+    fun getTimeEntries(userId: String, date: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>>
     fun getTimeEntryById(id: String, forceReload: Boolean): Flow<ResultState<TimeEntry?>>
     fun deleteTimeEntry(id: String): Flow<ResultState<Boolean>>
 }

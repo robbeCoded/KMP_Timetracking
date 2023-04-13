@@ -28,6 +28,7 @@ fun Application.configureRouting(
         newTimeEntry(timeEntryDataSource)
         updateTimeEntry(timeEntryDataSource)
         getTimeEntries(timeEntryDataSource)
+        getTimeEntriesForDate(timeEntryDataSource)
         getTimeEntry(timeEntryDataSource)
         deleteTimeEntry(timeEntryDataSource)
 

@@ -11,6 +11,7 @@ object routes {
     val NEW_TIME_ENTRY = "$BASE_URL/timeentry/new"
     val UPDATE_TIME_ENTRY = "$BASE_URL/timeentry/update"
     val GET_TIME_ENTRIES = "$BASE_URL/timeentry/getAll"
+    val GET_TIME_ENTRIES_FOR_DATE = "$BASE_URL/timeentry/getAllForDate"
     val GET_TIME_ENTRY_BY_ID = "$BASE_URL/timeentry/getOne"
     val DELETE_TIME_ENTRY = "$BASE_URL/timeentry/delete"
 

@@ -13,8 +13,8 @@ class TimeEntryListUseCase (
     fun deleteTimeEntry(id: String): Flow<ResultState<Boolean>> {
         return repository.deleteTimeEntry(id)
     }
-    fun getTimeEntries(userId: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
-        return repository.getTimeEntries(userId = userId, forceReload = forceReload)
+    fun getTimeEntries(userId: String, date: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
+        return repository.getTimeEntries(userId = userId, date = date, forceReload = forceReload)
     }
 
 }

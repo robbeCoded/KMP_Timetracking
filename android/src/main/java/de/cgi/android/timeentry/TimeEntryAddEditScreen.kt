@@ -2,7 +2,9 @@ package de.cgi.android.timeentry
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.os.Build
 import android.widget.DatePicker
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import de.cgi.android.ui.components.ProjectDropdownMenu
 import de.cgi.android.ui.components.SelectableTextField
+import de.cgi.android.ui.components.WeekdayHeader
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.Project
 import kotlinx.datetime.*
@@ -18,6 +21,7 @@ import kotlinx.datetime.*
 //interfaces für viewModel
 //Adapter pattern anschauen
 //strategy pattern
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeEntryAddEditScreen(
@@ -108,6 +112,7 @@ fun TimeEntryAddEditScreen(
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
     ) {
+
         SelectableTextField(
             value = date.value.toString(),
             onValueChange = { newValue ->

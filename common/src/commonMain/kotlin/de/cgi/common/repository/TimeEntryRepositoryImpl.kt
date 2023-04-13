@@ -55,12 +55,12 @@ class TimeEntryRepositoryImpl(
     }
 
 
-    override fun getTimeEntries(userId: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
-        val cachedTimeEntries = database.getAllTimeEntries(userId)
+    override fun getTimeEntries(userId: String, date: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
+        val cachedTimeEntries = database.getAllTimeEntries(userId, date)
         return if (cachedTimeEntries.isNotEmpty() && !forceReload) {
             flowOf(ResultState.Success(cachedTimeEntries))
         } else {
-            api.getTimeEntries(userId).map { result ->
+            api.getTimeEntries(userId, date).map { result ->
                 if (result is ResultState.Success) {
                     database.clearTimeEntries()
                     database.createTimeEntries(result.data)
