@@ -24,6 +24,6 @@ fun SelectableTextField(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        enabled = false
+        enabled = false,
     )
 }

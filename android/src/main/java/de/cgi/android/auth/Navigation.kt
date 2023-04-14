@@ -8,6 +8,10 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import de.cgi.android.auth.signin.SignInScreen
+import de.cgi.android.auth.signin.SignInViewModel
+import de.cgi.android.auth.signup.SignUpScreen
+import de.cgi.android.auth.signup.SignUpViewModel
 import de.cgi.android.navigation.Router
 import org.koin.androidx.compose.getViewModel
 
@@ -45,7 +49,8 @@ fun NavGraphBuilder.authGraph(
                 onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
                 onSignUpEmailChanged = viewModel::signUpEmailChanged,
                 onSignUpNameChanged = viewModel::signUpNameChanged,
-                onSignUpClick = router::showSignIn
+                onSignUpClick = viewModel::signUp,
+                onSignUpSuccess = router::showSignIn,
             )
         }
     }

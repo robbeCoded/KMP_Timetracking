@@ -8,10 +8,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import de.cgi.android.navigation.Router
-import de.cgi.android.timeentry.TimeEntryAddDestination
-import de.cgi.android.timeentry.TimeEntryAddRoute
-import de.cgi.android.timeentry.TimeEntryEditDestination
-import de.cgi.android.timeentry.TimeEntryEditRoute
+import de.cgi.android.projects.addedit.ProjectAddDestination
+import de.cgi.android.projects.addedit.ProjectEditDestination
+import de.cgi.android.projects.list.ProjectListDestination
 import de.cgi.android.ui.components.MainAppScaffold
 
 @ExperimentalFoundationApi

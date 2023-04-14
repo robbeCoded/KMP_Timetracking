@@ -27,19 +27,18 @@ fun Route.signUp(
     post("signup") {
 
         val request = call.receiveNullable<SignUpRequest>() ?: kotlin.run {
-            call.respond(HttpStatusCode.BadRequest)
+            call.respond(HttpStatusCode.BadRequest, AuthResponse(message = "Something went wrong", token = null, userId = null))
             return@post
         }
 
-        //implent more validation here
         val areFieldsBlank = request.email.isBlank() || request.password.isBlank()
         val isPwToShort = request.password.length < 8
         if (areFieldsBlank) {
-            call.respond(HttpStatusCode.Conflict, "Password or E-Mail was blank")
+            call.respond(HttpStatusCode.Conflict, AuthResponse(message = "Required fields were blank", token = null, userId = null))
             return@post
         }
         if(isPwToShort) {
-            call.respond(HttpStatusCode.Conflict, "Password to short!")
+            call.respond(HttpStatusCode.Conflict, AuthResponse(message = "Password to short", token = null, userId = null))
             return@post
         }
 
@@ -54,13 +53,13 @@ fun Route.signUp(
             )
             val wasAcknowledged = userDataSource.insertUser(user)
             if (!wasAcknowledged) {
-                call.respond(HttpStatusCode.Conflict)
+                call.respond(HttpStatusCode.Conflict, AuthResponse(message = "Could not insert User into DB", token = null, userId = null))
                 return@post
             }
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.OK, AuthResponse(message = null, token = null, userId = null))
 
         } else {
-            call.respond(HttpStatusCode.Conflict, "User already exists")
+            call.respond(HttpStatusCode.Conflict, AuthResponse(message = "User already exists", token = null, userId = null))
         }
 
 
