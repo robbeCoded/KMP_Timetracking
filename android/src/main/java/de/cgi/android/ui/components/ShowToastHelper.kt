@@ -1,4 +1,4 @@
-package de.cgi.android.auth
+package de.cgi.android.ui.components
 
 import android.content.Context
 import android.widget.Toast

@@ -25,10 +25,9 @@ import compose.icons.feathericons.Clock
 import de.cgi.R
 import de.cgi.android.auth.InputType
 import de.cgi.android.auth.SignUpState
-import de.cgi.android.auth.showToast
+import de.cgi.android.ui.components.showToast
 import de.cgi.android.ui.components.TextInput
 import de.cgi.android.ui.theme.LocalColor
-import de.cgi.common.data.model.responses.AuthResult
 
 @RequiresApi(Build.VERSION_CODES.M)
 @Composable

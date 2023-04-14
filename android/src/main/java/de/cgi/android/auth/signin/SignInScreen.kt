@@ -1,9 +1,7 @@
 package de.cgi.android.auth.signin
 
 
-import android.content.Context
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -27,8 +25,8 @@ import compose.icons.feathericons.Clock
 import de.cgi.R
 import de.cgi.android.auth.InputType
 import de.cgi.android.auth.SignInState
-import de.cgi.android.auth.showToast
 import de.cgi.android.ui.components.TextInput
+import de.cgi.android.ui.components.showToast
 import de.cgi.android.ui.theme.LocalColor
 
 @RequiresApi(Build.VERSION_CODES.M)
