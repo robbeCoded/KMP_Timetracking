@@ -22,12 +22,12 @@ import de.cgi.common.data.model.Project
 
 @Composable
 fun ProjectDropdownMenu(
-    projectListState: ResultState<List<Project>>,
     selectedProject: MutableState<String>,
     onProjectChanged: (String, String) -> Unit,
-    onGetProjects: () -> Unit,
+    onGetProjects: () -> ResultState<Map<String, String>?>
 ) {
     val expandedProject = remember { mutableStateOf(false) }
+    val projectListState = onGetProjects()
 
     Box {
         Text(
@@ -35,13 +35,13 @@ fun ProjectDropdownMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    if (projectListState is ResultState.Loading) {
-                        onGetProjects()
-                    }
                     expandedProject.value = true
                 }
                 .padding(vertical = 12.dp)
-                .background(MaterialTheme.colors.onSurface.copy(alpha = 0.12f), RoundedCornerShape(4.dp))
+                .background(
+                    MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
+                    RoundedCornerShape(4.dp)
+                )
                 .padding(horizontal = 16.dp),
             color = MaterialTheme.colors.onSurface
         )
@@ -50,25 +50,36 @@ fun ProjectDropdownMenu(
             onDismissRequest = { expandedProject.value = false },
             modifier = Modifier.fillMaxWidth()
         ) {
-            AsyncData(
-                resultState = projectListState,
-                errorContent = {
-                    Text(text = "Error loading projects")
+            when (val resultState = projectListState) {
+                is ResultState.Success -> {
+                    val projectList = resultState.data
+                    projectList?.forEach { project ->
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedProject.value = project.value
+                                onProjectChanged(project.key, project.value)
+                                expandedProject.value = false
+                            },
+                            text = { Text(project.value) }
+                        )
+                    }
                 }
-            ) { projectList ->
-                projectList?.forEach { project ->
+                is ResultState.Error -> {
                     DropdownMenuItem(
-                        onClick = {
-                            selectedProject.value = project.name
-                            onProjectChanged(project.id, project.name)
-                            expandedProject.value = false
-                        },
-                        text = { Text(project.name) }
+                        text = { Text("Error loading projects. Click to try again.") },
+                        onClick = { onGetProjects() }
+                    )
+                }
+                is ResultState.Loading -> {
+                    DropdownMenuItem(
+                        text = { Text("Loading...") },
+                        onClick = { }
                     )
                 }
             }
         }
     }
 }
+
 
 

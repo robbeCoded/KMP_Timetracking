@@ -4,10 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
-import de.cgi.android.auth.AuthUseCase
-import de.cgi.android.auth.AuthViewModel
+import de.cgi.android.auth.signin.SignInUseCase
+import de.cgi.android.auth.signin.SignInViewModel
+import de.cgi.android.auth.signup.SignUpUseCase
+import de.cgi.android.auth.signup.SignUpViewModel
 import de.cgi.android.projects.*
+import de.cgi.android.projects.addedit.ProjectAddUseCase
+import de.cgi.android.projects.addedit.ProjectAddViewModel
+import de.cgi.android.projects.addedit.ProjectEditUseCase
+import de.cgi.android.projects.addedit.ProjectEditViewModel
+import de.cgi.android.projects.list.ProjectListUseCase
+import de.cgi.android.projects.list.ProjectListViewModel
 import de.cgi.android.timeentry.*
+import de.cgi.android.timeentry.addedit.*
+import de.cgi.android.timeentry.list.TimeEntryListUseCase
+import de.cgi.android.timeentry.list.TimeEntryListViewModel
 import de.cgi.common.UserRepository
 import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.KeyValueStorage
@@ -28,20 +39,25 @@ val appModule = module {
     single<TimeEntryRepository> { TimeEntryRepositoryImpl(get(), get()) }
     single<ProjectRepository> { ProjectRepositoryImpl(get(), get()) }
 
-    single { AuthUseCase(get()) }
+    single { SignUpUseCase(get()) }
+    single { SignInUseCase(get()) }
     single { TimeEntryListUseCase(get()) }
     single { TimeEntryEditUseCase(get()) }
     single { ProjectListUseCase(get()) }
     single { ProjectAddUseCase(get()) }
     single { ProjectEditUseCase(get()) }
-    single { TimeEntryGetProjectsUseCase(get()) }
+    single { GetProjectsUseCase(get()) }
     single { TimeEntryAddUseCase(get()) }
 
-    viewModel { AuthViewModel(get()) }
 
-    viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId) }
-    viewModel { TimeEntryListViewModel(get(), get(), get()) }
+    viewModel { SignInViewModel(get(), get()) }
+    viewModel { SignUpViewModel(get()) }
+    viewModel { ProjectMapViewModel(get(), get())}
+
+    viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId, get<ProjectMapViewModel>()) }
+    viewModel { TimeEntryListViewModel(get(), get()) }
     viewModel { TimeEntryAddViewModel(get(), get(), get()) }
+
 
     viewModel { (projectId: String) -> ProjectEditViewModel(get(), get(), projectId) }
     viewModel { ProjectListViewModel(get(), get()) }

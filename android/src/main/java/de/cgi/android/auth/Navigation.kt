@@ -8,6 +8,10 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import de.cgi.android.auth.signin.SignInScreen
+import de.cgi.android.auth.signin.SignInViewModel
+import de.cgi.android.auth.signup.SignUpScreen
+import de.cgi.android.auth.signup.SignUpViewModel
 import de.cgi.android.navigation.Router
 import org.koin.androidx.compose.getViewModel
 
@@ -18,26 +22,35 @@ fun NavGraphBuilder.authGraph(
 ) {
     navigation(
         route = AuthFeature.route,
-        startDestination = AuthScreenRoute.route,
+        startDestination = SignInScreenRoute.route,
     ) {
-        composable(AuthScreenRoute.route) {
-            val viewModel = getViewModel<AuthViewModel>()
-            val signUpState by viewModel.signUpState.collectAsState()
+        composable(SignInScreenRoute.route) {
+            val viewModel = getViewModel<SignInViewModel>()
             val signInState by viewModel.signInState.collectAsState()
 
-            AuthScreen(
+            SignInScreen(
                 signInState = signInState,
-                signUpState = signUpState,
                 onSignInClick = viewModel::signIn,
-                onSignUpClick = viewModel::signUp,
-                isEmailValid = viewModel::isEmailValid,
-                isPasswordValid = viewModel::isPasswordValid,
                 onSignInEmailChanged = viewModel::signInEmailChanged,
                 onSignInPasswordChanged = viewModel::signInPasswordChanged,
-                onSignUpEmailChanged = viewModel::signUpEmailChanged,
-                onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
-                onSignUpNameChanged = viewModel::signUpNameChanged,
                 onSignInSuccess = router::showTimeEntryList,
+                onSignUpClick = router::showSignUp,
+            )
+        }
+
+        composable(SignUpScreenRoute.route) {
+            val viewModel = getViewModel<SignUpViewModel>()
+            val signUpState by viewModel.signUpState.collectAsState()
+
+            SignUpScreen(
+                signUpState = signUpState,
+                isEmailValid = viewModel::isEmailValid,
+                isPasswordValid = viewModel::isPasswordValid,
+                onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
+                onSignUpEmailChanged = viewModel::signUpEmailChanged,
+                onSignUpNameChanged = viewModel::signUpNameChanged,
+                onSignUpClick = viewModel::signUp,
+                onSignUpSuccess = router::showSignIn,
             )
         }
     }

@@ -5,4 +5,5 @@ import de.cgi.android.navigation.AppRoutes
 object AuthFeature : AppRoutes("AuthFeature")
 
 // Login Screen
-object AuthScreenRoute : AppRoutes("AuthScreen")
+object SignInScreenRoute : AppRoutes("SignInScreen")
+object SignUpScreenRoute : AppRoutes("SignUpScreen")
