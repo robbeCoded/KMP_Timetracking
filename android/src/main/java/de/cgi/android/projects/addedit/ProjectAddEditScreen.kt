@@ -1,16 +1,28 @@
 package de.cgi.android.projects.addedit
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.widget.DatePicker
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import compose.icons.FeatherIcons
+import compose.icons.feathericons.CheckCircle
+import compose.icons.feathericons.RefreshCcw
+import compose.icons.feathericons.Trash
+import compose.icons.feathericons.X
 import de.cgi.android.ui.components.SelectableTextField
+import de.cgi.android.ui.theme.LocalColor
+import de.cgi.android.util.format
 import kotlinx.datetime.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProjectAddEditScreen(
@@ -75,10 +87,16 @@ fun ProjectAddEditScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
     ) {
+        Box(modifier = Modifier
+            .wrapContentSize() .fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+            IconButton(onClick = {onNavigateBack()}) {
+                Icon(imageVector = FeatherIcons.X, contentDescription = "Cancel")
+            }
+        }
         SelectableTextField(
-            value = startDate.value.toString(),
+            value = startDate.value!!.format(),
             onValueChange = { newValue ->
                 startDate.value = newValue.toLocalDate()
                 onStartDateChanged(newValue.toLocalDate())
@@ -91,7 +109,7 @@ fun ProjectAddEditScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         SelectableTextField(
-            value = endDate.value.toString(),
+            value = endDate.value!!.format(),
             onValueChange = { newValue ->
                 endDate.value = newValue.toLocalDate()
                 onEndDateChanged(newValue.toLocalDate())
@@ -103,24 +121,24 @@ fun ProjectAddEditScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
+        SelectableTextField(
             value = name.value,
             onValueChange = {
                 name.value = it
                 onNameChanged(it)
             },
-            label = { Text("Project name") },
+            label = "Project name",
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
+        SelectableTextField(
             value = description.value,
             onValueChange = {
                 description.value = it
                 onDescriptionChanged(it)
             },
-            label = { Text("Description") },
+            label = "Description",
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -129,16 +147,24 @@ fun ProjectAddEditScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            if(editProject) {
+            if (editProject) {
                 Button(
                     onClick = {
                         onUpdateProject()
                         onNavigateBack()
                     },
                     modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(5.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionPrimary)
                 ) {
+                    Icon(
+                        FeatherIcons.RefreshCcw,
+                        contentDescription = "Update",
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text("Update")
                 }
 
@@ -150,9 +176,17 @@ fun ProjectAddEditScreen(
                         onNavigateBack()
                     },
                     modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(5.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionRed)
                 ) {
+                    Icon(
+                        FeatherIcons.Trash,
+                        contentDescription = "Delete",
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text("Delete")
                 }
             } else {
@@ -162,9 +196,17 @@ fun ProjectAddEditScreen(
                         onNavigateBack()
                     },
                     modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(5.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionPrimary)
                 ) {
+                    Icon(
+                        FeatherIcons.CheckCircle,
+                        contentDescription = "Submit",
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text("Submit")
                 }
             }

@@ -12,6 +12,7 @@ import de.cgi.android.timeentry.TimeEntryListRoute
 import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.TimeEntry
 
+
 class RouterImpl(
     private val navigationController: NavHostController
 ) : Router {
@@ -76,5 +77,9 @@ class RouterImpl(
 
     override fun navigationUp(): Boolean {
         return navigationController.navigateUp()
+    }
+
+    override fun getCurrentRoute(): String? {
+        return navigationController.currentBackStackEntry?.destination?.route
     }
 }

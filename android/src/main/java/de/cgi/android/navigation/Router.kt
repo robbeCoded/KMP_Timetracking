@@ -19,4 +19,6 @@ interface Router {
     fun showSettings()
     fun back()
     fun navigationUp(): Boolean
+
+    fun getCurrentRoute(): String?
 }

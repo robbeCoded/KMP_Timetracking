@@ -1,5 +1,6 @@
 package de.cgi.android.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.cgi.android.ui.theme.LocalColor
 
 @Composable
 fun DrawerHeader() {
@@ -34,10 +36,18 @@ fun DrawerBody(
 ) {
     LazyColumn(modifier) {
         items(items) { item ->
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onItemClick(item) }
+                    .background(
+                        if (item.selected) {
+                            LocalColor.current.actionSecondary
+                        } else {
+                            LocalColor.current.white
+                        }
+                    )
                     .padding(16.dp)
             ) {
                 Icon(imageVector = item.icon, contentDescription = item.contentDescription)
