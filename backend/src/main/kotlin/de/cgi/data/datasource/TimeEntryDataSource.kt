@@ -9,6 +9,7 @@ interface TimeEntryDataSource {
     suspend fun updateTimeEntry(timeEntry: TimeEntry): Boolean
     suspend fun getTimeEntries(userId: ObjectId): List<TimeEntry>
     suspend fun getTimeEntriesForDate(userId: ObjectId, date: String): List<TimeEntry>
+    suspend fun getTimeEntriesForWeek(userId: ObjectId, startDate: String): List<TimeEntry>
     suspend fun getTimeEntryById(id: ObjectId): TimeEntry?
     suspend fun deleteTimeEntry(id: ObjectId): Boolean
 

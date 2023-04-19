@@ -3,7 +3,6 @@ package de.cgi
 import de.cgi.data.datasource.ProjectDataSource
 import de.cgi.data.models.Project
 import de.cgi.data.requests.NewProjectRequest
-import de.cgi.data.requests.ProjectByIdRequest
 import de.cgi.data.requests.UpdateProjectRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -126,10 +125,9 @@ fun Route.deleteProject(
 ) {
     authenticate {
         delete("project/delete") {
-            val projectRequest = call.receiveNullable<ProjectByIdRequest>()
-            if (projectRequest != null) {
-                val projectId = projectRequest.id
-                val bsonId = ObjectId(projectId)
+            val id = call.parameters["id"]
+            if (id != null) {
+                val bsonId = ObjectId(id)
                 val project = projectDataSource.deleteProject(bsonId)
                 if (project) {
                     call.respond(HttpStatusCode.NoContent)

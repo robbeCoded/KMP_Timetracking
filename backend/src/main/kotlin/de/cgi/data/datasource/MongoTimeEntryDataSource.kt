@@ -1,8 +1,9 @@
 package de.cgi.data.datasource
 
 import de.cgi.data.models.TimeEntry
-import de.cgi.data.requests.TimeEntryByIdRequest
-import org.bson.codecs.pojo.annotations.BsonId
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
 import org.bson.types.ObjectId
 import org.litote.kmongo.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
@@ -45,6 +46,26 @@ class MongoTimeEntryDataSource(
         )
             .toList()
     }
+
+    override suspend fun getTimeEntriesForWeek(
+        userId: ObjectId,
+        startDate: String
+    ): List<TimeEntry> {
+        val startLocalDate = LocalDate.parse(startDate)
+        val endLocalDate = startLocalDate.plus(
+            6,
+            DateTimeUnit.DAY
+        )
+        val allUserEntries = timeEntries.find(TimeEntry::userId eq userId).toList()
+
+        val filteredTimeEntries = allUserEntries.filter { entry ->
+            val entryLocalDate = LocalDate.parse(entry.date)
+            entryLocalDate in startLocalDate..endLocalDate
+        }
+
+        return filteredTimeEntries
+    }
+
 
     override suspend fun getTimeEntryById(id: ObjectId): TimeEntry? {
         return timeEntries.findOneById(id)

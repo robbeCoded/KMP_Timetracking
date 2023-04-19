@@ -1,18 +1,29 @@
 package de.cgi.android.ui.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
+import de.cgi.android.dashboard.DashboardScreenRoute
 import de.cgi.android.navigation.Router
 import de.cgi.android.projects.ProjectListRoute
 import de.cgi.android.timeentry.TimeEntryAddRoute
 import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.TimeEntryListRoute
+import de.cgi.android.ui.theme.LocalColor
+import de.cgi.common.UserRepository
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -23,8 +34,8 @@ fun MainAppScaffold(
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-
-
+    val userRepository = get<UserRepository>()
+    val userName = userRepository.getUserName()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -39,8 +50,16 @@ fun MainAppScaffold(
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
 
         drawerContent = {
-            DrawerHeader()
+            DrawerHeader(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(LocalColor.current.darkGrey),
+                userName = userName
+            )
             DrawerBody(
+                modifier = Modifier
+                    .background(LocalColor.current.lightGrey)
+                    .fillMaxSize(),
                 items = listOf(
                     MenuItem(
                         id = MenuId.Calender,
@@ -85,18 +104,19 @@ fun MainAppScaffold(
                         selected = getMenuIdFromRoute(router.getCurrentRoute()) == MenuId.Settings
                     ),
 
-                ),
+                    ),
                 onItemClick = {
                     when (it.id) {
                         MenuId.Timetracking -> router.showTimeEntryList()
                         MenuId.Projects -> router.showProjectList()
                         MenuId.Settings -> router.showSettings()
+                        MenuId.Dashboard -> router.showDashboard()
                         else -> router.showTimeEntryList()
                     }
                 }
             )
         },
-        content = {content()}
+        content = { content() }
     )
 }
 
@@ -106,6 +126,7 @@ fun getMenuIdFromRoute(route: String?): MenuId? {
         TimeEntryEditRoute.route -> MenuId.Timetracking
         TimeEntryAddRoute.route -> MenuId.Timetracking
         ProjectListRoute.route -> MenuId.Projects
+        DashboardScreenRoute.route -> MenuId.Dashboard
         // Add other routes and their corresponding MenuId here
         else -> null
     }

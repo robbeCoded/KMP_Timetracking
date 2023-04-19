@@ -2,6 +2,7 @@ package de.cgi.plugins
 
 import de.cgi.*
 import de.cgi.data.datasource.ProjectDataSource
+import de.cgi.data.datasource.TeamDataSource
 import de.cgi.data.datasource.TimeEntryDataSource
 import de.cgi.data.datasource.UserDataSource
 import de.cgi.security.hashing.HashingService
@@ -17,7 +18,8 @@ fun Application.configureRouting(
     tokenService: TokenService,
     tokenConfig: TokenConfig,
     timeEntryDataSource: TimeEntryDataSource,
-    projectDataSource: ProjectDataSource
+    projectDataSource: ProjectDataSource,
+    teamDataSource: TeamDataSource
 ) {
     routing {
         signIn(userDataSource, hashingService, tokenService, tokenConfig)
@@ -29,6 +31,7 @@ fun Application.configureRouting(
         updateTimeEntry(timeEntryDataSource)
         getTimeEntries(timeEntryDataSource)
         getTimeEntriesForDate(timeEntryDataSource)
+        getTimeEntriesForWeek(timeEntryDataSource)
         getTimeEntry(timeEntryDataSource)
         deleteTimeEntry(timeEntryDataSource)
 
@@ -38,7 +41,14 @@ fun Application.configureRouting(
         getProject(projectDataSource)
         deleteProject(projectDataSource)
 
-        getUserId()
+        newTeam(teamDataSource)
+        updateTeamName(teamDataSource)
+        addTeamManagers(teamDataSource)
+        removeTeamManager(teamDataSource)
+        deleteTeam(teamDataSource)
+        getTeam(teamDataSource)
+
+        getUserRole()
 
     }
 }

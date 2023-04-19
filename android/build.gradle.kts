@@ -128,8 +128,7 @@ dependencies {
     with(Deps.Icons) {
         implementation(android)
     }
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.24.12-rc")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.12-rc")
+    implementation("io.github.bytebeats:compose-charts:0.1.2")
 
     implementation ("org.slf4j:slf4j-api:1.7.36") // Use the latest version available
     implementation ("com.github.tony19:logback-android:2.0.0") // Use the latest version available

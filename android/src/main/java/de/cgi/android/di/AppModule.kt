@@ -8,6 +8,8 @@ import de.cgi.android.auth.signin.SignInUseCase
 import de.cgi.android.auth.signin.SignInViewModel
 import de.cgi.android.auth.signup.SignUpUseCase
 import de.cgi.android.auth.signup.SignUpViewModel
+import de.cgi.android.dashboard.DashboardUseCase
+import de.cgi.android.dashboard.DashboardViewModel
 import de.cgi.android.projects.*
 import de.cgi.android.projects.addedit.ProjectAddUseCase
 import de.cgi.android.projects.addedit.ProjectAddViewModel
@@ -48,13 +50,13 @@ val appModule = module {
     single { ProjectEditUseCase(get()) }
     single { GetProjectsUseCase(get()) }
     single { TimeEntryAddUseCase(get()) }
-
+    single { DashboardUseCase() }
 
     viewModel { SignInViewModel(get(), get()) }
     viewModel { SignUpViewModel(get()) }
-    viewModel { ProjectMapViewModel(get(), get())}
 
-    viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId, get<ProjectMapViewModel>()) }
+
+    viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId) }
     viewModel { TimeEntryListViewModel(get(), get()) }
     viewModel { TimeEntryAddViewModel(get(), get(), get()) }
 
@@ -62,6 +64,8 @@ val appModule = module {
     viewModel { (projectId: String) -> ProjectEditViewModel(get(), get(), projectId) }
     viewModel { ProjectListViewModel(get(), get()) }
     viewModel { ProjectAddViewModel(get(), get()) }
+
+    viewModel { DashboardViewModel(get(), get(), get()) }
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {

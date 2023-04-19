@@ -1,6 +1,7 @@
 package de.cgi
 
 import de.cgi.data.datasource.MongoProjectDataSource
+import de.cgi.data.datasource.MongoTeamDataSource
 import de.cgi.data.datasource.MongoTimeEntryDataSource
 import de.cgi.data.datasource.MongoUserDataSource
 import de.cgi.plugins.*
@@ -29,7 +30,6 @@ fun Application.module() {
         allowHeader(HttpHeaders.Authorization)
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.AccessControlAllowOrigin)
-        // header("any header") if you want to add any header
         allowCredentials = true
         allowNonSimpleContentTypes = true
         anyHost()
@@ -45,6 +45,7 @@ fun Application.module() {
     val userDataSource = MongoUserDataSource(db)
     val timeEntryDataSource = MongoTimeEntryDataSource(db)
     val projectDataSource = MongoProjectDataSource(db)
+    val teamDataSource = MongoTeamDataSource(db)
     val tokenService = JwtTokenService()
     val tokenConfig = TokenConfig(
         issuer = environment.config.property("jwt.issuer").getString(),
@@ -64,6 +65,7 @@ fun Application.module() {
         tokenService = tokenService,
         hashingService = hashingService,
         timeEntryDataSource = timeEntryDataSource,
-        projectDataSource =projectDataSource
+        projectDataSource =projectDataSource,
+        teamDataSource = teamDataSource
     )
 }

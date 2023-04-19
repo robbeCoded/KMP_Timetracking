@@ -3,11 +3,10 @@ package de.cgi.android.timeentry.addedit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.android.projects.list.ProjectListState
-import de.cgi.android.timeentry.GetProjectsUseCase
-import de.cgi.android.timeentry.ProjectNameProvider
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
+import de.cgi.common.repository.ProjectNameProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
@@ -17,10 +16,9 @@ import kotlinx.datetime.toLocalTime
 
 class TimeEntryEditViewModel(
     private val editUseCase: TimeEntryEditUseCase,
-    private val getProjectsUseCase: GetProjectsUseCase,
+    private val projectNameProvider: ProjectNameProvider,
     userRepository: UserRepository,
     private val timeEntryId: String,
-    private val projectNameProvider: ProjectNameProvider,
 ) : ViewModel() {
 
     private val userId: String = userRepository.getUserId()
@@ -64,15 +62,8 @@ class TimeEntryEditViewModel(
     private var updateJob: Job? = null
     private var deleteJob: Job? = null
     private var getTimeEntryJob: Job? = null
-    private var loadProjectsJob: Job? = null
 
 
-    fun getProjects() {
-        loadProjectsJob?.cancel()
-        loadProjectsJob = getProjectsUseCase.getProjects(userId = userId, forceReload = true).onEach { resultState ->
-            _listState.update { it.copy(projectListState = resultState) }
-        }.launchIn(viewModelScope)
-    }
 
     fun updateTimeEntry() {
         updateJob?.cancel()
@@ -111,7 +102,7 @@ class TimeEntryEditViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private suspend fun updateValues(timeEntry: TimeEntry) {
+    private fun updateValues(timeEntry: TimeEntry) {
         _startTime.value = timeEntry.startTime.toLocalTime()
         _endTime.value = timeEntry.endTime.toLocalTime()
         _duration.value = LocalTime(
@@ -121,7 +112,9 @@ class TimeEntryEditViewModel(
         _date.value = timeEntry.date.toLocalDate()
         _description.value = timeEntry.description
         _projectId.value = timeEntry.projectId
-        _projectName.value = timeEntry.projectId?.let { projectNameProvider.getProjectNameById(it) }
+        _projectName.value = timeEntry.projectId?.let { projectNameProvider.getProjectNameById(
+            timeEntry.projectId!!
+        ) }
     }
 
 

@@ -6,11 +6,10 @@ import de.cgi.common.data.model.requests.AuthRequest
 import de.cgi.common.data.model.requests.SignUpRequest
 import de.cgi.common.data.model.responses.AuthResponse
 import de.cgi.common.data.model.responses.AuthResult
-import de.cgi.common.data.model.responses.GetUserIdResponse
+import de.cgi.common.data.model.responses.GetUserRole
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -74,9 +73,9 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
     }
 
 
-    override fun getUserId(): Flow<ResultState<AuthResult<GetUserIdResponse>>> {
+    override fun getRole(): Flow<ResultState<AuthResult<GetUserRole>>> {
         return callbackFlow {
-            val response = client.get(routes.GET_USER_ID) {
+            val response = client.get(routes.GET_ROLE) {
                 contentType(ContentType.Application.Json)
             }
             when (response.status) {

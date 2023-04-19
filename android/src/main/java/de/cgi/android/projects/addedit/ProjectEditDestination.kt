@@ -1,5 +1,7 @@
 package de.cgi.android.projects.addedit
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -9,6 +11,7 @@ import de.cgi.android.projects.ProjectEditRoute
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable

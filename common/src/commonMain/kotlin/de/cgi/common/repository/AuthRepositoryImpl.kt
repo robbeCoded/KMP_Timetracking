@@ -7,7 +7,7 @@ import de.cgi.common.data.model.requests.AuthRequest
 import de.cgi.common.data.model.requests.SignUpRequest
 import de.cgi.common.data.model.responses.AuthResponse
 import de.cgi.common.data.model.responses.AuthResult
-import de.cgi.common.data.model.responses.GetUserIdResponse
+import de.cgi.common.data.model.responses.GetUserRole
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -34,6 +34,7 @@ class AuthRepositoryImpl(
             if (result is ResultState.Success && result.data.data?.token != null && result.data.data.userId != null) {
                 result.data.data.let { it.token?.let { it1 -> prefs.putString("jwt", it1) } }
                 result.data.data.let { it.userId?.let { it1 -> prefs.putString("userId", it1) } }
+                result.data.data.let { it.username?.let { it1 -> prefs.putString("username", it1) } }
             }
             result
         }
@@ -43,10 +44,10 @@ class AuthRepositoryImpl(
         return api.authenticate()
     }
 
-    override fun getUserId(): Flow<ResultState<AuthResult<GetUserIdResponse>>> {
-        return api.getUserId().map { result ->
+    override fun getUserRole(): Flow<ResultState<AuthResult<GetUserRole>>> {
+        return api.getRole().map { result ->
             if (result is ResultState.Success) {
-                result.data.data?.let { prefs.putString("userId", it.userId) }
+                result.data.data?.let { prefs.putString("role", it.role) }
             }
             result
         }

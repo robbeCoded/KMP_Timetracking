@@ -1,6 +1,7 @@
 package de.cgi.android.auth
 
 import de.cgi.common.data.model.responses.AuthResponse
+import de.cgi.common.data.model.responses.GetUserRole
 
 sealed class SignInState {
     object Loading : SignInState()
@@ -10,6 +11,7 @@ sealed class SignInState {
     data class Failure(val message: String?) : SignInState()
     data class Error(val error: String?) : SignInState()
 }
+
 
 sealed class SignUpState {
     object Loading : SignUpState()

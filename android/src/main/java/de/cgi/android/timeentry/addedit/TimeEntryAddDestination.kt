@@ -5,10 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import de.cgi.android.navigation.Router
-import de.cgi.android.timeentry.ProjectMapViewModel
 import org.koin.androidx.compose.getViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -20,7 +17,6 @@ fun TimeEntryAddDestination(
 ) {
     val editTimeEntry = false
     val viewModel = getViewModel<TimeEntryAddViewModel>()
-    val getProjectMapViewModel = getViewModel<ProjectMapViewModel>()
 
     TimeEntryAddEditScreen(
         onDateChanged = viewModel::dateChanged,
@@ -42,6 +38,5 @@ fun TimeEntryAddDestination(
         onGetProjectId = viewModel::getProjectId,
         onGetProjectName = viewModel::getProjectName,
         onGetStartTime = viewModel::getStartTime,
-        onGetProjects = getProjectMapViewModel::getProjectMap
     )
 }

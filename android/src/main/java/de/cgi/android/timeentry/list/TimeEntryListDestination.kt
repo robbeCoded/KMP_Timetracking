@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import de.cgi.android.navigation.Router
-import de.cgi.android.timeentry.ProjectMapViewModel
 import org.koin.androidx.compose.getViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -20,7 +19,6 @@ fun TimeEntryListDestination(
 ) {
     val viewModel = getViewModel<TimeEntryListViewModel>()
     val timeEntryListState by viewModel.listState.collectAsState()
-    val projectMapViewModel = getViewModel<ProjectMapViewModel>()
     TimeEntryListScreen(
         timeEntryListState = timeEntryListState.timeEntryListState,
         onGetTotalDuration = viewModel::getTotalDuration,
@@ -28,6 +26,5 @@ fun TimeEntryListDestination(
         onTimeEntryClick = { router.showTimeEntryEdit(it) },
         reloadTimeEntries = viewModel::getTimeEntries,
         onSelectedDateChanged = viewModel::selectedDateChanged,
-        onGetProjectMap = projectMapViewModel::getProjectMap,
     )
 }

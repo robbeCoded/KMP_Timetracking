@@ -2,7 +2,7 @@ package de.cgi.android.timeentry.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.timeentry.GetProjectsUseCase
+import de.cgi.android.util.getWeekStartDate
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import kotlinx.coroutines.Job
@@ -22,8 +22,8 @@ class TimeEntryListViewModel(
     val listState = _listState.asStateFlow()
 
     private val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
-    private val _date = MutableStateFlow<LocalDate?>(currentDate)
-    private val date: StateFlow<LocalDate?> = _date
+    private val _selectedDate = MutableStateFlow(currentDate)
+    private val selectedDate: StateFlow<LocalDate> = _selectedDate
 
     private val _totalDuration = MutableStateFlow(LocalTime(0, 0, 0))
     private val totalDuration: StateFlow<LocalTime> = _totalDuration
@@ -36,20 +36,19 @@ class TimeEntryListViewModel(
     fun getTimeEntries() {
         loadTimeEntriesJob?.cancel()
         loadTimeEntriesJob =
-            timeEntryListUseCase.getTimeEntries(userId = userId, date = date.value.toString(), true)
+            timeEntryListUseCase.getTimeEntries(userId = userId, date = getWeekStartDate(selectedDate.value).toString(), true)
                 .onEach { resultState ->
                     _listState.update { it.copy(timeEntryListState = resultState) }
                     if (resultState is ResultState.Success) {
-                        _totalDuration.value = timeEntryListUseCase.calculateTotalDuration(resultState.data)
+                        _totalDuration.value = timeEntryListUseCase.calculateTotalDuration(resultState.data, selectedDate.value)
                     }
                 }.launchIn(viewModelScope)
     }
 
     fun selectedDateChanged(date: LocalDate) {
-        _date.value = date
+        _selectedDate.value = date
         getTimeEntries()
     }
-
     fun getTotalDuration(): LocalTime {
         return totalDuration.value
     }

@@ -70,8 +70,9 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    internal fun getAllTimeEntries(userId: String, date: String): List<TimeEntry> {
-        return dbQuery.selectAllTimeEntries(userId, date, ::mapToTimeEntry).executeAsList()
+
+    internal fun getTimeEntriesForWeek(userId: String, startDate: String, endDate: String): List<TimeEntry> {
+        return dbQuery.selectTimeEntriesForWeek(userId, startDate, endDate, ::mapToTimeEntry).executeAsList()
     }
 
     private fun mapToTimeEntry(

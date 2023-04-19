@@ -34,7 +34,6 @@ fun TimeEntryListScreen(
     onTimeEntryClick: (TimeEntry) -> Unit,
     reloadTimeEntries: () -> Unit,
     onSelectedDateChanged: (LocalDate) -> Unit,
-    onGetProjectMap: () -> ResultState<Map<String,String>?>
 ) {
     val scaffoldState = rememberScaffoldState()
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
@@ -74,14 +73,15 @@ fun TimeEntryListScreen(
                     )
                 }) { timeEntryList ->
                     timeEntryList?.let {
-                        if(timeEntryList.isNotEmpty()){
+                        if (timeEntryList.isNotEmpty()) {
                             LazyColumn {
                                 items(timeEntryList, key = { timeEntry -> timeEntry.id }) { item ->
-                                    TimeEntryListItem(
-                                        onClick = onTimeEntryClick,
-                                        timeEntry = item,
-                                        onGetProjectMap = onGetProjectMap,
-                                    )
+                                    if (item.date == selectedDate.value.toString()) {
+                                        TimeEntryListItem(
+                                            onClick = onTimeEntryClick,
+                                            timeEntry = item,
+                                        )
+                                    }
                                 }
                             }
                         } else {

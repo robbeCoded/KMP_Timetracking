@@ -16,6 +16,9 @@ interface Router {
     fun showProjectEdit(project: Project)
     fun showProjectAdd()
 
+    fun showDashboard()
+    fun showTeamDashboard()
+
     fun showSettings()
     fun back()
     fun navigationUp(): Boolean

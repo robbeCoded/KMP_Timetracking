@@ -42,11 +42,13 @@ selectTimeEntryById:
 SELECT * FROM TimeEntry
 WHERE id = ?;
 
-selectAllTimeEntries:
+selectTimeEntriesForWeek:
 SELECT *
 FROM TimeEntry
-WHERE user_id = ?
-AND date = ?;
+WHERE user_id = :user_id
+AND strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', :start_date)
+AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', :end_date);
+
 
 deleteTimeEntryById:
 DELETE FROM TimeEntry

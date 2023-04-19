@@ -17,13 +17,13 @@ import compose.icons.feathericons.CheckCircle
 import compose.icons.feathericons.RefreshCcw
 import compose.icons.feathericons.Trash
 import compose.icons.feathericons.X
+import de.cgi.android.ui.components.AddEditButtonSection
 import de.cgi.android.ui.components.SelectableTextField
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.util.format
 import kotlinx.datetime.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProjectAddEditScreen(
     onStartDateChanged: (LocalDate) -> Unit,
@@ -66,8 +66,8 @@ fun ProjectAddEditScreen(
     description.value = onGetDescription() ?: ""
 
     fun datePickerDialog(
-    date: MutableState<LocalDate?>,
-    onDateChanged: (LocalDate) -> Unit
+        date: MutableState<LocalDate?>,
+        onDateChanged: (LocalDate) -> Unit
     ): DatePickerDialog {
         return DatePickerDialog(
             context,
@@ -89,9 +89,12 @@ fun ProjectAddEditScreen(
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Top,
     ) {
-        Box(modifier = Modifier
-            .wrapContentSize() .fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            IconButton(onClick = {onNavigateBack()}) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .fillMaxWidth(), contentAlignment = Alignment.CenterEnd
+        ) {
+            IconButton(onClick = { onNavigateBack() }) {
                 Icon(imageVector = FeatherIcons.X, contentDescription = "Cancel")
             }
         }
@@ -143,75 +146,14 @@ fun ProjectAddEditScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            if (editProject) {
-                Button(
-                    onClick = {
-                        onUpdateProject()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionPrimary)
-                ) {
-                    Icon(
-                        FeatherIcons.RefreshCcw,
-                        contentDescription = "Update",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text("Update")
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Button(
-                    onClick = {
-                        onDeleteProject()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionRed)
-                ) {
-                    Icon(
-                        FeatherIcons.Trash,
-                        contentDescription = "Delete",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text("Delete")
-                }
-            } else {
-                Button(
-                    onClick = {
-                        onSubmitProject()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionPrimary)
-                ) {
-                    Icon(
-                        FeatherIcons.CheckCircle,
-                        contentDescription = "Submit",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text("Submit")
-                }
-            }
-
-        }
+        AddEditButtonSection(
+            edit = editProject,
+            onSubmit = { onSubmitProject() },
+            onUpdate = { onUpdateProject() },
+            onDelete = { onDeleteProject() },
+            onNavigateBack = { onNavigateBack() }
+        )
     }
 }
+
 

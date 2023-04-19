@@ -6,7 +6,6 @@ import android.os.Build
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,20 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
-import compose.icons.feathericons.CheckCircle
-import compose.icons.feathericons.RefreshCcw
-import compose.icons.feathericons.Trash
 import compose.icons.feathericons.X
+import de.cgi.android.ui.components.AddEditButtonSection
 import de.cgi.android.ui.components.ProjectDropdownMenu
 import de.cgi.android.ui.components.SelectableTextField
-import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.util.format
-import de.cgi.common.ResultState
 import kotlinx.datetime.*
 
-//interfaces für viewModel
-//Adapter pattern anschauen
-//strategy pattern
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +43,6 @@ fun TimeEntryAddEditScreen(
     onGetDescription: () -> String?,
     onGetProjectId: () -> String?,
     onGetProjectName: () -> String?,
-    onGetProjects: () -> ResultState<Map<String, String>?>
 ) {
 
     val context = LocalContext.current
@@ -121,9 +112,12 @@ fun TimeEntryAddEditScreen(
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Top,
     ) {
-        Box(modifier = Modifier
-            .wrapContentSize() .fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            IconButton(onClick = {onNavigateBack()}) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .fillMaxWidth(), contentAlignment = Alignment.CenterEnd
+        ) {
+            IconButton(onClick = { onNavigateBack() }) {
                 Icon(imageVector = FeatherIcons.X, contentDescription = "Cancel")
             }
         }
@@ -203,73 +197,15 @@ fun TimeEntryAddEditScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ProjectDropdownMenu(selectedProject, onProjectChanged, onGetProjects)
+        ProjectDropdownMenu(selectedProject, onProjectChanged)
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        if (editTimeEntry) {
-            Button(
-                onClick = {
-                    onUpdateTimeEntry()
-                    onNavigateBack()
-                },
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionPrimary)
-            ) {
-                Icon(
-                    FeatherIcons.RefreshCcw,
-                    contentDescription = "Update",
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text("Update")
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Button(
-                onClick = {
-                    onDeleteTimeEntry()
-                    onNavigateBack()
-                },
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionRed)
-            ) {
-                Icon(
-                    FeatherIcons.Trash,
-                    contentDescription = "Delete",
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text("Delete")
-            }
-        } else {
-            Button(
-                onClick = {
-                    onSubmitTimeEntry()
-                    onNavigateBack()
-                },
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = LocalColor.current.actionPrimary)
-            ) {
-                Icon(
-                    FeatherIcons.CheckCircle,
-                    contentDescription = "Submit",
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text("Submit")
-            }
-        }
-
+        AddEditButtonSection(
+            edit = editTimeEntry,
+            onSubmit = { onSubmitTimeEntry() },
+            onUpdate = { onUpdateTimeEntry() },
+            onDelete = { onDeleteTimeEntry() },
+            onNavigateBack = { onNavigateBack() })
     }
 }

@@ -38,7 +38,7 @@ fun SignInScreen(
     onSignInClick: () -> Unit,
     onSignInSuccess: () -> Unit,
     onSignUpClick: () -> Unit,
-
+    onGetUserRole: () -> Unit
     ) {
     val context = LocalContext.current
     val passwordFocusRequester = FocusRequester()
@@ -119,10 +119,12 @@ fun SignInScreen(
                 is SignInState.Authorized -> {
                     context.showToast("Successfully logged in")
                     onSignInSuccess()
+                    onGetUserRole()
                 }
                 is SignInState.Success -> {
                     context.showToast("Successfully logged in")
                     onSignInSuccess()
+                    onGetUserRole()
                 }
                 is SignInState.Failure -> {
                     context.showToast(signInState.message ?: "Unknown error occurred")

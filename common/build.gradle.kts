@@ -70,7 +70,6 @@ kotlin {
                 //internationalisation
                 implementation("de.comahe.i18n4k:i18n4k-core:0.5.0")
 
-
             }
         }
         val commonTest by getting {

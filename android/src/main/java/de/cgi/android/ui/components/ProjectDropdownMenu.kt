@@ -11,15 +11,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.cgi.common.ResultState
+import de.cgi.common.repository.ProjectNameProvider
+import org.koin.androidx.compose.get
 
 @Composable
 fun ProjectDropdownMenu(
     selectedProject: MutableState<String>,
     onProjectChanged: (String, String) -> Unit,
-    onGetProjects: () -> ResultState<Map<String, String>?>
 ) {
     val expandedProject = remember { mutableStateOf(false) }
-    val projectListState = onGetProjects()
+    val projectNameProvider = get<ProjectNameProvider>()
+    val projectListState = projectNameProvider.getProjectMap()
 
     Column(modifier = Modifier.wrapContentSize()) {
         Text(text = "Project")
@@ -52,7 +54,7 @@ fun ProjectDropdownMenu(
                 is ResultState.Error -> {
                     DropdownMenuItem(
                         text = { Text("Error loading projects. Click to try again.") },
-                        onClick = { onGetProjects() }
+                        onClick = { projectNameProvider.getProjectMapping() }
                     )
                 }
                 is ResultState.Loading -> {

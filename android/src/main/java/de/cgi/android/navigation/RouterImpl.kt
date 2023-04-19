@@ -3,6 +3,8 @@ package de.cgi.android.navigation
 import androidx.navigation.NavHostController
 import de.cgi.android.auth.SignInScreenRoute
 import de.cgi.android.auth.SignUpScreenRoute
+import de.cgi.android.dashboard.DashboardScreenRoute
+import de.cgi.android.dashboard.TeamDashboardScreenRoute
 import de.cgi.android.projects.ProjectAddRoute
 import de.cgi.android.projects.ProjectEditRoute
 import de.cgi.android.projects.ProjectListRoute
@@ -65,6 +67,14 @@ class RouterImpl(
 
     override fun showProjectAdd() {
         navigationController.navigate(ProjectAddRoute.route)
+    }
+
+    override fun showDashboard() {
+        navigationController.navigate(DashboardScreenRoute.route)
+    }
+
+    override fun showTeamDashboard() {
+        navigationController.navigate(TeamDashboardScreenRoute.route)
     }
 
     override fun showSettings() {
