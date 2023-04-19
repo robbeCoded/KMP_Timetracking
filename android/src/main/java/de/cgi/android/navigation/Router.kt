@@ -19,6 +19,9 @@ interface Router {
     fun showDashboard()
     fun showTeamDashboard()
 
+    fun showCalender()
+
+    fun showAccount()
     fun showSettings()
     fun back()
     fun navigationUp(): Boolean

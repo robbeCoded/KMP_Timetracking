@@ -1,13 +1,17 @@
 package de.cgi.android.navigation
 
 import androidx.navigation.NavHostController
+import de.cgi.android.account.AccountScreenRoute
 import de.cgi.android.auth.SignInScreenRoute
 import de.cgi.android.auth.SignUpScreenRoute
+import de.cgi.android.calender.CalenderScreenRoute
 import de.cgi.android.dashboard.DashboardScreenRoute
 import de.cgi.android.dashboard.TeamDashboardScreenRoute
 import de.cgi.android.projects.ProjectAddRoute
 import de.cgi.android.projects.ProjectEditRoute
 import de.cgi.android.projects.ProjectListRoute
+import de.cgi.android.settings.SettingHomeDestination
+import de.cgi.android.settings.SettingsHomeRoute
 import de.cgi.android.timeentry.TimeEntryAddRoute
 import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.TimeEntryListRoute
@@ -78,9 +82,16 @@ class RouterImpl(
     }
 
     override fun showSettings() {
-        TODO("Not yet implemented")
+        navigationController.navigate(SettingsHomeRoute.route)
     }
 
+    override fun showAccount() {
+        navigationController.navigate(AccountScreenRoute.route)
+    }
+
+    override fun showCalender() {
+        navigationController.navigate(CalenderScreenRoute.route)
+    }
     override fun back() {
         navigationController.popBackStack()
     }

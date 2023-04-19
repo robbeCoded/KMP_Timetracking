@@ -49,9 +49,9 @@ fun DashboardScreen(
 ) {
     val currentDate = getCurrentDateTime().date
     val weekText = if (onGetSelectedDate() == currentDate) {
-        "This Week (${currentDate.dayOfYear / 7})"
+        "This Week (${currentDate.dayOfYear / 7 + 1})"
     } else {
-        "Week ${onGetSelectedDate().dayOfYear / 7}"
+        "Calender Week ${onGetSelectedDate().dayOfYear / 7 + 1}"
     }
 
     LaunchedEffect(Unit) {

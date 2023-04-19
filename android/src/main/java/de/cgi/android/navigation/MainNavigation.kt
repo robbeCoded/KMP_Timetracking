@@ -9,13 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.NavHost
 import de.cgi.android.AppState
+import de.cgi.android.account.accountGraph
 import de.cgi.android.auth.AuthFeature
 import de.cgi.android.auth.authGraph
+import de.cgi.android.calender.calenderGraph
 import de.cgi.android.dashboard.dashboardGraph
 import de.cgi.android.projects.projectsGraph
+import de.cgi.android.settings.settingsGraph
 import de.cgi.android.timeentry.timeEntryGraph
 
-@RequiresApi(Build.VERSION_CODES.M)
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
@@ -34,5 +37,8 @@ fun MainNavigation(
         timeEntryGraph(appState.router)
         projectsGraph(appState.router)
         dashboardGraph(appState.router)
+        accountGraph(appState.router)
+        settingsGraph(appState.router)
+        calenderGraph(appState.router)
     }
 }

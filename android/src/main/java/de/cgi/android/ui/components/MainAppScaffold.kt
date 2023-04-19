@@ -4,19 +4,21 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
+import de.cgi.android.account.AccountScreenRoute
+import de.cgi.android.calender.CalenderScreenRoute
 import de.cgi.android.dashboard.DashboardScreenRoute
 import de.cgi.android.navigation.Router
+import de.cgi.android.projects.ProjectAddRoute
+import de.cgi.android.projects.ProjectEditRoute
 import de.cgi.android.projects.ProjectListRoute
+import de.cgi.android.settings.SettingsHomeRoute
 import de.cgi.android.timeentry.TimeEntryAddRoute
 import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.TimeEntryListRoute
@@ -111,7 +113,8 @@ fun MainAppScaffold(
                         MenuId.Projects -> router.showProjectList()
                         MenuId.Settings -> router.showSettings()
                         MenuId.Dashboard -> router.showDashboard()
-                        else -> router.showTimeEntryList()
+                        MenuId.Account -> router.showAccount()
+                        MenuId.Calender -> router.showCalender()
                     }
                 }
             )
@@ -127,7 +130,11 @@ fun getMenuIdFromRoute(route: String?): MenuId? {
         TimeEntryAddRoute.route -> MenuId.Timetracking
         ProjectListRoute.route -> MenuId.Projects
         DashboardScreenRoute.route -> MenuId.Dashboard
-        // Add other routes and their corresponding MenuId here
+        ProjectAddRoute.route -> MenuId.Projects
+        ProjectEditRoute.route -> MenuId.Projects
+        AccountScreenRoute.route -> MenuId.Account
+        CalenderScreenRoute.route -> MenuId.Calender
+        SettingsHomeRoute.route -> MenuId.Settings
         else -> null
     }
 }
