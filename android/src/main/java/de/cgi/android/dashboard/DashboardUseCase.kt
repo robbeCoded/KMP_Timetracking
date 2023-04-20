@@ -33,14 +33,25 @@ class DashboardUseCase {
 
         val totalDuration =
             projectDurations.values.sumOf { it.toSecondOfDay() } + noProjectDuration.toSecondOfDay()
+
         val projectSummaries = projectDurations.map { (projectId, duration) ->
             DashboardData(
                 projectId,
                 duration,
-                (duration.toSecondOfDay().toDouble() / totalDuration) * 100           )
+                (duration.toSecondOfDay().toDouble() / totalDuration) * 100
+            )
+        }.toMutableList()
+
+        // Add an entry for noProjectDuration if it is not zero.
+        if (noProjectDuration != LocalTime(0, 0)) {
+            projectSummaries.add(
+                DashboardData(
+                    null,
+                    noProjectDuration,
+                    (noProjectDuration.toSecondOfDay().toDouble() / totalDuration) * 100
+                )
+            )
         }
-
-
 
         return projectSummaries.sortedByDescending { it.duration.toSecondOfDay() }
     }
