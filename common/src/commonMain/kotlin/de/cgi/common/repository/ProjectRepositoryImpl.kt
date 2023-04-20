@@ -23,15 +23,11 @@ class ProjectRepositoryImpl(
         description: String?,
         startDate: String,
         endDate: String,
-        userId: String
+        userId: String,
+        color: String?
     ): Flow<ResultState<Project?>> {
-        val project = NewProjectRequest(name, startDate, endDate, userId, description)
-        return api.newProject(project).map { result ->
-            if (result is ResultState.Success) {
-                result.data?.let { database.insertProject(it) }
-            }
-            result
-        }
+        val project = NewProjectRequest(name, startDate, endDate, userId, description, color)
+        return api.newProject(project)
     }
 
     override fun updateProject(
@@ -40,51 +36,28 @@ class ProjectRepositoryImpl(
         description: String?,
         startDate: String,
         endDate: String,
-        userId: String
+        userId: String,
+        color: String?
     ): Flow<ResultState<Project?>> {
         val project =
-            UpdateProjectRequest(id, name, startDate, endDate, description, userId)
-        return api.updateProject(project).map { result ->
-            if (result is ResultState.Success) {
-                result.data?.let { database.updateProject(it) }
-            }
-            result
-        }
+            UpdateProjectRequest(id, name, startDate, endDate, description, userId, color)
+        return api.updateProject(project)
     }
 
 
-    override fun getProjects(userId: String, forceReload: Boolean): Flow<ResultState<List<Project>>> {
-        val cachedProjects = database.getAllProjects(userId)
-        return if (cachedProjects.isNotEmpty() && !forceReload) {
-            flowOf(ResultState.Success(cachedProjects))
-        } else {
-            api.getProjects(userId).map { result ->
-                if (result is ResultState.Success) {
-                    database.clearProjects()
-                    database.createProjects(result.data)
-                }
-                result
-            }
-        }
+    override fun getProjects(
+        userId: String,
+        forceReload: Boolean
+    ): Flow<ResultState<List<Project>>> {
+        return api.getProjects(userId)
     }
 
     override fun getProjectById(
         id: String,
         forceReload: Boolean
     ): Flow<ResultState<Project?>> {
-        val cachedProject = database.getProjectById(id)
         val projectRequest = ProjectRequest(id = id)
-        return if (cachedProject != null && !forceReload) {
-            flowOf(ResultState.Success(cachedProject))
-        } else {
-            api.getProjectById(projectRequest).map { result ->
-                if (result is ResultState.Success && result.data != null) {
-                    database.deleteProject(id)
-                    database.insertProject(result.data)
-                }
-                result
-            }
-        }
+        return api.getProjectById(projectRequest)
     }
 
 
@@ -93,11 +66,6 @@ class ProjectRepositoryImpl(
             ProjectRequest(
                 id = id
             )
-        ).map { result ->
-            if (result is ResultState.Success && result.data) {
-                database.deleteProject(id)
-            }
-            result
-        }
+        )
     }
 }

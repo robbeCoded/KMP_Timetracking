@@ -33,7 +33,8 @@ fun Route.newProject(
                 startDate = request.startDate,
                 endDate = request.endDate,
                 userId = userId,
-                description = request.description
+                description = request.description,
+                color = request.color
             )
 
             val wasAcknowledged = projectDataSource.insertProject(project)
@@ -69,7 +70,8 @@ fun Route.updateProject(
                 startDate = request.startDate,
                 endDate = request.endDate,
                 userId = userId,
-                description = request.description
+                description = request.description,
+                color = request.color
             )
 
             val wasAcknowledged = projectDataSource.updateProject(project)

@@ -5,7 +5,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProjectNameProvider {
 
-    fun getProjectMap(): ResultState<Map<String, String>?>
-    fun getProjectMapping()
+    fun getProjectNameMapValue(): ResultState<Map<String, String>?>
+    fun getProjectNameMap()
     fun getProjectNameById(projectId: String?): String?
+
+    fun getProjectColorMapValue(): ResultState<Map<String, String?>?>
+    fun getProjectColorMap()
+    fun getProjectColorById(projectId: String?): String?
+
+    fun notifyProjectUpdates()
 }

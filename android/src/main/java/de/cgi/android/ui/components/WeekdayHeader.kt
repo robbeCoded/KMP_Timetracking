@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import de.cgi.android.ui.theme.LocalColor
 import kotlinx.datetime.*
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -49,8 +50,8 @@ fun WeekdayHeader(
                     val isCurrentDate = weekDates[index] == currentDate
                     val isSelectedDate = weekDates[index] == selectedDate
                     val backgroundColor = when {
-                        isSelectedDate -> Color(0xFFa199ff)
-                        isCurrentDate -> Color(0xFFd0ccff)
+                        isSelectedDate -> LocalColor.current.actionSecondary
+                        isCurrentDate -> LocalColor.current.actionSuperWeak
                         else -> Color.Transparent
                     }
 

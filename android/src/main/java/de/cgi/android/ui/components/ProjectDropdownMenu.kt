@@ -21,7 +21,7 @@ fun ProjectDropdownMenu(
 ) {
     val expandedProject = remember { mutableStateOf(false) }
     val projectNameProvider = get<ProjectNameProvider>()
-    val projectListState = projectNameProvider.getProjectMap()
+    val projectListState = projectNameProvider.getProjectNameMapValue()
 
     Column(modifier = Modifier.wrapContentSize()) {
         Text(text = "Project")
@@ -54,7 +54,7 @@ fun ProjectDropdownMenu(
                 is ResultState.Error -> {
                     DropdownMenuItem(
                         text = { Text("Error loading projects. Click to try again.") },
-                        onClick = { projectNameProvider.getProjectMapping() }
+                        onClick = { projectNameProvider.getProjectNameMap() }
                     )
                 }
                 is ResultState.Loading -> {

@@ -7,15 +7,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import de.cgi.android.dashboard.teamdashboard.TeamDashboardDestination
+import de.cgi.android.dashboard.team.TeamDashboardDestination
 import de.cgi.android.navigation.Router
-import de.cgi.android.projects.ProjectAddRoute
-import de.cgi.android.projects.ProjectEditRoute
-import de.cgi.android.projects.ProjectListRoute
-import de.cgi.android.projects.ProjectsFeature
-import de.cgi.android.projects.addedit.ProjectAddDestination
-import de.cgi.android.projects.addedit.ProjectEditDestination
-import de.cgi.android.projects.list.ProjectListDestination
 import de.cgi.android.ui.components.MainAppScaffold
 
 @ExperimentalFoundationApi

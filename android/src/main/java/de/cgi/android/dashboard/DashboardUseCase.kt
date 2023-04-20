@@ -37,8 +37,7 @@ class DashboardUseCase {
             DashboardData(
                 projectId,
                 duration,
-                (duration.toSecondOfDay().toDouble() / totalDuration) * 100
-            )
+                (duration.toSecondOfDay().toDouble() / totalDuration) * 100           )
         }
 
         val noProjectSummary = DashboardData(

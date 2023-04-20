@@ -9,5 +9,6 @@ data class Project(
     val description: String?,
     val startDate: String,
     val endDate: String,
-    val userId: String
+    val userId: String,
+    val color: String?
 )

@@ -10,13 +10,22 @@ data class CustomColors(
     internal val darkGrey: Color = Color(0xFFEBEBEB),
     internal val actionPrimary: Color = Color(0xFFa199ff),
     internal val actionSecondary: Color = Color(0xFFd0ccff),
+    internal val actionSuperWeak: Color = Color(0xFFecebff),
     internal val actionRed: Color = Color(0xFFff4765),
     internal val itemColor: Color = Color(0xFFe4e4e4),
     internal val white: Color = Color.White,
     internal val black: Color = Color.Black,
     internal val darkBlue: Color = Color(0xFF00008B),
     internal val cgiRed: Color = Color(0xFFe11937),
-    internal val lightGreen: Color = Color(0xFFCEFFA7)
+    internal val lightGreen: Color = Color(0xFFCEFFA7),
+
+    internal val projectColorsList: List<Color> = listOf(
+        Color(0xFF4E6A53),
+        Color(0xFF527A7A),
+        Color(0xFF709AA3),
+        Color(0xFF7088A3),
+        Color(0xFF8070A3),
+    )
 )
 
 val LocalColor = compositionLocalOf { CustomColors() }

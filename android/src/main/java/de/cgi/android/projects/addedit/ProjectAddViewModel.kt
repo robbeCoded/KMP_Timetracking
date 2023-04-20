@@ -48,6 +48,9 @@ class ProjectAddViewModel(
     private val _description = MutableStateFlow<String?>(null)
     private val description: StateFlow<String?> = _description
 
+    private val _color = MutableStateFlow("-4856142")
+    private val color: StateFlow<String> = _color
+
     private var submitJob: Job? = null
 
     fun submitProject() {
@@ -57,7 +60,8 @@ class ProjectAddViewModel(
             endDate = endDate.value.toString(),
             name = name.value,
             description = description.value,
-            userId = userId
+            userId = userId,
+            color = color.value
         ).onEach {
             _projectAddState.value = it
         }.launchIn(viewModelScope)
@@ -80,9 +84,13 @@ class ProjectAddViewModel(
         _description.value = description
     }
 
+    fun colorChanged(color: String) {
+        _color.value= color
+    }
     fun getStartDate(): LocalDate? = startDate.value
     fun getEndDate(): LocalDate? = endDate.value
     fun getName(): String = name.value
     fun getDescription(): String? = description.value
 
+    fun getColor(): String = color.value
 }

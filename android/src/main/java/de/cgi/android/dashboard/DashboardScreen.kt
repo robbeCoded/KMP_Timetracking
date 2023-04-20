@@ -21,10 +21,7 @@ import compose.icons.feathericons.ChevronRight
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.ui.theme.LocalTypography
-import de.cgi.android.util.AsyncData
-import de.cgi.android.util.GenericError
-import de.cgi.android.util.getCurrentDateTime
-import de.cgi.android.util.getWeekOfYear
+import de.cgi.android.util.*
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectNameProvider
@@ -47,6 +44,7 @@ fun DashboardScreen(
     onUpdateDateAndReloadMinus: () -> Unit,
     onGetSelectedDate: () -> LocalDate
 ) {
+    val projectNameProvider = get<ProjectNameProvider>()
     val currentDate = getCurrentDateTime().date
     val weekText = if (onGetSelectedDate() == currentDate) {
         "This Week (${currentDate.dayOfYear / 7 + 1})"
@@ -114,24 +112,27 @@ fun DashboardScreen(
                         .height(200.dp)
                         .width(200.dp)
                 ) {
-                    PieChartView(dashboardData)
+                    PieChartView(dashboardData, projectNameProvider)
                 }
+                Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
 
-                Table(dashboardData, onReloadDashboardData)
+                Table(dashboardData, onReloadDashboardData, projectNameProvider)
             }
         }
     }
 }
 
 @Composable
-fun PieChartView(dashboardData: List<DashboardData>) {
-
-
+fun PieChartView(dashboardData: List<DashboardData>, projectNameProvider: ProjectNameProvider) {
     PieChart(
         pieChartData = PieChartData(
             slices = dashboardData.map {
                 val color = if (it.projectId != null) {
-                    LocalColor.current.lightGreen
+                    val colorString = projectNameProvider.getProjectColorById(it.projectId)
+                    if (colorString != null) {
+                        stringToColor(colorString)
+                    } else {
+                        LocalColor.current.lightGreen}
                 } else {
                     LocalColor.current.lightGrey
                 }
@@ -149,12 +150,13 @@ fun PieChartView(dashboardData: List<DashboardData>) {
 @Composable
 fun Table(
     dashboardDataList: List<DashboardData>,
-    reloadDashboardData: () -> Unit
+    reloadDashboardData: () -> Unit,
+    projectNameProvider: ProjectNameProvider
 ) {
     val column2Weight = .5f // 70%
     val column3Weight = .25f // 70%
     val column4Weight = .25f // 70%
-    val projectNameProvider = get<ProjectNameProvider>()
+
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -172,8 +174,16 @@ fun Table(
             }
         }
         items(dashboardDataList) { projectSummary ->
+            val colorString = projectNameProvider.getProjectColorById(projectSummary.projectId)
+            val color = if (colorString != null) {
+                stringToColor(colorString)
+            } else {
+                LocalColor.current.actionSuperWeak
+            }
+
+            stringToColor(projectNameProvider.getProjectColorById(projectSummary.projectId) ?: "")
             val backgroundColor = if (projectSummary.projectId != null) {
-                LocalColor.current.lightGreen
+                color
             } else {
                 LocalColor.current.lightGrey
             }

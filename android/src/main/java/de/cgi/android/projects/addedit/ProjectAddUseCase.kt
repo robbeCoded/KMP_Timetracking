@@ -13,8 +13,9 @@ class ProjectAddUseCase(
         startDate: String,
         endDate: String,
         description: String?,
-        userId: String
+        userId: String,
+        color: String?
     ): Flow<ResultState<Project?>> {
-        return repository.newProject(name, description, startDate, endDate, userId)
+        return repository.newProject(name, description, startDate, endDate, userId, color)
     }
 }
