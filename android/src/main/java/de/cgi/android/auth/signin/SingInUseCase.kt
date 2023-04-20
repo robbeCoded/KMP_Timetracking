@@ -30,6 +30,21 @@ class SignInUseCase(
         }
     }
 
+    fun getUserRole(): Flow<SignInState>{
+        return authRepository.getUserRole().map { resultState ->
+            when(resultState) {
+                is ResultState.Loading -> SignInState.Loading
+                is ResultState.Success -> {
+                    when(resultState.data) {
+                        is AuthResult.Authorized -> SignInState.Success(null)
+                        else -> SignInState.Error("Error while getting user role")
+                    }
+                }
+                else -> SignInState.Error("Error while getting user role")
+            }
+        }
+    }
+
     fun authenticate(): Flow<SignInState> {
         return authRepository.authenticate().map { resultState ->
             when (resultState) {

@@ -1,17 +1,34 @@
 package de.cgi.android.projects.addedit
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.widget.DatePicker
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import compose.icons.FeatherIcons
+import compose.icons.feathericons.X
+import de.cgi.android.ui.components.AddEditButtonSection
 import de.cgi.android.ui.components.SelectableTextField
+import de.cgi.android.ui.theme.LocalColor
+import de.cgi.android.ui.theme.LocalSpacing
+import de.cgi.android.util.colorToString
+import de.cgi.android.util.format
 import kotlinx.datetime.*
 
-@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ProjectAddEditScreen(
     onStartDateChanged: (LocalDate) -> Unit,
@@ -31,11 +48,23 @@ fun ProjectAddEditScreen(
     onGetEndDate: () -> LocalDate?,
     onGetName: () -> String?,
     onGetDescription: () -> String?,
+
+    onColorChanged: (String) -> Unit,
+    onGetColor: () -> String?,
+
+    onProjectsUpdated: () -> Unit
 ) {
+
 
     val context = LocalContext.current
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
-
+    val startDate = remember { mutableStateOf<LocalDate?>(null) }
+    val endDate = remember { mutableStateOf<LocalDate?>(null) }
+    val name = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
+    val selectedColor = remember {
+        mutableStateOf("")
+    }
 
     if (editProject) {
         LaunchedEffect(key1 = "edit") {
@@ -43,19 +72,15 @@ fun ProjectAddEditScreen(
         }
     }
 
-    val startDate = remember { mutableStateOf<LocalDate?>(null) }
-    val endDate = remember { mutableStateOf<LocalDate?>(null) }
-    val name = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
-
     startDate.value = onGetStartDate() ?: currentDate
     endDate.value = onGetEndDate() ?: currentDate
     name.value = onGetName() ?: ""
     description.value = onGetDescription() ?: ""
+    selectedColor.value = onGetColor() ?: ""
 
     fun datePickerDialog(
-    date: MutableState<LocalDate?>,
-    onDateChanged: (LocalDate) -> Unit
+        date: MutableState<LocalDate?>,
+        onDateChanged: (LocalDate) -> Unit
     ): DatePickerDialog {
         return DatePickerDialog(
             context,
@@ -75,10 +100,19 @@ fun ProjectAddEditScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
     ) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .fillMaxWidth(), contentAlignment = Alignment.CenterEnd
+        ) {
+            IconButton(onClick = { onNavigateBack() }) {
+                Icon(imageVector = FeatherIcons.X, contentDescription = "Cancel")
+            }
+        }
         SelectableTextField(
-            value = startDate.value.toString(),
+            value = startDate.value!!.format(),
             onValueChange = { newValue ->
                 startDate.value = newValue.toLocalDate()
                 onStartDateChanged(newValue.toLocalDate())
@@ -91,7 +125,7 @@ fun ProjectAddEditScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         SelectableTextField(
-            value = endDate.value.toString(),
+            value = endDate.value!!.format(),
             onValueChange = { newValue ->
                 endDate.value = newValue.toLocalDate()
                 onEndDateChanged(newValue.toLocalDate())
@@ -103,73 +137,73 @@ fun ProjectAddEditScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
+        SelectableTextField(
             value = name.value,
             onValueChange = {
                 name.value = it
                 onNameChanged(it)
             },
-            label = { Text("Project name") },
+            label = "Project name",
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
+        SelectableTextField(
             value = description.value,
             onValueChange = {
                 description.value = it
                 onDescriptionChanged(it)
             },
-            label = { Text("Description") },
+            label = "Description",
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
 
+        Text(text = "Color")
+        Spacer(modifier = Modifier.height(LocalSpacing.current.small))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if(editProject) {
-                Button(
-                    onClick = {
-                        onUpdateProject()
-                        onNavigateBack()
-                    },
+            LocalColor.current.projectColorsList.forEach { color ->
+                val colorString = colorToString(color)
+                Box(
                     modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
-                ) {
-                    Text("Update")
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Button(
-                    onClick = {
-                        onDeleteProject()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
-                ) {
-                    Text("Delete")
-                }
-            } else {
-                Button(
-                    onClick = {
-                        onSubmitProject()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
-                ) {
-                    Text("Submit")
-                }
+                        .height(50.dp)
+                        .width(50.dp)
+                        .clip(shape = RoundedCornerShape(10.dp))
+                        .border(
+                            width = if (selectedColor.value == colorString) 3.dp else 1.dp,
+                            color = if (selectedColor.value == colorString) LocalColor.current.actionPrimary else LocalColor.current.black,
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                        .background(color)
+                        .clickable {
+                            selectedColor.value = colorString
+                            onColorChanged(colorString)
+                        }
+                )
             }
-
         }
+        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+        AddEditButtonSection(
+            edit = editProject,
+            onSubmit = {
+                onSubmitProject()
+                onProjectsUpdated()
+            },
+            onUpdate = {
+                onUpdateProject()
+                onProjectsUpdated()
+            },
+            onDelete = {
+                onDeleteProject()
+                onProjectsUpdated()
+            },
+            onNavigateBack = { onNavigateBack() }
+        )
     }
 }
+
 

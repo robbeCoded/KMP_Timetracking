@@ -10,4 +10,5 @@ data class UpdateProjectRequest(
     val endDate: String,
     val description: String?,
     val userId: String,
+    val color: String?
 )

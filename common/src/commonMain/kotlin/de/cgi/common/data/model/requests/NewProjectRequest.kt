@@ -8,5 +8,6 @@ data class NewProjectRequest(
     val startDate: String,
     val endDate: String,
     val userId: String,
-    val description: String?
+    val description: String?,
+    val color: String?
 )

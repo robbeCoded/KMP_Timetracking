@@ -1,5 +1,7 @@
 package de.cgi.android.projects.list
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -10,10 +12,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.cgi.android.util.format
 import de.cgi.common.data.model.Project
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ProjectListItem(
     project: Project,
@@ -41,7 +45,7 @@ fun ProjectListItem(
             Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = "$startDate - $endDate"
+                text = "${startDate.format()} - ${endDate.format()}"
             )
 
         }

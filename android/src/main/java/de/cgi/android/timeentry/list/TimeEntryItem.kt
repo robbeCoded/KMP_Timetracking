@@ -10,19 +10,21 @@ import androidx.compose.ui.unit.dp
 import de.cgi.android.util.AsyncData
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
+import de.cgi.common.repository.ProjectNameProvider
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toLocalTime
+import org.koin.androidx.compose.get
 
 
 @Composable
 fun TimeEntryListItem(
     timeEntry: TimeEntry,
     onClick: (TimeEntry) -> Unit,
-    onGetProjectMap: () -> ResultState<Map<String, String>?>
 ) {
     val startTime: LocalTime = timeEntry.startTime.toLocalTime()
     val endTime: LocalTime = timeEntry.endTime.toLocalTime()
-    val projectMap = onGetProjectMap()
+    val projectNameProvider = get<ProjectNameProvider>()
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,10 +48,9 @@ fun TimeEntryListItem(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            val projectText = when (projectMap) {
-                is ResultState.Success -> projectMap.data?.get(timeEntry.projectId) ?: "No Project assigned"
-                else -> "No Project assigned"
-            }
+            val projectText =
+                timeEntry.projectId?.let { projectNameProvider.getProjectNameById(it) }
+                    ?: "Internal"
 
             Text(text = projectText)
 

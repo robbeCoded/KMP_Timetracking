@@ -27,6 +27,7 @@ class SignInViewModel (
     private val signInPassword: StateFlow<String> = _signInPassword
 
     private var signInJob: Job? = null
+    private var getUserRoleJob: Job? = null
     private var authJob: Job? = null
 
     init {
@@ -37,6 +38,13 @@ class SignInViewModel (
     fun signIn() {
         signInJob?.cancel()
         signInJob = useCase.signIn(email = signInEmail.value, password = signInPassword.value).onEach {
+            _signInState.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun getUserRole() {
+        getUserRoleJob?.cancel()
+        getUserRoleJob = useCase.getUserRole().onEach {
             _signInState.value = it
         }.launchIn(viewModelScope)
     }

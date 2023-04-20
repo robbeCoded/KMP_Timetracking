@@ -11,6 +11,9 @@ import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
 
 class TimeEntryRepositoryImpl(
     databaseDriverFactory: DatabaseDriverFactory,
@@ -54,13 +57,18 @@ class TimeEntryRepositoryImpl(
         }
     }
 
-
-    override fun getTimeEntries(userId: String, date: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
-        val cachedTimeEntries = database.getAllTimeEntries(userId, date)
+    override fun getTimeEntriesForWeek(userId: String, startDate: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
+        val startLocalDate = LocalDate.parse(startDate)
+        val endLocalDate = startLocalDate.plus(
+            6,
+            DateTimeUnit.DAY
+        )
+        val endDate = endLocalDate.toString()
+        val cachedTimeEntries = database.getTimeEntriesForWeek(userId, startDate, endDate)
         return if (cachedTimeEntries.isNotEmpty() && !forceReload) {
             flowOf(ResultState.Success(cachedTimeEntries))
         } else {
-            api.getTimeEntries(userId, date).map { result ->
+            api.getTimeEntries(userId, startDate).map { result ->
                 if (result is ResultState.Success) {
                     database.clearTimeEntries()
                     database.createTimeEntries(result.data)

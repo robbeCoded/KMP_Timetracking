@@ -3,7 +3,6 @@ package de.cgi
 import de.cgi.data.datasource.TimeEntryDataSource
 import de.cgi.data.models.TimeEntry
 import de.cgi.data.requests.NewTimeEntryRequest
-import de.cgi.data.requests.TimeEntryByIdRequest
 import de.cgi.data.requests.UpdateTimeEntryRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -124,6 +123,25 @@ fun Route.getTimeEntriesForDate(
     }
 
 }
+
+fun Route.getTimeEntriesForWeek(
+    timeEntryDataSource: TimeEntryDataSource
+) {
+    authenticate {
+        get("timeentry/getAllForWeek") {
+            val userId = call.parameters["id"]
+            val startDate = call.parameters["startDate"]
+            if (userId != null && startDate != null) {
+                val bsonUserId = ObjectId(userId)
+                val timeEntries = timeEntryDataSource.getTimeEntriesForWeek(bsonUserId, startDate)
+                call.respond(HttpStatusCode.OK, timeEntries)
+            } else {
+                call.respond(HttpStatusCode.BadRequest, "Something went wrong")
+            }
+        }
+    }
+}
+
 
 fun Route.getTimeEntry(
     timeEntryDataSource: TimeEntryDataSource

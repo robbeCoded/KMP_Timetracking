@@ -20,7 +20,7 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
     override fun newTimeEntry(timeEntry: NewTimeEntry): Flow<ResultState<TimeEntry?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.NEW_TIME_ENTRY) {
+            val response = client.post(Routes.NEW_TIME_ENTRY) {
                 contentType(ContentType.Application.Json)
                 setBody(timeEntry)
             }
@@ -35,7 +35,7 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
     override fun updateTimeEntry(timeEntry: UpdateTimeEntryRequest): Flow<ResultState<TimeEntry?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.UPDATE_TIME_ENTRY) {
+            val response = client.post(Routes.UPDATE_TIME_ENTRY) {
                 contentType(ContentType.Application.Json)
                 setBody(timeEntry)
             }
@@ -47,12 +47,12 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
         }
     }
 
-    override fun getTimeEntries(userId: String, date: String): Flow<ResultState<List<TimeEntry>>> {
+    override fun getTimeEntries(userId: String, startDate: String): Flow<ResultState<List<TimeEntry>>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_TIME_ENTRIES_FOR_DATE) {
+            val response = client.get(Routes.GET_TIME_ENTRIES_FOR_WEEK) {
                 parameter("id", userId)
-                parameter("date", date)
+                parameter("startDate", startDate)
             }
             when (response.status) {
                 HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
@@ -65,7 +65,7 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
     override fun getTimeEntryById(timeEntryRequest: TimeEntryRequest): Flow<ResultState<TimeEntry?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_TIME_ENTRY_BY_ID) {
+            val response = client.get(Routes.GET_TIME_ENTRY_BY_ID) {
                 parameter("id", timeEntryRequest.id)
                 contentType(ContentType.Application.Json)
             }
@@ -81,7 +81,7 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
     override fun deleteTimeEntry(timeEntryRequest: TimeEntryRequest): Flow<ResultState<Boolean>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.delete(routes.DELETE_TIME_ENTRY) {
+            val response = client.delete(Routes.DELETE_TIME_ENTRY) {
                 parameter("id", timeEntryRequest.id)
                 contentType(ContentType.Application.Json)
             }

@@ -35,6 +35,7 @@ fun NavGraphBuilder.authGraph(
                 onSignInPasswordChanged = viewModel::signInPasswordChanged,
                 onSignInSuccess = router::showTimeEntryList,
                 onSignUpClick = router::showSignUp,
+                onGetUserRole = viewModel::getUserRole
             )
         }
 

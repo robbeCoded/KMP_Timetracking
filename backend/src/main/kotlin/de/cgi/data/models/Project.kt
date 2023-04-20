@@ -20,4 +20,6 @@ data class Project(
 
     @Serializable(with = ObjectIdSerializer::class)
     val userId: ObjectId,
+
+    val color: String?
 )

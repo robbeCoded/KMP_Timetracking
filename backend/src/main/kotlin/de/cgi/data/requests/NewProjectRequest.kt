@@ -9,4 +9,5 @@ data class NewProjectRequest(
     val endDate: String,
     val userId: String,
     val description: String?,
+    val color: String?
 )

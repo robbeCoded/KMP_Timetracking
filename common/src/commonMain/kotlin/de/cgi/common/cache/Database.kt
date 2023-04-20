@@ -70,8 +70,9 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    internal fun getAllTimeEntries(userId: String, date: String): List<TimeEntry> {
-        return dbQuery.selectAllTimeEntries(userId, date, ::mapToTimeEntry).executeAsList()
+
+    internal fun getTimeEntriesForWeek(userId: String, startDate: String, endDate: String): List<TimeEntry> {
+        return dbQuery.selectTimeEntriesForWeek(userId, startDate, endDate, ::mapToTimeEntry).executeAsList()
     }
 
     private fun mapToTimeEntry(
@@ -131,7 +132,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                     startDate = project.startDate,
                     endDate = project.endDate,
                     description = project.description,
-                    userId = project.userId
+                    userId = project.userId,
+                    color = project.color
                 )
             }
         }
@@ -145,7 +147,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 startDate = project.startDate,
                 endDate = project.endDate,
                 description = project.description,
-                userId = project.userId
+                userId = project.userId,
+                color = project.color
             )
         }
     }
@@ -158,7 +161,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 startDate = project.startDate,
                 endDate = project.endDate,
                 description = project.description,
-                userId = project.userId
+                userId = project.userId,
+                color = project.color
             )
         }
     }
@@ -188,7 +192,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         startDate: String?,
         endDate: String?,
         description: String?,
-        userId: String?
+        userId: String?,
+        color: String?
     ): Project {
         if (name == null || startDate == null || endDate == null || id == null || userId == null) {
             throw IllegalStateException("Required field is null")
@@ -200,7 +205,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             startDate = startDate,
             endDate = endDate,
             description = description,
-            userId = userId
+            userId = userId,
+            color = color
         )
     }
 
@@ -214,6 +220,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 startDate =  query.startDate,
                 endDate = query.endDate,
                 userId = query.userId,
+                color = query.color,
             )
         } catch (e: Exception){
             null

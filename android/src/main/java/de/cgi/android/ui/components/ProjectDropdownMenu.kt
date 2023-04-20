@@ -1,13 +1,7 @@
 package de.cgi.android.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,43 +10,45 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.cgi.android.util.AsyncData
 import de.cgi.common.ResultState
-import de.cgi.common.data.model.Project
+import de.cgi.common.repository.ProjectNameProvider
+import org.koin.androidx.compose.get
 
 @Composable
 fun ProjectDropdownMenu(
     selectedProject: MutableState<String>,
     onProjectChanged: (String, String) -> Unit,
-    onGetProjects: () -> ResultState<Map<String, String>?>
 ) {
     val expandedProject = remember { mutableStateOf(false) }
-    val projectListState = onGetProjects()
+    val projectNameProvider = get<ProjectNameProvider>()
+    val projectListState = projectNameProvider.getProjectNameMapValue()
 
-    Box {
-        Text(
-            text = selectedProject.value,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    expandedProject.value = true
-                }
-                .padding(vertical = 12.dp)
-                .background(
-                    MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
-                    RoundedCornerShape(4.dp)
-                )
-                .padding(horizontal = 16.dp),
-            color = MaterialTheme.colors.onSurface
+    Column(modifier = Modifier.wrapContentSize()) {
+        Text(text = "Project")
+        Spacer(modifier = Modifier.height(5.dp))
+        SelectableTextField(
+            value = selectedProject.value,
+            onValueChange = { },
+            label = "",
+            onClick = { expandedProject.value = true }
         )
         DropdownMenu(
             expanded = expandedProject.value,
             onDismissRequest = { expandedProject.value = false },
             modifier = Modifier.fillMaxWidth()
         ) {
-            when (val resultState = projectListState) {
+            when (projectListState) {
                 is ResultState.Success -> {
-                    val projectList = resultState.data
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedProject.value = "Internal"
+                            onProjectChanged("", "Internal")
+                            expandedProject.value = false
+                        },
+                        text = { Text("Internal") }
+                    )
+
+                    val projectList = projectListState.data
                     projectList?.forEach { project ->
                         DropdownMenuItem(
                             onClick = {
@@ -67,7 +63,7 @@ fun ProjectDropdownMenu(
                 is ResultState.Error -> {
                     DropdownMenuItem(
                         text = { Text("Error loading projects. Click to try again.") },
-                        onClick = { onGetProjects() }
+                        onClick = { projectNameProvider.getProjectNameMap() }
                     )
                 }
                 is ResultState.Loading -> {
@@ -80,6 +76,4 @@ fun ProjectDropdownMenu(
         }
     }
 }
-
-
 

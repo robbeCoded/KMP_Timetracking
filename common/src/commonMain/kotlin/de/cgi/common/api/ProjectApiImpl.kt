@@ -20,7 +20,7 @@ class ProjectApiImpl(
     override fun newProject(project: NewProjectRequest): Flow<ResultState<Project?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.NEW_PROJECT) {
+            val response = client.post(Routes.NEW_PROJECT) {
                 contentType(ContentType.Application.Json)
                 setBody(project)
             }
@@ -35,7 +35,7 @@ class ProjectApiImpl(
     override fun updateProject(projectRequest: UpdateProjectRequest): Flow<ResultState<Project?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.UPDATE_PROJECT) {
+            val response = client.post(Routes.UPDATE_PROJECT) {
                 contentType(ContentType.Application.Json)
                 setBody(projectRequest)
             }
@@ -50,7 +50,7 @@ class ProjectApiImpl(
     override fun getProjects(userId: String): Flow<ResultState<List<Project>>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_PROJECTS) {
+            val response = client.get(Routes.GET_PROJECTS) {
                 parameter("id", userId)
             }
             when (response.status) {
@@ -64,7 +64,7 @@ class ProjectApiImpl(
     override fun getProjectById(projectRequest: ProjectRequest): Flow<ResultState<Project?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_PROJECT_BY_ID) {
+            val response = client.get(Routes.GET_PROJECT_BY_ID) {
                 parameter("id", projectRequest.id)
                 contentType(ContentType.Application.Json)
             }
@@ -80,7 +80,7 @@ class ProjectApiImpl(
     override fun deleteProject(projectRequest: ProjectRequest): Flow<ResultState<Boolean>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.delete(routes.DELETE_PROJECT) {
+            val response = client.delete(Routes.DELETE_PROJECT) {
                 parameter("id", projectRequest.id)
                 contentType(ContentType.Application.Json)
             }

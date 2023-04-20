@@ -8,18 +8,18 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import compose.icons.FeatherIcons
+import compose.icons.feathericons.X
+import de.cgi.android.ui.components.AddEditButtonSection
 import de.cgi.android.ui.components.ProjectDropdownMenu
 import de.cgi.android.ui.components.SelectableTextField
-import de.cgi.common.ResultState
-import de.cgi.common.data.model.Project
+import de.cgi.android.util.format
 import kotlinx.datetime.*
 
-//interfaces für viewModel
-//Adapter pattern anschauen
-//strategy pattern
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,7 +43,6 @@ fun TimeEntryAddEditScreen(
     onGetDescription: () -> String?,
     onGetProjectId: () -> String?,
     onGetProjectName: () -> String?,
-    onGetProjects: () -> ResultState<Map<String, String>?>
 ) {
 
     val context = LocalContext.current
@@ -111,124 +110,102 @@ fun TimeEntryAddEditScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
     ) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .fillMaxWidth(), contentAlignment = Alignment.CenterEnd
+        ) {
+            IconButton(onClick = { onNavigateBack() }) {
+                Icon(imageVector = FeatherIcons.X, contentDescription = "Cancel")
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            SelectableTextField(
+                value = date.value!!.format(),
+                onValueChange = { newValue ->
+                    date.value = newValue.toLocalDate()
+                    onDateChanged(newValue.toLocalDate())
+                },
+                label = "Date",
+                onClick = { datePickerDialog.show() },
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            SelectableTextField(
+                value = duration.value.toString(),
+                onValueChange = { newValue ->
+                    duration.value = newValue.toLocalTime()
+                    onDurationChanged(
+                        newValue.toLocalTime()
+                    )
+                },
+                label = "Duration",
+                onClick = { timePickerDialog(duration, onDurationChanged).show() },
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            SelectableTextField(
+                value = startTime.value.toString(),
+                onValueChange = { newValue ->
+                    startTime.value = newValue.toLocalTime()
+                    onStartTimeChanged(newValue.toLocalTime())
+                },
+                label = "Start time",
+                modifier = Modifier.weight(1f),
+                onClick = { timePickerDialog(startTime, onStartTimeChanged).show() }
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            SelectableTextField(
+                value = endTime.value.toString(),
+                onValueChange = { newValue ->
+                    endTime.value = newValue.toLocalTime()
+                    onEndTimeChanged(newValue.toLocalTime())
+                },
+                label = "End time",
+                modifier = Modifier.weight(1f),
+                onClick = { timePickerDialog(endTime, onEndTimeChanged).show() }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         SelectableTextField(
-            value = date.value.toString(),
-            onValueChange = { newValue ->
-                date.value = newValue.toLocalDate()
-                onDateChanged(newValue.toLocalDate())
-            },
-            label = "Date",
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = { datePickerDialog.show() }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        SelectableTextField(
-            value = startTime.value.toString(),
-            onValueChange = { newValue ->
-                startTime.value = newValue.toLocalTime()
-                onStartTimeChanged(newValue.toLocalTime())
-            },
-            label = "Start time",
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = { timePickerDialog(startTime, onStartTimeChanged).show() }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        SelectableTextField(
-            value = duration.value.toString(),
-            onValueChange = { newValue ->
-                duration.value = newValue.toLocalTime()
-                onDurationChanged(
-                    newValue.toLocalTime()
-                )
-            },
-            label = "Duration",
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = { timePickerDialog(duration, onDurationChanged).show() }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        SelectableTextField(
-            value = endTime.value.toString(),
-            onValueChange = { newValue ->
-                endTime.value = newValue.toLocalTime()
-                onEndTimeChanged(newValue.toLocalTime())
-            },
-            label = "End time",
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = { timePickerDialog(endTime, onEndTimeChanged).show() }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ProjectDropdownMenu(selectedProject, onProjectChanged, onGetProjects)
-
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
             value = description.value,
             onValueChange = {
                 description.value = it
                 onDescriptionChanged(it)
             },
-            label = { Text("Description") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
+            label = "Description",
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            if(editTimeEntry) {
-                Button(
-                    onClick = {
-                        onUpdateTimeEntry()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
-                ) {
-                    Text("Update")
-                }
+        )
 
-                Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-                Button(
-                    onClick = {
-                        onDeleteTimeEntry()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
-                ) {
-                    Text("Delete")
-                }
-            } else {
-                Button(
-                    onClick = {
-                        onSubmitTimeEntry()
-                        onNavigateBack()
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentWidth(),
-                ) {
-                    Text("Submit")
-                }
-            }
+        ProjectDropdownMenu(selectedProject, onProjectChanged)
 
-        }
+        Spacer(modifier = Modifier.height(32.dp))
+
+        AddEditButtonSection(
+            edit = editTimeEntry,
+            onSubmit = { onSubmitTimeEntry() },
+            onUpdate = { onUpdateTimeEntry() },
+            onDelete = { onDeleteTimeEntry() },
+            onNavigateBack = { onNavigateBack() })
     }
 }
-
-

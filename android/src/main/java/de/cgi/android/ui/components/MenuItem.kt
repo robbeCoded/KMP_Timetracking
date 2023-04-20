@@ -7,4 +7,5 @@ data class MenuItem(
     val title: String,
     val icon: ImageVector,
     val contentDescription: String,
+    val selected: Boolean,
 )

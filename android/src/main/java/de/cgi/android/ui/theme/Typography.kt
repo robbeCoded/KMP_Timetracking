@@ -5,6 +5,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 data class TimetrackingTypography (
@@ -38,6 +39,17 @@ data class TimetrackingTypography (
         fontWeight = FontWeight.W400,
         fontSize = 24.sp,
         lineHeight = 32.sp
+    ),
+    val tabMenuSelected : TextStyle = TextStyle(
+        fontWeight = FontWeight.W500,
+        fontSize = 20.sp,
+        lineHeight = 32.sp,
+        textDecoration = TextDecoration.Underline,
+    ),
+    val tabMenuNotSelected : TextStyle = TextStyle(
+        fontWeight = FontWeight.W400,
+        fontSize = 20.sp,
+        lineHeight = 32.sp,
     ),
     val titleLarge : TextStyle = TextStyle(
         fontWeight = FontWeight.W700,

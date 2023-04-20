@@ -15,7 +15,8 @@ CREATE TABLE Project (
     description TEXT,
     startDate TEXT NOT NULL,
     endDate TEXT NOT NULL,
-    userId TEXT NOT NULL
+    userId TEXT NOT NULL,
+    color TEXT
 );
 
 insertTimeEntry:
@@ -42,11 +43,13 @@ selectTimeEntryById:
 SELECT * FROM TimeEntry
 WHERE id = ?;
 
-selectAllTimeEntries:
+selectTimeEntriesForWeek:
 SELECT *
 FROM TimeEntry
-WHERE user_id = ?
-AND date = ?;
+WHERE user_id = :user_id
+AND strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', :start_date)
+AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', :end_date);
+
 
 deleteTimeEntryById:
 DELETE FROM TimeEntry
@@ -54,8 +57,8 @@ WHERE id = ?;
 
 
 insertProject:
-INSERT INTO Project(id, name, startDate, endDate, description, userId)
-VALUES(?, ?, ?, ?, ?, ?);
+INSERT INTO Project(id, name, startDate, endDate, description, userId, color)
+VALUES(?, ?, ?, ?, ?, ?,?);
 
 updateProject:
 UPDATE Project
@@ -64,7 +67,8 @@ SET
     startDate = ?,
     endDate = ?,
     description = ?,
-    userId = ?
+    userId = ?,
+    color = ?
 WHERE id = ?;
 
 
