@@ -11,8 +11,8 @@ class TeamRepositoryImpl(
     private val api: TeamApi
 ) : TeamRepository {
 
-    override fun newTeam(userId: String, managerIds: List<String?>): Flow<ResultState<Team?>> {
-        val newTeamRequest = NewTeamRequest(userId, managerIds)
+    override fun newTeam(userId: String, managerId: String, teamMemberIds: List<String>?): Flow<ResultState<Team?>> {
+        val newTeamRequest = NewTeamRequest(userId, managerId, teamMemberIds)
         return api.newTeam(newTeamRequest)
     }
 
@@ -21,15 +21,7 @@ class TeamRepositoryImpl(
         return api.updateTeamName(updateTeamNameRequest)
     }
 
-    override fun addTeamManagers(teamId: String, managerIds: List<String>): Flow<ResultState<Boolean>> {
-        val addTeamManagersRequest = AddTeamManagersRequest(teamId, managerIds)
-        return api.addManagers(addTeamManagersRequest)
-    }
 
-    override fun removeTeamManager(teamId: String, managerId: String): Flow<ResultState<Boolean>> {
-        val removeTeamManagerRequest = RemoveTeamManagerRequest(teamId, managerId)
-        return api.removeManager(removeTeamManagerRequest)
-    }
 
     override fun getTeamById(id: String, forceReload: Boolean): Flow<ResultState<Team?>> {
            return api.getTeam(id)

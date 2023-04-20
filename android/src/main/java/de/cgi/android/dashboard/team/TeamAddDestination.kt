@@ -20,5 +20,6 @@ fun TeamAddDestination(
     TeamAddScreen(
         userListState = userListState.userListState,
         onReloadUserList = viewModel::getUsers,
+        onSubmit = viewModel::newTeam
     )
 }

@@ -48,35 +48,6 @@ class TeamApiImpl(
         }
     }
 
-    override fun addManagers(request: AddTeamManagersRequest): Flow<ResultState<Boolean>> {
-        return callbackFlow {
-            trySend(ResultState.Loading)
-            val response = client.post(Routes.ADD_TEAM_MANAGERS) {
-                contentType(ContentType.Application.Json)
-                setBody(request)
-            }
-            when (response.status) {
-                HttpStatusCode.OK -> trySend(ResultState.Success(true))
-                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
-            }
-            awaitClose { }
-        }
-    }
-
-    override fun removeManager(request: RemoveTeamManagerRequest): Flow<ResultState<Boolean>> {
-        return callbackFlow {
-            trySend(ResultState.Loading)
-            val response = client.post(Routes.REMOVE_TEAM_MANAGER) {
-                contentType(ContentType.Application.Json)
-                setBody(request)
-            }
-            when (response.status) {
-                HttpStatusCode.OK -> trySend(ResultState.Success(true))
-                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
-            }
-            awaitClose { }
-        }
-    }
 
     override fun getTeam(id: String): Flow<ResultState<Team?>> {
         return callbackFlow {

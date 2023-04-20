@@ -21,12 +21,11 @@ fun Route.newTeam(
                 call.respond(HttpStatusCode.BadRequest)
                 return@post
             }
-            val managerIdList = mutableListOf<ObjectId>()
-            request.managerIds.forEach { managerId -> managerIdList.add(ObjectId(managerId)) }
 
             val team = Team(
                 name = request.name,
-                managerIds = managerIdList
+                managerId = ObjectId(request.managerId),
+                teamMemberIds = request.teamMemberIds
             )
 
             val wasAcknowledged = teamDataSource.insertTeam(team)
@@ -63,55 +62,6 @@ fun Route.updateTeamName(
             }
 
             call.respond(HttpStatusCode.OK)
-        }
-    }
-}
-
-fun Route.addTeamManagers(
-    teamDataSource: TeamDataSource
-) {
-    authenticate {
-        post("team/addManagers") {
-            val request = call.receiveNullable<AddTeamManagersRequest>() ?: kotlin.run {
-                call.respond(HttpStatusCode.BadRequest)
-                return@post
-            }
-            // TODO: Error handling - empty fields, etc.
-
-            val teamId = ObjectId(request.teamId)
-            val managerIds = request.managerIds.map { ObjectId(it) }
-
-            val wasAcknowledged = teamDataSource.addManagers(managerIds, teamId)
-            if (!wasAcknowledged) {
-                call.respond(HttpStatusCode.Conflict)
-                return@post
-            }
-
-            call.respond(HttpStatusCode.OK)
-        }
-    }
-}
-
-fun Route.removeTeamManager(
-    teamDataSource: TeamDataSource
-) {
-    authenticate {
-        post("team/removeManager") {
-            val request = call.receiveNullable<RemoveTeamManagerRequest>() ?: kotlin.run {
-                call.respond(HttpStatusCode.BadRequest)
-                return@post
-            }
-
-            val managerId = ObjectId(request.managerId)
-            val teamId = ObjectId(request.teamId)
-
-            val wasAcknowledged = teamDataSource.removeManager(managerId, teamId)
-            if (!wasAcknowledged) {
-                call.respond(HttpStatusCode.Conflict)
-                return@post
-            }
-
-            call.respond(HttpStatusCode.OK, "Manager removed successfully")
         }
     }
 }

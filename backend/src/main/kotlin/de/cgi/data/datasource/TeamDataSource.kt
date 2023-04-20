@@ -8,10 +8,6 @@ interface TeamDataSource {
 
     suspend fun insertTeam(team: Team): Boolean
 
-    suspend fun addManagers(managerIds: List<ObjectId>, teamId: ObjectId): Boolean
-
-    suspend fun removeManager(managerId: ObjectId, teamId: ObjectId): Boolean
-
     suspend fun updateName(request: UpdateTeamNameRequest): Boolean
 
     suspend fun deleteTeam(id: ObjectId): Boolean

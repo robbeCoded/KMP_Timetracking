@@ -12,6 +12,7 @@ import de.cgi.android.dashboard.DashboardUseCase
 import de.cgi.android.dashboard.DashboardViewModel
 import de.cgi.android.dashboard.team.TeamAddViewModel
 import de.cgi.android.dashboard.team.TeamDashboardUseCase
+import de.cgi.android.dashboard.team.TeamDashboardViewModel
 import de.cgi.android.dashboard.team.TeamListViewModel
 import de.cgi.android.projects.*
 import de.cgi.android.projects.addedit.ProjectAddUseCase
@@ -73,6 +74,7 @@ val appModule = module {
     viewModel { DashboardViewModel(get(), get(), get()) }
     viewModel { TeamListViewModel(get(), get()) }
     viewModel { TeamAddViewModel(get(), get()) }
+    viewModel { TeamDashboardViewModel(get(), get(), get(), get()) }
 }
 
 fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {

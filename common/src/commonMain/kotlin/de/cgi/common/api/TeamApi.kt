@@ -9,8 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface TeamApi {
     fun newTeam(team: NewTeamRequest): Flow<ResultState<Team?>>
     fun updateTeamName(request: UpdateTeamNameRequest): Flow<ResultState<Boolean>>
-    fun addManagers(request: AddTeamManagersRequest): Flow<ResultState<Boolean>>
-    fun removeManager(request: RemoveTeamManagerRequest): Flow<ResultState<Boolean>>
+
     fun getTeam(id: String): Flow<ResultState<Team?>>
     fun deleteTeam(id: String): Flow<ResultState<Boolean>>
     fun getTeamsForUser(userId: String): Flow<ResultState<List<Team>>>
