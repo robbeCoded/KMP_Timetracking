@@ -39,6 +39,15 @@ fun ProjectDropdownMenu(
         ) {
             when (projectListState) {
                 is ResultState.Success -> {
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedProject.value = "Internal"
+                            onProjectChanged("", "Internal")
+                            expandedProject.value = false
+                        },
+                        text = { Text("Internal") }
+                    )
+
                     val projectList = projectListState.data
                     projectList?.forEach { project ->
                         DropdownMenuItem(
@@ -67,3 +76,4 @@ fun ProjectDropdownMenu(
         }
     }
 }
+

@@ -132,9 +132,9 @@ fun PieChartView(dashboardData: List<DashboardData>, projectNameProvider: Projec
                     if (colorString != null) {
                         stringToColor(colorString)
                     } else {
-                        LocalColor.current.lightGreen}
+                        LocalColor.current.itemColor}
                 } else {
-                    LocalColor.current.lightGrey
+                    LocalColor.current.itemColor
                 }
 
                 PieChartData.Slice(it.percentage.toFloat(), color)
@@ -178,7 +178,7 @@ fun Table(
             val color = if (colorString != null) {
                 stringToColor(colorString)
             } else {
-                LocalColor.current.actionSuperWeak
+                LocalColor.current.itemColor
             }
 
             stringToColor(projectNameProvider.getProjectColorById(projectSummary.projectId) ?: "")
