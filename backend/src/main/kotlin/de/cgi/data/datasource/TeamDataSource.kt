@@ -17,4 +17,6 @@ interface TeamDataSource {
     suspend fun deleteTeam(id: ObjectId): Boolean
 
     suspend fun getTeam(id: ObjectId): Team?
+    suspend fun getTeamsForUser(userId: ObjectId): List<Team>
+
 }

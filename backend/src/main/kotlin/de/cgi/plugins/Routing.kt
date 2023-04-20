@@ -47,6 +47,9 @@ fun Application.configureRouting(
         removeTeamManager(teamDataSource)
         deleteTeam(teamDataSource)
         getTeam(teamDataSource)
+        getTeamsForUser(teamDataSource)
+        getAllUsers(userDataSource)
+        addUsersToTeam(userDataSource)
 
         getUserRole()
 

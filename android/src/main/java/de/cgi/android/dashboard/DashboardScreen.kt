@@ -5,11 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +34,8 @@ import kotlin.math.roundToInt
 @Composable
 fun DashboardScreen(
     isManager: Boolean,
+    onNavigateToTeamDashboard: () -> Unit,
+    onNavigateToPersonalDashboard: () -> Unit,
     dashboardDataState: ResultState<List<TimeEntry>>,
     dashboardData: List<DashboardData>,
     onReloadDashboardData: () -> Unit,
@@ -44,6 +43,7 @@ fun DashboardScreen(
     onUpdateDateAndReloadMinus: () -> Unit,
     onGetSelectedDate: () -> LocalDate
 ) {
+
     val projectNameProvider = get<ProjectNameProvider>()
     val currentDate = getCurrentDateTime().date
     val weekText = if (onGetSelectedDate() == currentDate) {
@@ -63,9 +63,49 @@ fun DashboardScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            if (isManager) {
+                val tabs = listOf("Personal", "Team")
+                var selectedTabIndex by remember { mutableStateOf(0) }
+                println("inside Tab menu")
+                TabRow(selectedTabIndex) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            text = {
+                                Text(
+                                    title,
+                                    color = LocalColor.current.actionSecondary,
+                                    style = if (selectedTabIndex == index)
+                                        LocalTypography.current.tabMenuSelected
+                                    else LocalTypography.current.tabMenuNotSelected,
+                                )
+                            },
+                            selected = selectedTabIndex == index,
+                            onClick = {
+                                selectedTabIndex = index
+                                if (selectedTabIndex == 1) {
+                                    onNavigateToTeamDashboard()
+                                }
+                                if (selectedTabIndex == 0) {
+                                    onNavigateToPersonalDashboard()
+                                }
+                            }
+                        )
+                    }
+                }
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { onUpdateDateAndReloadMinus() }) {
@@ -92,7 +132,34 @@ fun DashboardScreen(
                 onDismissAction = onReloadDashboardData
             )
         }) {
-            if (dashboardData.first().duration.toSecondOfDay() == 0) {
+            if (!it.isNullOrEmpty()) {
+                if (dashboardData.first().duration.toSecondOfDay() == 0) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(all = 10.dp),
+                    ) {
+                        Text(
+                            text = "There are no time entries for the selected week.",
+                            modifier = Modifier.align(
+                                Alignment.Center
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .height(200.dp)
+                            .width(200.dp)
+                    ) {
+                        PieChartView(dashboardData, projectNameProvider)
+                    }
+                    Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+
+                    Table(dashboardData, onReloadDashboardData, projectNameProvider)
+                }
+            } else {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -106,17 +173,6 @@ fun DashboardScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .width(200.dp)
-                ) {
-                    PieChartView(dashboardData, projectNameProvider)
-                }
-                Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
-
-                Table(dashboardData, onReloadDashboardData, projectNameProvider)
             }
         }
     }
@@ -132,7 +188,8 @@ fun PieChartView(dashboardData: List<DashboardData>, projectNameProvider: Projec
                     if (colorString != null) {
                         stringToColor(colorString)
                     } else {
-                        LocalColor.current.itemColor}
+                        LocalColor.current.itemColor
+                    }
                 } else {
                     LocalColor.current.itemColor
                 }

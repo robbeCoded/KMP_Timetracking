@@ -1,6 +1,7 @@
 package de.cgi
 
 import de.cgi.data.datasource.TeamDataSource
+import de.cgi.data.datasource.UserDataSource
 import de.cgi.data.models.Team
 import de.cgi.data.requests.*
 import io.ktor.http.*
@@ -21,7 +22,7 @@ fun Route.newTeam(
                 return@post
             }
             val managerIdList = mutableListOf<ObjectId>()
-            request.managerIds?.forEach { managerId -> managerIdList.add(ObjectId(managerId)) }
+            request.managerIds.forEach { managerId -> managerIdList.add(ObjectId(managerId)) }
 
             val team = Team(
                 name = request.name,
@@ -90,6 +91,7 @@ fun Route.addTeamManagers(
         }
     }
 }
+
 fun Route.removeTeamManager(
     teamDataSource: TeamDataSource
 ) {
@@ -152,3 +154,63 @@ fun Route.deleteTeam(
         }
     }
 }
+
+fun Route.getTeamsForUser(
+    teamDataSource: TeamDataSource
+) {
+    authenticate {
+        get("team/teamsForUser") {
+            val userIdString = call.parameters["userId"]
+            if (userIdString != null) {
+                val userId = ObjectId(userIdString)
+                val teams = teamDataSource.getTeamsForUser(userId)
+                if (teams.isNotEmpty()) {
+                    call.respond(HttpStatusCode.OK, teams)
+                    return@get
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "No teams found for this user")
+                    return@get
+                }
+            }
+            call.respond(HttpStatusCode.BadRequest, "User ID is required")
+        }
+    }
+}
+
+fun Route.getAllUsers(userDataSource: UserDataSource) {
+    authenticate {
+        get("users") {
+            val users = userDataSource.getAllUsers()
+            call.respond(HttpStatusCode.OK, users)
+        }
+    }
+}
+
+fun Route.addUsersToTeam(userDataSource: UserDataSource) {
+    authenticate {
+        post("team/addUsers") {
+            val request = call.receiveNullable<AddUsersToTeamRequest>() ?: kotlin.run {
+                call.respond(HttpStatusCode.BadRequest)
+                return@post
+            }
+
+            // Check if teamId and userIds are not empty
+            if (request.teamId.isBlank() || request.userIds.isEmpty()) {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Both teamId and userIds must be provided and not empty"
+                )
+                return@post
+            }
+
+            val wasAcknowledged = userDataSource.addTeamToUser(request.teamId, request.userIds)
+            if (!wasAcknowledged) {
+                call.respond(HttpStatusCode.Conflict, "Failed to add users to the team")
+                return@post
+            }
+
+            call.respond(HttpStatusCode.OK, "Users added to the team successfully")
+        }
+    }
+}
+

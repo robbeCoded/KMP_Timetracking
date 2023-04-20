@@ -21,10 +21,14 @@ fun DashboardScreenDestination(
     val userRepository = get<UserRepository>()
     val role = userRepository.getUserRole()
     val isManager = role == "team_manager"
+    println(role)
 
     val dashboardDataState by viewModel.listState.collectAsState()
+
     DashboardScreen(
         isManager = isManager,
+        onNavigateToTeamDashboard = { router.showTeamDashboard() },
+        onNavigateToPersonalDashboard = { router.back() },
         dashboardDataState = dashboardDataState.dashboardDataState,
         dashboardData = dashboardDataState.dashboardData,
         onReloadDashboardData = viewModel::getTimeEntries,
@@ -32,4 +36,6 @@ fun DashboardScreenDestination(
         onUpdateDateAndReloadMinus = viewModel::updateSelectedDateAndReloadMinus,
         onGetSelectedDate = viewModel::getSelectedDate
     )
+
+
 }

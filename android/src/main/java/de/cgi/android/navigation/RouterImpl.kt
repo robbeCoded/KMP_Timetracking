@@ -5,17 +5,16 @@ import de.cgi.android.account.AccountScreenRoute
 import de.cgi.android.auth.SignInScreenRoute
 import de.cgi.android.auth.SignUpScreenRoute
 import de.cgi.android.calender.CalenderScreenRoute
-import de.cgi.android.dashboard.DashboardScreenRoute
-import de.cgi.android.dashboard.TeamDashboardScreenRoute
+import de.cgi.android.dashboard.*
 import de.cgi.android.projects.ProjectAddRoute
 import de.cgi.android.projects.ProjectEditRoute
 import de.cgi.android.projects.ProjectListRoute
-import de.cgi.android.settings.SettingHomeDestination
 import de.cgi.android.settings.SettingsHomeRoute
 import de.cgi.android.timeentry.TimeEntryAddRoute
 import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.TimeEntryListRoute
 import de.cgi.common.data.model.Project
+import de.cgi.common.data.model.Team
 import de.cgi.common.data.model.TimeEntry
 
 
@@ -79,6 +78,18 @@ class RouterImpl(
 
     override fun showTeamDashboard() {
         navigationController.navigate(TeamDashboardScreenRoute.route)
+    }
+
+    override fun showTeamList() {
+        navigationController.navigate(TeamListScreenRoute.route)
+    }
+
+    override fun showTeamEdit(team: Team) {
+        navigationController.navigate(TeamEditRoute.buildEditTeamRoute(team.id))
+    }
+
+    override fun showTeamAdd() {
+        navigationController.navigate(TeamAddRoute.route)
     }
 
     override fun showSettings() {

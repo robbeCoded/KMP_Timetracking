@@ -3,13 +3,12 @@ package de.cgi.common.api
 import de.cgi.common.ErrorEntity
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.Team
-import de.cgi.common.data.model.requests.AddTeamManagersRequest
-import de.cgi.common.data.model.requests.NewTeamRequest
-import de.cgi.common.data.model.requests.RemoveTeamManagerRequest
-import de.cgi.common.data.model.requests.UpdateTeamNameRequest
+import de.cgi.common.data.model.User
+import de.cgi.common.data.model.requests.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.utils.EmptyContent.contentType
 import io.ktor.http.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +21,7 @@ class TeamApiImpl(
     override fun newTeam(team: NewTeamRequest): Flow<ResultState<Team?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.NEW_TEAM) {
+            val response = client.post(Routes.NEW_TEAM) {
                 contentType(ContentType.Application.Json)
                 setBody(team)
             }
@@ -37,7 +36,7 @@ class TeamApiImpl(
     override fun updateTeamName(request: UpdateTeamNameRequest): Flow<ResultState<Boolean>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.UPDATE_TEAM_NAME) {
+            val response = client.post(Routes.UPDATE_TEAM_NAME) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }
@@ -52,7 +51,7 @@ class TeamApiImpl(
     override fun addManagers(request: AddTeamManagersRequest): Flow<ResultState<Boolean>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.ADD_TEAM_MANAGERS) {
+            val response = client.post(Routes.ADD_TEAM_MANAGERS) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }
@@ -67,7 +66,7 @@ class TeamApiImpl(
     override fun removeManager(request: RemoveTeamManagerRequest): Flow<ResultState<Boolean>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.post(routes.REMOVE_TEAM_MANAGER) {
+            val response = client.post(Routes.REMOVE_TEAM_MANAGER) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }
@@ -82,7 +81,7 @@ class TeamApiImpl(
     override fun getTeam(id: String): Flow<ResultState<Team?>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.get(routes.GET_TEAM) {
+            val response = client.get(Routes.GET_TEAM) {
                 parameter("id", id)
             }
             when (response.status) {
@@ -97,7 +96,7 @@ class TeamApiImpl(
     override fun deleteTeam(id: String): Flow<ResultState<Boolean>> {
         return callbackFlow {
             trySend(ResultState.Loading)
-            val response = client.delete(routes.DELETE_TEAM) {
+            val response = client.delete(Routes.DELETE_TEAM) {
                 parameter("id", id)
             }
             when (response.status) {
@@ -108,4 +107,45 @@ class TeamApiImpl(
             awaitClose { }
         }
     }
+
+    override fun getTeamsForUser(userId: String): Flow<ResultState<List<Team>>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.get(Routes.GET_TEAMS_FOR_USER) {
+                parameter("userId", userId)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                HttpStatusCode.NotFound -> trySend(ResultState.Success(emptyList()))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose { }
+        }
+    }
+    override fun getAllUsers(): Flow<ResultState<List<User>>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.get(Routes.GET_ALL_USERS)
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(response.body()))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose { }
+        }
+    }
+    override fun addUsersToTeam(request: AddUsersToTeamRequest): Flow<ResultState<Boolean>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.post(Routes.ADD_USERS_TO_TEAM) {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> trySend(ResultState.Success(true))
+                else -> trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.status}"))))
+            }
+            awaitClose { }
+        }
+    }
+
 }

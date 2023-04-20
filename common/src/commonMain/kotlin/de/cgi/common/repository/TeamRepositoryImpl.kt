@@ -3,18 +3,16 @@ package de.cgi.common.repository
 import de.cgi.common.ResultState
 import de.cgi.common.api.TeamApi
 import de.cgi.common.data.model.Team
-import de.cgi.common.data.model.requests.AddTeamManagersRequest
-import de.cgi.common.data.model.requests.NewTeamRequest
-import de.cgi.common.data.model.requests.RemoveTeamManagerRequest
-import de.cgi.common.data.model.requests.UpdateTeamNameRequest
+import de.cgi.common.data.model.User
+import de.cgi.common.data.model.requests.*
 import kotlinx.coroutines.flow.Flow
 
 class TeamRepositoryImpl(
     private val api: TeamApi
 ) : TeamRepository {
 
-    override fun newTeam(name: String, managerIds: List<String>?): Flow<ResultState<Team?>> {
-        val newTeamRequest = NewTeamRequest(name, managerIds)
+    override fun newTeam(userId: String, managerIds: List<String?>): Flow<ResultState<Team?>> {
+        val newTeamRequest = NewTeamRequest(userId, managerIds)
         return api.newTeam(newTeamRequest)
     }
 
@@ -39,5 +37,18 @@ class TeamRepositoryImpl(
 
     override fun deleteTeam(id: String): Flow<ResultState<Boolean>> {
         return api.deleteTeam(id)
+    }
+
+    override fun getTeamsForUser(userId: String): Flow<ResultState<List<Team>>> {
+        return api.getTeamsForUser(userId)
+    }
+
+    override fun getAllUsers(): Flow<ResultState<List<User>>> {
+        return api.getAllUsers()
+    }
+
+    override fun addUsersToTeam(teamId: String, userIds: List<String>): Flow<ResultState<Boolean>> {
+        val request = AddUsersToTeamRequest(teamId, userIds)
+        return api.addUsersToTeam(request)
     }
 }

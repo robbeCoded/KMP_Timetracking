@@ -46,7 +46,7 @@ fun DrawerHeader(modifier: Modifier, userName: String?) {
             )
             Spacer(modifier = Modifier.height(10.dp))
             Image(
-                painter = painterResource(R.drawable.profile_pic),
+                painter = painterResource(R.drawable.no_profile_picutre),
                 contentDescription = "Profile picture",
 
                 modifier = Modifier

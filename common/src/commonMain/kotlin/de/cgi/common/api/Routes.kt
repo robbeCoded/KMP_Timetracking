@@ -1,6 +1,6 @@
 package de.cgi.common.api
 
-object routes {
+object Routes {
     var BASE_URL = "http://10.0.2.2:8080"
 
     val SIGNUP = "$BASE_URL/signup"
@@ -26,5 +26,9 @@ object routes {
     val REMOVE_TEAM_MANAGER = "$BASE_URL/team/removeManager"
     val GET_TEAM = "$BASE_URL/team/getOne"
     val DELETE_TEAM = "$BASE_URL/team/delete"
+    val GET_TEAMS_FOR_USER = "$BASE_URL/team/getTeamsForUser"
+    val GET_ALL_USERS = "$BASE_URL/users"
+    val ADD_USERS_TO_TEAM = "$BASE_URL/team/addUsers"
 }
+
 expect fun setBaseUrl(url: String)

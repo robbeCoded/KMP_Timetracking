@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.callbackFlow
 class AuthApiImpl(private val client: HttpClient) : AuthApi {
     override fun signUp(request: SignUpRequest): Flow<ResultState<AuthResult<AuthResponse>>> {
         return callbackFlow {
-            val response = client.post(routes.SIGNUP) {
+            val response = client.post(Routes.SIGNUP) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }
@@ -37,7 +37,7 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
 
     override fun signIn(request: AuthRequest): Flow<ResultState<AuthResult<AuthResponse>>> {
         return callbackFlow {
-            val response = client.post(routes.SIGNIN) {
+            val response = client.post(Routes.SIGNIN) {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }
@@ -56,7 +56,7 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
 
     override fun authenticate(): Flow<ResultState<AuthResult<Unit>>> {
         return callbackFlow {
-            val response = client.get(routes.AUTHENTICATE)
+            val response = client.get(Routes.AUTHENTICATE)
             when (response.status) {
                 HttpStatusCode.OK -> {
                     trySend(ResultState.Success(AuthResult.Authorized()))
@@ -75,7 +75,7 @@ class AuthApiImpl(private val client: HttpClient) : AuthApi {
 
     override fun getRole(): Flow<ResultState<AuthResult<GetUserRole>>> {
         return callbackFlow {
-            val response = client.get(routes.GET_ROLE) {
+            val response = client.get(Routes.GET_ROLE) {
                 contentType(ContentType.Application.Json)
             }
             when (response.status) {

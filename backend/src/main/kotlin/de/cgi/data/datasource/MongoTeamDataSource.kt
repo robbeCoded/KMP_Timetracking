@@ -6,11 +6,8 @@ import de.cgi.data.models.Project
 import de.cgi.data.models.Team
 import de.cgi.data.requests.UpdateTeamNameRequest
 import org.bson.types.ObjectId
-import org.litote.kmongo.addToSet
+import org.litote.kmongo.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.eq
-import org.litote.kmongo.set
-import org.litote.kmongo.setTo
 
 class MongoTeamDataSource(
     db: CoroutineDatabase
@@ -65,5 +62,9 @@ class MongoTeamDataSource(
 
     override suspend fun getTeam(id: ObjectId): Team? {
         return teams.findOneById(id)
+    }
+
+    override suspend fun getTeamsForUser(userId: ObjectId): List<Team> {
+        return teams.find(Team::managerIds contains userId).toList()
     }
 }
