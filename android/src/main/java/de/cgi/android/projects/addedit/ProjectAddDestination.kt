@@ -4,7 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import de.cgi.android.navigation.Router
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.android.projects.list.ProjectListViewModel
+import de.cgi.common.repository.ProjectMapProvider
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
@@ -16,7 +17,9 @@ fun ProjectAddDestination(
     val editProject = false
 
     val viewModel = getViewModel<ProjectAddViewModel>()
-    val projectNameProvider = get<ProjectNameProvider>()
+    val listViewModel = getViewModel<ProjectListViewModel>()
+
+    val projectMapProvider = get<ProjectMapProvider>()
 
     ProjectAddEditScreen(
         onStartDateChanged = viewModel::startDateChanged,
@@ -28,7 +31,7 @@ fun ProjectAddDestination(
         onDeleteProject = { },
         onUpdateProject = { },
 
-        onNavigateBack = { router.back() },
+        onNavigateBack = { router.backFromAddEdit(listViewModel::notifyProjectUpdates) },
         onGetProjectById = { },
         editProject = editProject,
 
@@ -39,7 +42,9 @@ fun ProjectAddDestination(
 
         onColorChanged = viewModel::colorChanged,
         onGetColor = viewModel::getColor,
+        onBillableChanged = viewModel::billableChanged,
+        onGetBillable = viewModel::getBillable,
 
-        onProjectsUpdated = { projectNameProvider.notifyProjectUpdates() }
+        onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() }
     )
 }

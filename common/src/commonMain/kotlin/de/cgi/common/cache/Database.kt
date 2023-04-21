@@ -133,7 +133,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                     endDate = project.endDate,
                     description = project.description,
                     userId = project.userId,
-                    color = project.color
+                    color = project.color,
+                    billable = project.billable.toString()
                 )
             }
         }
@@ -148,7 +149,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 endDate = project.endDate,
                 description = project.description,
                 userId = project.userId,
-                color = project.color
+                color = project.color,
+                billable = project.billable.toString()
             )
         }
     }
@@ -162,7 +164,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 endDate = project.endDate,
                 description = project.description,
                 userId = project.userId,
-                color = project.color
+                color = project.color,
+                billable = project.billable.toString()
             )
         }
     }
@@ -193,7 +196,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         endDate: String?,
         description: String?,
         userId: String?,
-        color: String?
+        color: String?,
+        billable: String
     ): Project {
         if (name == null || startDate == null || endDate == null || id == null || userId == null) {
             throw IllegalStateException("Required field is null")
@@ -206,7 +210,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             endDate = endDate,
             description = description,
             userId = userId,
-            color = color
+            color = color,
+            billable = billable.toBoolean()
         )
     }
 
@@ -221,6 +226,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 endDate = query.endDate,
                 userId = query.userId,
                 color = query.color,
+                billable = query.billable.toBoolean()
             )
         } catch (e: Exception){
             null

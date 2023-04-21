@@ -47,7 +47,7 @@ class ProjectApiImpl(
         }
     }
 
-    override fun getProjects(userId: String): Flow<ResultState<List<Project>>> {
+    override fun getProjectsForUser(userId: String): Flow<ResultState<List<Project>>> {
         return callbackFlow {
             trySend(ResultState.Loading)
             val response = client.get(Routes.GET_PROJECTS) {

@@ -29,6 +29,7 @@ interface Router {
     fun showAccount()
     fun showSettings()
     fun back()
+    fun backFromAddEdit(update: () -> Unit)
     fun navigationUp(): Boolean
 
     fun getCurrentRoute(): String?

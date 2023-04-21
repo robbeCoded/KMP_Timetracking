@@ -16,7 +16,8 @@ CREATE TABLE Project (
     startDate TEXT NOT NULL,
     endDate TEXT NOT NULL,
     userId TEXT NOT NULL,
-    color TEXT
+    color TEXT,
+    billable TEXT NOT NULL
 );
 
 insertTimeEntry:
@@ -57,8 +58,8 @@ WHERE id = ?;
 
 
 insertProject:
-INSERT INTO Project(id, name, startDate, endDate, description, userId, color)
-VALUES(?, ?, ?, ?, ?, ?,?);
+INSERT INTO Project(id, name, startDate, endDate, description, userId, color, billable)
+VALUES(?, ?, ?, ?, ?, ?,?,?);
 
 updateProject:
 UPDATE Project
@@ -68,7 +69,8 @@ SET
     endDate = ?,
     description = ?,
     userId = ?,
-    color = ?
+    color = ?,
+    billable = ?
 WHERE id = ?;
 
 

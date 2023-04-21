@@ -16,14 +16,12 @@ object Routes {
 
     val NEW_PROJECT = "$BASE_URL/project/new"
     val UPDATE_PROJECT = "$BASE_URL/project/update"
-    val GET_PROJECTS = "$BASE_URL/project/getAll"
+    val GET_PROJECTS = "$BASE_URL/project/getProjectsForUser"
     val GET_PROJECT_BY_ID = "$BASE_URL/project/getOne"
     val DELETE_PROJECT = "$BASE_URL/project/delete"
 
     val NEW_TEAM = "$BASE_URL/team/new"
     val UPDATE_TEAM_NAME = "$BASE_URL/team/updateName"
-    val ADD_TEAM_MANAGERS = "$BASE_URL/team/addManagers"
-    val REMOVE_TEAM_MANAGER = "$BASE_URL/team/removeManager"
     val GET_TEAM = "$BASE_URL/team/getOne"
     val DELETE_TEAM = "$BASE_URL/team/delete"
     val GET_TEAMS_FOR_USER = "$BASE_URL/team/getTeamsForUser"

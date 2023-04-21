@@ -19,7 +19,7 @@ import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.ui.theme.LocalTypography
 import de.cgi.android.util.stringToColor
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.common.repository.ProjectMapProvider
 import me.bytebeats.views.charts.pie.PieChart
 import me.bytebeats.views.charts.pie.PieChartData
 import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
@@ -28,12 +28,12 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun PieChartView(dashboardData: List<DashboardData>, projectNameProvider: ProjectNameProvider) {
+fun PieChartView(dashboardData: List<DashboardData>, projectMapProvider: ProjectMapProvider) {
     PieChart(
         pieChartData = PieChartData(
             slices = dashboardData.map {
                 val color = if (it.projectId != null) {
-                    val colorString = projectNameProvider.getProjectColorById(it.projectId)
+                    val colorString = projectMapProvider.getProjectColorById(it.projectId)
                     if (colorString != null) {
                         stringToColor(colorString)
                     } else {
@@ -57,7 +57,7 @@ fun PieChartView(dashboardData: List<DashboardData>, projectNameProvider: Projec
 fun Table(
     dashboardDataList: List<DashboardData>,
     reloadDashboardData: () -> Unit,
-    projectNameProvider: ProjectNameProvider
+    projectMapProvider: ProjectMapProvider
 ) {
     val column2Weight = .5f // 70%
     val column3Weight = .25f // 70%
@@ -80,14 +80,14 @@ fun Table(
             }
         }
         items(dashboardDataList) { projectSummary ->
-            val colorString = projectNameProvider.getProjectColorById(projectSummary.projectId)
+            val colorString = projectMapProvider.getProjectColorById(projectSummary.projectId)
             val color = if (colorString != null) {
                 stringToColor(colorString)
             } else {
                 LocalColor.current.itemColor
             }
 
-            stringToColor(projectNameProvider.getProjectColorById(projectSummary.projectId) ?: "")
+            stringToColor(projectMapProvider.getProjectColorById(projectSummary.projectId) ?: "")
             val backgroundColor = if (projectSummary.projectId != null) {
                 color
             } else {
@@ -100,7 +100,7 @@ fun Table(
                     .background(color = backgroundColor)
             ) {
                 TableCell(
-                    text = projectNameProvider.getProjectNameById(projectSummary.projectId)
+                    text = projectMapProvider.getProjectNameById(projectSummary.projectId)
                         ?: "Internal", weight = column2Weight
                 )
                 TableCell(text = projectSummary.duration.toString(), weight = column3Weight)

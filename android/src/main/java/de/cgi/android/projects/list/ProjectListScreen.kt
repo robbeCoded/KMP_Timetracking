@@ -1,5 +1,7 @@
 package de.cgi.android.projects.list
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -7,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
@@ -15,6 +18,7 @@ import de.cgi.android.util.GenericError
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.Project
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable

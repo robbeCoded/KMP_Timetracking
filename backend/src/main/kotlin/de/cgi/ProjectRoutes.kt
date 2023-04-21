@@ -34,7 +34,8 @@ fun Route.newProject(
                 endDate = request.endDate,
                 userId = userId,
                 description = request.description,
-                color = request.color
+                color = request.color,
+                billable = request.billable
             )
 
             val wasAcknowledged = projectDataSource.insertProject(project)
@@ -71,7 +72,8 @@ fun Route.updateProject(
                 endDate = request.endDate,
                 userId = userId,
                 description = request.description,
-                color = request.color
+                color = request.color,
+                billable = request.billable
             )
 
             val wasAcknowledged = projectDataSource.updateProject(project)
@@ -86,11 +88,11 @@ fun Route.updateProject(
 
 }
 
-fun Route.getProjects(
+fun Route.getProjectsForUser(
     projectDataSource: ProjectDataSource
 ) {
     authenticate {
-        get("project/getAll") {
+        get("project/getProjectsForUser") {
             val userId = call.parameters["id"]
             if (userId != null) {
                 val bsonUserId = ObjectId(userId)

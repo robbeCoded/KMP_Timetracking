@@ -18,7 +18,7 @@ import de.cgi.android.util.GenericError
 import de.cgi.android.util.getCurrentDateTime
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.get
 
@@ -35,7 +35,7 @@ fun DashboardScreen(
     onGetSelectedDate: () -> LocalDate
 ) {
 
-    val projectNameProvider = get<ProjectNameProvider>()
+    val projectMapProvider = get<ProjectMapProvider>()
     val currentDate = getCurrentDateTime().date
     val weekText = if (onGetSelectedDate() == currentDate) {
         "This Week (${currentDate.dayOfYear / 7 + 1})"
@@ -91,12 +91,12 @@ fun DashboardScreen(
                             .height(200.dp)
                             .width(200.dp)
                     ) {
-                        PieChartView(dashboardData, projectNameProvider)
+                        PieChartView(dashboardData, projectMapProvider)
                     }
 
                     Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
 
-                    Table(dashboardData, onReloadDashboardData, projectNameProvider)
+                    Table(dashboardData, onReloadDashboardData, projectMapProvider)
                 }
             } else {
                 Text(

@@ -25,7 +25,8 @@ class ProjectEditUseCase(
         endDate: String,
         description: String?,
         userId: String,
-        color: String?
+        color: String?,
+        billable: Boolean
     ): Flow<ResultState<Project?>> {
         return repository.updateProject(
             id = id,
@@ -34,7 +35,8 @@ class ProjectEditUseCase(
             endDate = endDate,
             description = description,
             userId = userId,
-            color = color
+            color = color,
+            billable = billable
         )
     }
 }

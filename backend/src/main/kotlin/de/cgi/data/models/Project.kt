@@ -21,5 +21,7 @@ data class Project(
     @Serializable(with = ObjectIdSerializer::class)
     val userId: ObjectId,
 
-    val color: String?
+    val color: String?,
+
+    val billable: Boolean
 )

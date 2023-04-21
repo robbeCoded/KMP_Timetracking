@@ -7,10 +7,8 @@ import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.cgi.android.util.AsyncData
-import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toLocalTime
 import org.koin.androidx.compose.get
@@ -23,7 +21,7 @@ fun TimeEntryListItem(
 ) {
     val startTime: LocalTime = timeEntry.startTime.toLocalTime()
     val endTime: LocalTime = timeEntry.endTime.toLocalTime()
-    val projectNameProvider = get<ProjectNameProvider>()
+    val projectMapProvider = get<ProjectMapProvider>()
 
     Card(
         modifier = Modifier
@@ -49,7 +47,7 @@ fun TimeEntryListItem(
             Spacer(modifier = Modifier.height(8.dp))
 
             val projectText =
-                timeEntry.projectId?.let { projectNameProvider.getProjectNameById(it) }
+                timeEntry.projectId?.let { projectMapProvider.getProjectNameById(it) }
                     ?: "Internal"
 
             Text(text = projectText)

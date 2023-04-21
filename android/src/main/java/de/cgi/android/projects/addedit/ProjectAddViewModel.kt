@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.Project
-import de.cgi.common.repository.ProjectNameProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,8 +47,12 @@ class ProjectAddViewModel(
     private val _description = MutableStateFlow<String?>(null)
     private val description: StateFlow<String?> = _description
 
-    private val _color = MutableStateFlow("-4856142")
+    private val _color = MutableStateFlow("")
     private val color: StateFlow<String> = _color
+
+    private val _billable = MutableStateFlow(false)
+    private val billable: StateFlow<Boolean> = _billable
+
 
     private var submitJob: Job? = null
 
@@ -61,7 +64,8 @@ class ProjectAddViewModel(
             name = name.value,
             description = description.value,
             userId = userId,
-            color = color.value
+            color = color.value,
+            billable = billable.value
         ).onEach {
             _projectAddState.value = it
         }.launchIn(viewModelScope)
@@ -87,10 +91,13 @@ class ProjectAddViewModel(
     fun colorChanged(color: String) {
         _color.value= color
     }
+    fun billableChanged(billable: Boolean) {
+        _billable.value = billable
+    }
     fun getStartDate(): LocalDate? = startDate.value
     fun getEndDate(): LocalDate? = endDate.value
     fun getName(): String = name.value
     fun getDescription(): String? = description.value
-
     fun getColor(): String = color.value
+    fun getBillable(): Boolean = billable.value
 }

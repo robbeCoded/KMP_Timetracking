@@ -11,7 +11,8 @@ interface ProjectRepository {
         startDate: String,
         endDate: String,
         userId: String,
-        color: String?
+        color: String?,
+        billable: Boolean
     ): Flow<ResultState<Project?>>
 
     fun updateProject(
@@ -21,10 +22,11 @@ interface ProjectRepository {
         startDate: String,
         endDate: String,
         userId: String,
-        color: String?
+        color: String?,
+        billable: Boolean
     ): Flow<ResultState<Project?>>
 
-    fun getProjects(userId: String, forceReload: Boolean): Flow<ResultState<List<Project>>>
+    fun getProjectsForUser(userId: String, forceReload: Boolean): Flow<ResultState<List<Project>>>
 
     fun getProjectById(id: String, forceReload: Boolean): Flow<ResultState<Project?>>
 

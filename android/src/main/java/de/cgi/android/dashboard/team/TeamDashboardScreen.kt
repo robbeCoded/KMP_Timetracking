@@ -19,7 +19,7 @@ import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.ui.theme.LocalTypography
 import de.cgi.android.util.GenericError
 import de.cgi.common.ResultState
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.common.repository.ProjectMapProvider
 import org.koin.androidx.compose.get
 import kotlin.math.roundToInt
 
@@ -75,7 +75,7 @@ fun TeamDashboard(
     teamDashboardDataState: ResultState<List<TeamDashboardData>>,
     onReloadData: () -> Unit
 ) {
-    val projectNameProvider = get<ProjectNameProvider>()
+    val projectMapProvider = get<ProjectMapProvider>()
     when (teamDashboardDataState) {
         is ResultState.Loading -> {
             CircularProgressIndicator()
@@ -144,7 +144,7 @@ fun TeamDashboard(
                                         .background(color = backgroundColor)
                                 ) {
                                     TableCell(
-                                        text = projectNameProvider.getProjectNameById(
+                                        text = projectMapProvider.getProjectNameById(
                                             projectSummary.projectId
                                         )
                                             ?: "Internal", weight = column2Weight

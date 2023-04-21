@@ -48,6 +48,9 @@ class ProjectEditViewModel(
     private val _color = MutableStateFlow<String?>(null)
     private val color: StateFlow<String?> = _color
 
+    private val _billable = MutableStateFlow(false)
+    private val billable: StateFlow<Boolean> = _billable
+
     private var updateJob: Job? = null
     private var deleteJob: Job? = null
     private var getTimeEntryJob: Job? = null
@@ -61,7 +64,8 @@ class ProjectEditViewModel(
             endDate = endDate.value.toString(),
             userId = userId,
             description = description.value,
-            color = color.value
+            color = color.value,
+            billable = billable.value
         ).onEach {
             _projectEditState.value = it
         }.launchIn(viewModelScope)
@@ -94,6 +98,7 @@ class ProjectEditViewModel(
         _name.value = project.name
         _description.value = project.description
         _color.value = project.color
+        _billable.value = project.billable
     }
 
 
@@ -118,11 +123,14 @@ class ProjectEditViewModel(
         _color.value= color
     }
 
+    fun billableChanged(billable: Boolean) {
+        _billable.value = billable
+    }
     fun getStartDate(): LocalDate? = startDate.value
     fun getEndDate(): LocalDate? = endDate.value
     fun getName(): String = name.value
     fun getDescription(): String? = description.value
-
     fun getColor(): String? = color.value
+    fun getBillable(): Boolean = billable.value
 
 }

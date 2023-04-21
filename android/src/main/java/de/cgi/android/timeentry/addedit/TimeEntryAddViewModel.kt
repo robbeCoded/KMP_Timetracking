@@ -7,6 +7,7 @@ import de.cgi.android.timeentry.GetProjectsUseCase
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
+import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
@@ -14,7 +15,7 @@ import kotlinx.datetime.*
 class TimeEntryAddViewModel(
     private val addUseCase: TimeEntryAddUseCase,
     private val getProjectsUseCase: GetProjectsUseCase,
-    userRepository: UserRepository,
+    userRepository: UserRepository
 ) : ViewModel() {
 
     private val userId: String = userRepository.getUserId()

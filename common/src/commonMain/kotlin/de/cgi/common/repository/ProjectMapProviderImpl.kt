@@ -1,16 +1,17 @@
 package de.cgi.common.repository
 
+import de.cgi.common.ErrorEntity
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class ProjectNameProviderImpl(
+class ProjectMapProviderImpl(
     private val projectRepository: ProjectRepository,
     userRepository: UserRepository,
-    private val coroutineScope: CoroutineScope // Inject CoroutineScope
-) : ProjectNameProvider {
+    private val coroutineScope: CoroutineScope
+) : ProjectMapProvider {
     private val _projectNameMap =
         MutableStateFlow<ResultState<Map<String, String>?>>(ResultState.Loading)
     private val projectNameMap = _projectNameMap.asStateFlow()
@@ -26,12 +27,10 @@ class ProjectNameProviderImpl(
     init {
         coroutineScope.launch {
             projectUpdates.collect {
-                getProjectNameMap()
-                getProjectColorMap()
+                getProjectNameMapUser()
+                getProjectColorMapUser()
             }
         }
-        getProjectNameMap()
-        getProjectColorMap()
     }
 
 
@@ -41,8 +40,8 @@ class ProjectNameProviderImpl(
         }
     }
 
-    override fun getProjectNameMap() {
-        projectRepository.getProjects(userId = userId, forceReload = true)
+    override suspend fun getProjectNameMapUser() {
+        projectRepository.getProjectsForUser(userId = userId, forceReload = true)
             .onEach { resultState ->
                 when (resultState) {
                     is ResultState.Success -> {
@@ -57,10 +56,11 @@ class ProjectNameProviderImpl(
                     }
                 }
             }
-            .launchIn(coroutineScope) // Launch the flow in the provided CoroutineScope
+            .launchIn(coroutineScope)
     }
-    override fun getProjectColorMap() {
-        projectRepository.getProjects(userId = userId, forceReload = true)
+
+    override suspend fun getProjectColorMapUser() {
+        projectRepository.getProjectsForUser(userId = userId, forceReload = true)
             .onEach { resultState ->
                 when (resultState) {
                     is ResultState.Success -> {
@@ -75,12 +75,13 @@ class ProjectNameProviderImpl(
                     }
                 }
             }
-            .launchIn(coroutineScope) // Launch the flow in the provided CoroutineScope
+            .launchIn(coroutineScope)
     }
 
     override fun getProjectNameMapValue(): ResultState<Map<String, String>?> {
         return projectNameMap.value
     }
+
     override fun getProjectColorMapValue(): ResultState<Map<String, String?>?> {
         return projectColorMap.value
     }
@@ -102,5 +103,40 @@ class ProjectNameProviderImpl(
             println("getProjectColor else")
             null
         }
+    }
+
+    override suspend fun getProjectNameMapForUserList(userIds: List<String>): ResultState<Map<String, String>?> {
+        val projectMaps = mutableListOf<Map<String, String>>()
+
+        for (userId in userIds) {
+            val result = projectRepository.getProjectsForUser(userId = userId, forceReload = true)
+                .firstOrNull()
+
+            when (result) {
+                is ResultState.Success -> {
+                    val projectMap = result.data.associateBy({ it.id }, { it.name })
+                    projectMaps.add(projectMap)
+                }
+                is ResultState.Error -> {
+                    return ResultState.Error(result.entity)
+                }
+                is ResultState.Loading -> {
+                    // Loading state can be ignored in this context as we want to process all results at once
+                }
+                else -> return ResultState.Error(ErrorEntity())
+            }
+        }
+
+        return ResultState.Success(projectMaps.flattenEntries())
+    }
+
+
+
+    private fun <K, V> List<Map<K, V>>.flattenEntries(): Map<K, V> {
+        val result = mutableMapOf<K, V>()
+        for (map in this) {
+            result.putAll(map)
+        }
+        return result
     }
 }

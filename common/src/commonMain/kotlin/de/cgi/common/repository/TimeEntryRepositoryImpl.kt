@@ -30,12 +30,7 @@ class TimeEntryRepositoryImpl(
         projectId: String?
     ): Flow<ResultState<TimeEntry?>> {
         val timeEntry = NewTimeEntry(date, startTime, endTime, userId, description, projectId)
-        return api.newTimeEntry(timeEntry).map { result ->
-            if (result is ResultState.Success) {
-                result.data?.let { database.insertTimeEntry(it) }
-            }
-            result
-        }
+        return api.newTimeEntry(timeEntry)
     }
 
     override fun updateTimeEntry(
@@ -49,52 +44,23 @@ class TimeEntryRepositoryImpl(
     ): Flow<ResultState<TimeEntry?>> {
         val timeEntry =
             UpdateTimeEntryRequest(id, date, startTime, endTime, projectId, description, userId)
-        return api.updateTimeEntry(timeEntry).map { result ->
-            if (result is ResultState.Success) {
-                result.data?.let { database.updateTimeEntry(it) }
-            }
-            result
-        }
+        return api.updateTimeEntry(timeEntry)
     }
 
-    override fun getTimeEntriesForWeek(userId: String, startDate: String, forceReload: Boolean): Flow<ResultState<List<TimeEntry>>> {
-        val startLocalDate = LocalDate.parse(startDate)
-        val endLocalDate = startLocalDate.plus(
-            6,
-            DateTimeUnit.DAY
-        )
-        val endDate = endLocalDate.toString()
-        val cachedTimeEntries = database.getTimeEntriesForWeek(userId, startDate, endDate)
-        return if (cachedTimeEntries.isNotEmpty() && !forceReload) {
-            flowOf(ResultState.Success(cachedTimeEntries))
-        } else {
-            api.getTimeEntries(userId, startDate).map { result ->
-                if (result is ResultState.Success) {
-                    database.clearTimeEntries()
-                    database.createTimeEntries(result.data)
-                }
-                result
-            }
-        }
+    override fun getTimeEntriesForWeek(
+        userId: String,
+        startDate: String,
+        forceReload: Boolean
+    ): Flow<ResultState<List<TimeEntry>>> {
+        return api.getTimeEntries(userId, startDate)
     }
 
     override fun getTimeEntryById(
         id: String,
         forceReload: Boolean
     ): Flow<ResultState<TimeEntry?>> {
-        val cachedTimeEntry = database.getTimeEntryById(id)
         val timeEntryRequest = TimeEntryRequest(id = id)
-        return if (cachedTimeEntry != null && !forceReload) {
-            flowOf(ResultState.Success(cachedTimeEntry))
-        } else {
-            api.getTimeEntryById(timeEntryRequest).map { result ->
-                if (result is ResultState.Success && result.data != null) {
-                    database.deleteTimeEntry(id)
-                    database.insertTimeEntry(result.data)
-                }
-                result
-            }
-        }
+        return api.getTimeEntryById(timeEntryRequest)
     }
 
 
@@ -103,11 +69,6 @@ class TimeEntryRepositoryImpl(
             TimeEntryRequest(
                 id = id
             )
-        ).map { result ->
-            if (result is ResultState.Success && result.data) {
-                database.deleteTimeEntry(id)
-            }
-            result
-        }
+        )
     }
 }

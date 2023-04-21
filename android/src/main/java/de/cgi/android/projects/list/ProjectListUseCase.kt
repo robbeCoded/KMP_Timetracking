@@ -12,7 +12,7 @@ class ProjectListUseCase (
         return repository.deleteProject(id)
     }
     fun getProjects(userId: String, forceReload: Boolean): Flow<ResultState<List<Project>>> {
-        return repository.getProjects(userId = userId, forceReload = forceReload)
+        return repository.getProjectsForUser(userId = userId, forceReload = forceReload)
     }
 
 }

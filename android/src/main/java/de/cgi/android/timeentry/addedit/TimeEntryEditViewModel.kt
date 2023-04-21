@@ -6,7 +6,7 @@ import de.cgi.android.projects.list.ProjectListState
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
@@ -16,7 +16,7 @@ import kotlinx.datetime.toLocalTime
 
 class TimeEntryEditViewModel(
     private val editUseCase: TimeEntryEditUseCase,
-    private val projectNameProvider: ProjectNameProvider,
+    private val projectMapProvider: ProjectMapProvider,
     userRepository: UserRepository,
     private val timeEntryId: String,
 ) : ViewModel() {
@@ -34,7 +34,7 @@ class TimeEntryEditViewModel(
     val timeEntryFetchState: StateFlow<ResultState<TimeEntry?>> = _timeEntryFetchState
 
     private val _listState = MutableStateFlow(ProjectListState())
-    val listState =  _listState.asStateFlow()
+    val listState = _listState.asStateFlow()
 
 
     private val _startTime = MutableStateFlow<LocalTime?>(null)
@@ -63,7 +63,9 @@ class TimeEntryEditViewModel(
     private var deleteJob: Job? = null
     private var getTimeEntryJob: Job? = null
 
-
+    init {
+        projectMapProvider.notifyProjectUpdates()
+    }
 
     fun updateTimeEntry() {
         updateJob?.cancel()
@@ -112,25 +114,36 @@ class TimeEntryEditViewModel(
         _date.value = timeEntry.date.toLocalDate()
         _description.value = timeEntry.description
         _projectId.value = timeEntry.projectId
-        _projectName.value = timeEntry.projectId?.let { projectNameProvider.getProjectNameById(
-            timeEntry.projectId!!
-        ) }
+        _projectName.value = timeEntry.projectId?.let {
+            projectMapProvider.getProjectNameById(
+                timeEntry.projectId!!
+            )
+        }
     }
 
 
     fun startTimeChanged(startTime: LocalTime) {
         _startTime.value = startTime
-        _endTime.value = LocalTime(startTime.hour.plus(duration.value!!.hour), startTime.minute.plus(duration.value!!.minute))
+        _endTime.value = LocalTime(
+            startTime.hour.plus(duration.value!!.hour),
+            startTime.minute.plus(duration.value!!.minute)
+        )
     }
 
     fun endTimeChanged(endTime: LocalTime) {
         _endTime.value = endTime
-        _duration.value = (LocalTime(endTime.hour.minus(startTime.value!!.hour), endTime.minute.minus(startTime.value!!.minute)))
+        _duration.value = (LocalTime(
+            endTime.hour.minus(startTime.value!!.hour),
+            endTime.minute.minus(startTime.value!!.minute)
+        ))
     }
 
     fun durationChanged(duration: LocalTime) {
         _duration.value = duration
-        _endTime.value = LocalTime(startTime.value!!.hour.plus(duration.hour), startTime.value!!.minute.plus(duration.minute))
+        _endTime.value = LocalTime(
+            startTime.value!!.hour.plus(duration.hour),
+            startTime.value!!.minute.plus(duration.minute)
+        )
     }
 
     fun dateChanged(date: LocalDate) {

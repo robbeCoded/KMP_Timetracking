@@ -14,8 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
@@ -51,6 +49,8 @@ fun ProjectAddEditScreen(
 
     onColorChanged: (String) -> Unit,
     onGetColor: () -> String?,
+    onGetBillable: () -> Boolean,
+    onBillableChanged: (Boolean) -> Unit,
 
     onProjectsUpdated: () -> Unit
 ) {
@@ -65,6 +65,7 @@ fun ProjectAddEditScreen(
     val selectedColor = remember {
         mutableStateOf("")
     }
+    val billable = remember { mutableStateOf(false) }
 
     if (editProject) {
         LaunchedEffect(key1 = "edit") {
@@ -77,6 +78,7 @@ fun ProjectAddEditScreen(
     name.value = onGetName() ?: ""
     description.value = onGetDescription() ?: ""
     selectedColor.value = onGetColor() ?: ""
+    billable.value = onGetBillable()
 
     fun datePickerDialog(
         date: MutableState<LocalDate?>,
@@ -159,6 +161,24 @@ fun ProjectAddEditScreen(
         )
         Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Checkbox(
+                checked = billable.value,
+                onCheckedChange = {
+                    onBillableChanged(!billable.value)
+                    billable.value = !billable.value
+                }
+            )
+            Text(text = "Project is billable", modifier = Modifier.padding(start = 8.dp))
+
+        }
+
+        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+
         Text(text = "Color")
         Spacer(modifier = Modifier.height(LocalSpacing.current.small))
         Row(
@@ -192,14 +212,17 @@ fun ProjectAddEditScreen(
             onSubmit = {
                 onSubmitProject()
                 onProjectsUpdated()
+
             },
             onUpdate = {
                 onUpdateProject()
                 onProjectsUpdated()
+
             },
             onDelete = {
                 onDeleteProject()
                 onProjectsUpdated()
+
             },
             onNavigateBack = { onNavigateBack() }
         )

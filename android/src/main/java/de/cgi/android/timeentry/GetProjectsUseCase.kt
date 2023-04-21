@@ -9,6 +9,6 @@ class GetProjectsUseCase(
     private val projectRepository: ProjectRepository
 ) {
     fun getProjects(userId: String, forceReload: Boolean): Flow<ResultState<List<Project>>> {
-        return projectRepository.getProjects(userId = userId, forceReload = forceReload)
+        return projectRepository.getProjectsForUser(userId = userId, forceReload = forceReload)
     }
 }

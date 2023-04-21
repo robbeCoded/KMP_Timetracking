@@ -63,9 +63,8 @@ val appModule = module {
 
 
     viewModel { (timeEntryId: String) -> TimeEntryEditViewModel(get(), get(), get(), timeEntryId) }
-    viewModel { TimeEntryListViewModel(get(), get()) }
+    viewModel { TimeEntryListViewModel(get(), get(), get()) }
     viewModel { TimeEntryAddViewModel(get(), get(), get()) }
-
 
     viewModel { (projectId: String) -> ProjectEditViewModel(get(), get(), projectId) }
     viewModel { ProjectListViewModel(get(), get()) }

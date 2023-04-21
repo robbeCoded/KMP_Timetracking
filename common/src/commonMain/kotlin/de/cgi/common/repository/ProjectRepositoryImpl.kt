@@ -9,8 +9,6 @@ import de.cgi.common.data.model.requests.NewProjectRequest
 import de.cgi.common.data.model.requests.ProjectRequest
 import de.cgi.common.data.model.requests.UpdateProjectRequest
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 
 class ProjectRepositoryImpl(
     databaseDriverFactory: DatabaseDriverFactory,
@@ -24,9 +22,10 @@ class ProjectRepositoryImpl(
         startDate: String,
         endDate: String,
         userId: String,
-        color: String?
+        color: String?,
+        billable: Boolean
     ): Flow<ResultState<Project?>> {
-        val project = NewProjectRequest(name, startDate, endDate, userId, description, color)
+        val project = NewProjectRequest(name, startDate, endDate, userId, description, color, billable)
         return api.newProject(project)
     }
 
@@ -37,19 +36,20 @@ class ProjectRepositoryImpl(
         startDate: String,
         endDate: String,
         userId: String,
-        color: String?
+        color: String?,
+        billable: Boolean
     ): Flow<ResultState<Project?>> {
         val project =
-            UpdateProjectRequest(id, name, startDate, endDate, description, userId, color)
+            UpdateProjectRequest(id, name, startDate, endDate, description, userId, color, billable)
         return api.updateProject(project)
     }
 
 
-    override fun getProjects(
+    override fun getProjectsForUser(
         userId: String,
         forceReload: Boolean
     ): Flow<ResultState<List<Project>>> {
-        return api.getProjects(userId)
+        return api.getProjectsForUser(userId)
     }
 
     override fun getProjectById(

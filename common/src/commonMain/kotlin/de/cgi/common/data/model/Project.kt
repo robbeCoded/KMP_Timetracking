@@ -10,5 +10,6 @@ data class Project(
     val startDate: String,
     val endDate: String,
     val userId: String,
-    val color: String?
+    val color: String?,
+    val billable: Boolean
 )

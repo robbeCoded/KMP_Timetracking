@@ -3,8 +3,8 @@ package de.cgi.common.di
 import de.cgi.common.api.*
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.platformModule
-import de.cgi.common.repository.ProjectNameProvider
-import de.cgi.common.repository.ProjectNameProviderImpl
+import de.cgi.common.repository.ProjectMapProvider
+import de.cgi.common.repository.ProjectMapProviderImpl
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.*
@@ -40,7 +40,7 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     single<TimeEntryApi>{TimeEntryApiImpl(get())}
     single<TeamApi>{TeamApiImpl(get())}
 
-    single<ProjectNameProvider>{ProjectNameProviderImpl(get(), get(), get())}
+    single<ProjectMapProvider>{ProjectMapProviderImpl(get(), get(), get())}
 }
 
 fun createJson() = Json { isLenient = true; ignoreUnknownKeys = true }

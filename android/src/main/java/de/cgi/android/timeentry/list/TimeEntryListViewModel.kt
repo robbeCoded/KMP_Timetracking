@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import de.cgi.android.util.getWeekStartDate
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
+import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
@@ -12,6 +13,7 @@ import kotlinx.datetime.*
 class TimeEntryListViewModel(
     private val timeEntryListUseCase: TimeEntryListUseCase,
     userRepository: UserRepository,
+    projectMapProvider: ProjectMapProvider
 ) : ViewModel() {
 
     private val userId = userRepository.getUserId()
@@ -31,6 +33,7 @@ class TimeEntryListViewModel(
 
     init {
         getTimeEntries()
+        projectMapProvider.notifyProjectUpdates()
     }
 
     fun getTimeEntries() {

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import de.cgi.android.projects.ProjectEditRoute
-import de.cgi.common.repository.ProjectNameProvider
+import de.cgi.common.repository.ProjectMapProvider
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -25,8 +25,7 @@ fun ProjectEditDestination(
     val editProject = true
 
     val viewModel = getViewModel<ProjectEditViewModel>(parameters = { parametersOf(projectId) })
-    // Add any necessary LiveData or StateFlow objects to observe in your composable
-    val projectNameProvider = get<ProjectNameProvider>()
+    val projectMapProvider = get<ProjectMapProvider>()
 
     ProjectAddEditScreen(
         onStartDateChanged = viewModel::startDateChanged,
@@ -49,7 +48,9 @@ fun ProjectEditDestination(
 
         onColorChanged = viewModel::colorChanged,
         onGetColor = viewModel::getColor,
+        onBillableChanged = viewModel::billableChanged,
+        onGetBillable = viewModel::getBillable,
 
-        onProjectsUpdated = { projectNameProvider.notifyProjectUpdates() }
+        onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() }
     )
 }

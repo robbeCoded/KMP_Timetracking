@@ -37,14 +37,12 @@ fun Application.configureRouting(
 
         newProject(projectDataSource)
         updateProject(projectDataSource)
-        getProjects(projectDataSource)
+        getProjectsForUser(projectDataSource)
         getProject(projectDataSource)
         deleteProject(projectDataSource)
 
         newTeam(teamDataSource)
         updateTeamName(teamDataSource)
-        addTeamManagers(teamDataSource)
-        removeTeamManager(teamDataSource)
         deleteTeam(teamDataSource)
         getTeam(teamDataSource)
         getTeamsForUser(teamDataSource)

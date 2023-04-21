@@ -103,6 +103,10 @@ class RouterImpl(
     override fun showCalender() {
         navigationController.navigate(CalenderScreenRoute.route)
     }
+    override fun backFromAddEdit(update: ()-> Unit) {
+        update.invoke()
+        navigationController.popBackStack()
+    }
     override fun back() {
         navigationController.popBackStack()
     }

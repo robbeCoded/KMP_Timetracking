@@ -26,7 +26,8 @@ class MongoProjectDataSource (
             Project::endDate.setTo(project.endDate),
             Project::description.setTo(project.description),
             Project::userId.setTo(project.userId),
-            Project::color.setTo(project.color)
+            Project::color.setTo(project.color),
+            Project::billable.setTo(project.billable)
         )
         val updateResult = projects.updateOne(filter, update)
         return updateResult.wasAcknowledged()

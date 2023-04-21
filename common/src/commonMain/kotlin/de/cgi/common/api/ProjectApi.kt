@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProjectApi {
     fun newProject(project: NewProjectRequest): Flow<ResultState<Project?>>
     fun updateProject(projectRequest: UpdateProjectRequest): Flow<ResultState<Project?>>
-    fun getProjects(userId: String): Flow<ResultState<List<Project>>>
+    fun getProjectsForUser(userId: String): Flow<ResultState<List<Project>>>
     fun getProjectById(projectRequest: ProjectRequest): Flow<ResultState<Project?>>
     fun deleteProject(projectRequest: ProjectRequest): Flow<ResultState<Boolean>>
 }
