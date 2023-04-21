@@ -25,7 +25,6 @@ class ProjectListViewModel(
     val updateTrigger = mutableStateOf(false)
 
     init {
-
         getProjects()
     }
     fun notifyProjectUpdates() {

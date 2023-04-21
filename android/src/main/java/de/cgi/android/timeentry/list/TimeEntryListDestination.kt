@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import de.cgi.android.navigation.Router
@@ -19,6 +20,11 @@ fun TimeEntryListDestination(
 ) {
     val viewModel = getViewModel<TimeEntryListViewModel>()
     val timeEntryListState by viewModel.listState.collectAsState()
+
+    LaunchedEffect(viewModel.updateTrigger.value) {
+        viewModel.getTimeEntries()
+    }
+
     TimeEntryListScreen(
         timeEntryListState = timeEntryListState.timeEntryListState,
         onGetTotalDuration = viewModel::getTotalDuration,

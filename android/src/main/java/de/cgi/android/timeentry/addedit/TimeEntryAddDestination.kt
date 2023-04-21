@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import de.cgi.android.navigation.Router
+import de.cgi.android.timeentry.list.TimeEntryListViewModel
 import org.koin.androidx.compose.getViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -17,6 +18,7 @@ fun TimeEntryAddDestination(
 ) {
     val editTimeEntry = false
     val viewModel = getViewModel<TimeEntryAddViewModel>()
+    val listViewModel = getViewModel<TimeEntryListViewModel>()
 
     TimeEntryAddEditScreen(
         onDateChanged = viewModel::dateChanged,
@@ -27,7 +29,7 @@ fun TimeEntryAddDestination(
         onProjectChanged = viewModel::projectChanged,
         onSubmitTimeEntry = viewModel::submitTimeEntry,
         onUpdateTimeEntry = { },
-        onNavigateBack = router::back,
+        onNavigateBack = { router.backFromAddEdit(listViewModel::notifyTimeEntryUpdates) },
         onDeleteTimeEntry = { },
         onGetTimeEntryById = { },
         editTimeEntry = editTimeEntry,

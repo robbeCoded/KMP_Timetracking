@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import de.cgi.android.timeentry.TimeEntryEditRoute
+import de.cgi.android.timeentry.list.TimeEntryListViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -23,7 +24,7 @@ fun TimeEntryEditDestination(
     val editTimeEntry = true
 
     val viewModel = getViewModel<TimeEntryEditViewModel>(parameters = { parametersOf(timeEntryId) })
-
+    val listViewModel = getViewModel<TimeEntryListViewModel>()
     TimeEntryAddEditScreen(
         onDateChanged = viewModel::dateChanged,
         onStartTimeChanged = viewModel::startTimeChanged,
@@ -33,7 +34,7 @@ fun TimeEntryEditDestination(
         onProjectChanged = viewModel::projectChanged,
         onSubmitTimeEntry = { },
         onUpdateTimeEntry = viewModel::updateTimeEntry,
-        onNavigateBack = router::back,
+        onNavigateBack = { router.backFromAddEdit(listViewModel::notifyTimeEntryUpdates) },
         onDeleteTimeEntry = viewModel::deleteTimeEntry,
         onGetTimeEntryById = viewModel::getTimeEntryById,
         editTimeEntry = editTimeEntry,

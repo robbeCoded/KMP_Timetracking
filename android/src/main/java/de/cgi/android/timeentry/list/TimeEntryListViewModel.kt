@@ -1,5 +1,6 @@
 package de.cgi.android.timeentry.list
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.android.util.getWeekStartDate
@@ -30,10 +31,15 @@ class TimeEntryListViewModel(
     private val _totalDuration = MutableStateFlow(LocalTime(0, 0, 0))
     private val totalDuration: StateFlow<LocalTime> = _totalDuration
 
+    val updateTrigger = mutableStateOf(false)
 
     init {
         getTimeEntries()
         projectMapProvider.notifyProjectUpdates()
+    }
+
+    fun notifyTimeEntryUpdates() {
+        updateTrigger.value = !updateTrigger.value
     }
 
     fun getTimeEntries() {
