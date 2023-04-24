@@ -1,5 +1,6 @@
 package de.cgi.android.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,10 +11,11 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusOrder
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.cgi.android.auth.InputType
+import de.cgi.android.ui.theme.LocalColor
 
 @Composable
 fun TextInput(
@@ -33,12 +35,13 @@ fun TextInput(
         },
         modifier = Modifier
             .fillMaxWidth()
-            .focusOrder(focusRequester ?: FocusRequester()),
+            .focusRequester(focusRequester ?: FocusRequester())
+            .border(shape = RoundedCornerShape(10.dp), width = 1.dp, color = LocalColor.current.cgiPurpleLight),
         leadingIcon = { Icon(imageVector = inputType.icon, null) },
         label = { Text(text = inputType.label) },
         shape = RoundedCornerShape(10.dp),
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
+            backgroundColor = LocalColor.current.lightGrey,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent

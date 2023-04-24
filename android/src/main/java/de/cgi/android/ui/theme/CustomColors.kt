@@ -16,7 +16,9 @@ data class CustomColors(
     internal val white: Color = Color.White,
     internal val black: Color = Color.Black,
     internal val darkBlue: Color = Color(0xFF00008B),
-    internal val cgiRed: Color = Color(0xFFe11937),
+    internal val cgiRed: Color = Color(0xFFE31937),
+    internal val cgiPurple: Color = Color(0xFF592eb2),
+    internal val cgiPurpleLight: Color = Color(0xFF2b81d3),
     internal val lightGreen: Color = Color(0xFFCEFFA7),
 
     internal val projectColorsList: List<Color> = listOf(
