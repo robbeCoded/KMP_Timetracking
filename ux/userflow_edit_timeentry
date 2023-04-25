@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-25T13:16:31.105Z" agent="5.0 (Windows)" etag="2QkQOLerbrUgL067X7yk" version="21.0.10" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-25T13:24:39.411Z" agent="5.0 (Windows)" etag="sd9fLkkVyqzyI5vu-mmm" version="21.0.10" type="github">
   <diagram name="Seite-1" id="4s0eyFuQGAw6Vcc5d5_U">
     <mxGraphModel dx="1210" dy="612" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -22,7 +22,7 @@
         <mxCell id="m9_xbtaX7OgJSQetwhrn-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="m9_xbtaX7OgJSQetwhrn-8" target="m9_xbtaX7OgJSQetwhrn-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="m9_xbtaX7OgJSQetwhrn-8" value="Press &quot;Delete&quot;-Button to delete the time entry" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="m9_xbtaX7OgJSQetwhrn-8" value="Press &quot;Delete&quot;-Button to delete the time entry" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
           <mxGeometry x="550" y="370" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="m9_xbtaX7OgJSQetwhrn-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="m9_xbtaX7OgJSQetwhrn-10" target="m9_xbtaX7OgJSQetwhrn-13">
@@ -34,7 +34,7 @@
         <mxCell id="m9_xbtaX7OgJSQetwhrn-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m9_xbtaX7OgJSQetwhrn-13" target="m9_xbtaX7OgJSQetwhrn-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="m9_xbtaX7OgJSQetwhrn-13" value="Press &quot;Submit&quot;-Button to save the edits" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="m9_xbtaX7OgJSQetwhrn-13" value="Press &quot;Submit&quot;-Button to save the edits" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
           <mxGeometry x="940" y="280" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
