@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="08e51bc2-4f27-4f1f-8ee0-35d7b7d0cf3b" name="Changes" comment="working: rework auth look">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/common_desktop_1_0_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/common_js.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/common_jvm.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/compose_web_js_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/desktop_jvm_1_0_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/assets/logback.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/TimetrackingApplication.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/AppState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/MainApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/account/AccountHomeDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/account/AccountHomeScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/account/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/account/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/AuthState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/InputType.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/signin/SignInScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/signin/SignInViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/signin/SingInUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/signup/SignUpScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/signup/SignUpUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/auth/signup/SignUpViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/calender/CalenderDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/calender/CalenderScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/calender/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/calender/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/DashboardData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/DashboardDataState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/DashboardScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/DashboardScreenDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/DashboardUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/DashboardViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamAddDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamAddScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamAddViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamDashboardData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamDashboardDataState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamDashboardDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamDashboardScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamDashboardUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamDashboardViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamListDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamListItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamListScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamListState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/TeamListViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/dashboard/team/UserListState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/di/AppModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/navigation/AppRoutes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/navigation/MainNavigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/navigation/Router.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/navigation/RouterImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectAddDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectAddEditScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectAddUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectAddViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectEditDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectEditUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/addedit/ProjectEditViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/list/ProjectListDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/list/ProjectListItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/list/ProjectListScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/list/ProjectListState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/list/ProjectListUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/projects/list/ProjectListViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/settings/AccountHomeDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/settings/AccountHomeScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/settings/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/settings/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/GetProjectsUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/Navigation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryAddDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryAddEditScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryAddUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryAddViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryEditDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryEditUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/addedit/TimeEntryEditViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/list/TimeEntryItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/list/TimeEntryListDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/list/TimeEntryListScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/list/TimeEntryListState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/list/TimeEntryListUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/timeentry/list/TimeEntryListViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/Screens/AccountScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/Screens/CalenderScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/Screens/SettingsScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/AddEditButtonSection.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/AppBar.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/AuthScreenContent.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/DashboardComponets.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/MainAppScaffold.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/MenuId.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/MenuItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/NavigationDrawer.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/ProjectDropdownMenu.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/SelectableTextField.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/ShowToastHelper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/TextInput.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/components/WeekdayHeader.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/theme/CustomColors.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/theme/Spacing.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/theme/Theme.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/ui/theme/Typography.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/AsyncData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/ColorToString.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/DateFormatter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/GenericError.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/GenericLoading.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/Networkutil.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/de/cgi/android/util/WeekStartDate.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/res/drawable/cgi_logo_rgb_white.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/res/drawable/login_corner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/res/drawable/no_profile_picutre.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/Application.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/AuthRoutes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/ProjectRoutes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/TeamRoutes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/TimeEntryRoutes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/MongoProjectDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/MongoTeamDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/MongoTimeEntryDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/MongoUserDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/ProjectDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/TeamDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/TimeEntryDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/datasource/UserDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/models/LocaDateTimeSerializer.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/models/ObjectIdSerializer.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/models/Project.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/models/Team.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/models/TimeEntry.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/models/User.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/AddUsersToTeamRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/AuthRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/NewProjectRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/NewTeamRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/NewTimeEntryRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/SignUpRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/TeamByIdRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/UpdateProjectRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/UpdateTeamNameRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/requests/UpdateTimeEntryRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/responses/AuthResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/data/responses/GetUserRoleResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/plugins/Monitoring.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/plugins/Routing.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/plugins/Security.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/plugins/Serialization.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/hashing/HashingService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/hashing/SHA256HashingService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/hashing/SaltedHash.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/token/JwtTokenService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/token/TokenClaim.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/token/TokenConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/de/cgi/security/token/TokenService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/logback.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/kotlin/de/cgi/ApplicationTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildSrc/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildSrc/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildSrc/src/main/java/Dependencies.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/androidMain/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/androidMain/kotlin/de/cgi/common/UserRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/androidMain/kotlin/de/cgi/common/actual.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/androidMain/kotlin/de/cgi/common/api/setBaseUrl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/androidMain/kotlin/de/cgi/common/cache/DatabaseDriverFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/androidMain/kotlin/de/cgi/common/data/model/KeyValueStorage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/i18n/x/y/MyMessages_de.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/i18n/x/y/MyMessages_en.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/ErrorEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/ResultState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/UserRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/AuthApi.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/AuthApiImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/ProjectApi.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/ProjectApiImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/Routes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/TeamApi.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/TeamApiImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/TimeEntryApi.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/api/TimeEntryApiImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/cache/Database.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/cache/DatabaseDriverFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/KeyValueStorage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/Project.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/Team.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/TimeEntry.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/User.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/AddUsersToTeamRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/AuthRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/NewProjectRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/NewTeamRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/NewTimeEntry.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/ProjectRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/SignUpRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/TimeEntryRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/UpdateProjectRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/UpdateTeamRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/requests/UpdateTimeEntryRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/responses/AuthResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/responses/AuthResult.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/data/model/responses/GetUserRole.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/di/Koin.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/expect.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/AuthRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/AuthRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/ProjectMapProvider.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/ProjectMapProviderImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/ProjectRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/ProjectRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/TeamRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/TeamRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/TimeEntryRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/de/cgi/common/repository/TimeEntryRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/sqldelight/de/cgi/shared/cache/AppDatabase.sq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/jsMain/kotlin/de/cgi/common/UserRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/jsMain/kotlin/de/cgi/common/api/setBaseUrl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/jsMain/kotlin/de/cgi/common/cache/DatabaseDriverFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/jsMain/kotlin/de/cgi/common/data/model/KeyValueStorage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/jsMain/kotlin/de/cgi/common/platformModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose-web/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose-web/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose-web/src/jsMain/kotlin/Main.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose-web/src/jsMain/resources/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kotlin-js-store/yarn.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Robin.Holzwarth\.android\avd\Pixel_6_API_32.avd]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="KotlinMultiplatform" KONAN_HOME="C:\Users\Robin.Holzwarth\.konan\kotlin-native-prebuilt-windows-x86_64-1.8.0" />
+  <component name="ProjectId" id="2OhbKUBpfMxlSYkqoRZoqHmzYlk" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/src/KMP_Timetracking&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\src\KMP_Timetracking\android\src\main\res\drawable" />
+      <recent name="C:\src\KMP_Timetracking\android\src\main\java\de\cgi\android\dashboard\team" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android App.android">
+    <configuration name="android" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="KMP_Timetracking.android.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ApplicationKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="MONGO_PW" value="robbencode" />
+        <env name="JWT_SECRET" value="ganzKomplexesUndGeheimesJwtSecret" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="de.cgi.ApplicationKt" />
+      <module name="KMP_Timetracking.backend.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Android App.android" />
+      <item itemvalue="Kotlin.ApplicationKt" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.ApplicationKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="08e51bc2-4f27-4f1f-8ee0-35d7b7d0cf3b" name="Changes" comment="" />
+      <created>1682015699133</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682015699133</updated>
+    </task>
+    <task id="LOCAL-00001" summary="working: personal dashboard functions like supposed to">
+      <created>1682017294875</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682017294875</updated>
+    </task>
+    <task id="LOCAL-00002" summary="working: präsentierbarer stand">
+      <created>1682018715214</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682018715214</updated>
+    </task>
+    <task id="LOCAL-00003" summary="working: projekte liste wird geupdated beim zurück navigieren">
+      <created>1682080861838</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682080861838</updated>
+    </task>
+    <task id="LOCAL-00004" summary="working: time entry liste wird geupdated beim zurück navigieren">
+      <created>1682081284275</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682081284275</updated>
+    </task>
+    <task id="LOCAL-00005" summary="working: rework auth look">
+      <created>1682334532482</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1682334532482</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="working: personal dashboard functions like supposed to" />
+    <MESSAGE value="working: präsentierbarer stand" />
+    <MESSAGE value="working: projekte liste wird geupdated beim zurück navigieren" />
+    <MESSAGE value="working: time entry liste wird geupdated beim zurück navigieren" />
+    <MESSAGE value="working: rework auth look" />
+    <option name="LAST_COMMIT_MESSAGE" value="working: rework auth look" />
+  </component>
+</project>

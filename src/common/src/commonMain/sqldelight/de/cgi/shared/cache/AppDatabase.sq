@@ -1,0 +1,91 @@
+CREATE TABLE TimeEntry (
+    id  TEXT NOT NULL PRIMARY KEY,
+    timestamp TEXT NOT NULL,
+    date TEXT NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
+    project_id TEXT,
+    description TEXT,
+    user_id TEXT NOT NULL
+);
+
+CREATE TABLE Project (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    startDate TEXT NOT NULL,
+    endDate TEXT NOT NULL,
+    userId TEXT NOT NULL,
+    color TEXT,
+    billable TEXT NOT NULL
+);
+
+insertTimeEntry:
+INSERT INTO TimeEntry(id, timestamp, date, start_time, end_time, project_id, description, user_id)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?);
+
+updateTimeEntry:
+UPDATE TimeEntry
+SET
+    timestamp = ?,
+    date = ?,
+    start_time = ?,
+    end_time = ?,
+    project_id = ?,
+    description = ?,
+    user_id = ?
+WHERE id = ?;
+
+
+clearTimeEntries:
+DELETE FROM TimeEntry;
+
+selectTimeEntryById:
+SELECT * FROM TimeEntry
+WHERE id = ?;
+
+selectTimeEntriesForWeek:
+SELECT *
+FROM TimeEntry
+WHERE user_id = :user_id
+AND strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', :start_date)
+AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', :end_date);
+
+
+deleteTimeEntryById:
+DELETE FROM TimeEntry
+WHERE id = ?;
+
+
+insertProject:
+INSERT INTO Project(id, name, startDate, endDate, description, userId, color, billable)
+VALUES(?, ?, ?, ?, ?, ?,?,?);
+
+updateProject:
+UPDATE Project
+SET
+    name = ?,
+    startDate = ?,
+    endDate = ?,
+    description = ?,
+    userId = ?,
+    color = ?,
+    billable = ?
+WHERE id = ?;
+
+
+clearProjects:
+DELETE FROM Project;
+
+selectProjectById:
+SELECT * FROM Project
+WHERE id = ?;
+
+selectAllProjects:
+SELECT *
+FROM Project
+WHERE userId = ?;
+
+deleteProjectById:
+DELETE FROM Project
+WHERE id = ?;
