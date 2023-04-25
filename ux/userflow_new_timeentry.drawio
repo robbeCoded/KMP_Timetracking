@@ -1,1 +1,49 @@
-<mxfile host="app.diagrams.net" modified="2023-04-25T13:03:34.429Z" agent="5.0 (Windows)" etag="23T2zegMmBVdgFA30njL" version="21.0.10" type="github"><diagram name="Seite-1" id="t6YPCSnxHJcEC_fdzEYf">7ZjbctMwEIafxpcwPqSOe0nTcCjnCQxwKeytrY5sGXmdODw9ki35gJs0zJQ4ZLjIYX9pI+nXp40Sy1uk1QtB8uQtj4BZrh1Vlndtua7jOrZ8Ucq2UXzHbYRY0Eh36oQV/Qla1HlxSSMoBh2Rc4Y0H4ohzzIIcaARIfhm2O2Ws+GoOYlhJKxCwsbqFxph0qiBO+/0l0DjxIzs+JdNS0pMZ72SIiER3/Qkb2l5C8E5Nu/SagFMmWd8afKe72htJyYgw0MSVuzV/D3MAj/45Ffi4439+vPNE6/5lDVhpV6wnixujQMQSUN0yAUmPOYZYctOvRK8zCJQw9gy6vq84TyXoiPFO0Dc6t0lJXIpJZgy3dqMqQbauTYtFbwUIexZkGGEiBhwTz+33QGJLvAUUGxlngBGkK6H8yCaobjt19ks32in/8B1cwb+235c20euvyNrGhOEuqqoJ5oqR7JmVowWqBYfCoBstEGd/crLTUIRVjmpXdrIWnif1WsQCNV+s8fm6ISZriO6kLYVctOVJcfUmqRXknz7L9l5cW4QuwdCPJsS4nHp+CCgKCy19f6PUn2bSE+u+oF9VSLyzEAucW6QJ/KRwabhHjrwJwb99EifnxvpswNJ96ckfTZyfQVM3fHkxBOo7ScCW3oXNcBRG/+2QQ9wO4T8Mcr1yVF8eW4U+wdSHExJsT9y/VmkICWqHvMcqXJP/UACec+gdTw5u/7JseuM727/OLzBgfA69v1bdRx6g901WEIZJmrxgt/1q/LwLmFTdTW55WJyqIPTg9qfgmGoKH5V6U8vdPSt13Jd6U+ug60J1Gb2klTYZqmgS6sjk/eI58Xs1sMHZsrzYmbZPzDl95TuOh4TnwnHPuKhkGH3b1fd1vvP0Fv+Ag==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2023-04-25T13:16:55.603Z" agent="5.0 (Windows)" etag="hw66TcjLr_Hb6G4VsLWZ" version="21.0.10" type="github">
+  <diagram name="Seite-1" id="t6YPCSnxHJcEC_fdzEYf">
+    <mxGraphModel dx="1210" dy="612" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-1" target="SlI7Oe4868T6xrQJ0KUJ-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-1" target="SlI7Oe4868T6xrQJ0KUJ-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-1" value="Navigate to tim entry list screen" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-2" target="SlI7Oe4868T6xrQJ0KUJ-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-2" value="Press &quot;+&quot;-Button to create a new time entry" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-4" target="SlI7Oe4868T6xrQJ0KUJ-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-4" value="Select the start time and end time" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="440" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-6" target="SlI7Oe4868T6xrQJ0KUJ-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-6" value="Add an optional description" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="640" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-8" target="SlI7Oe4868T6xrQJ0KUJ-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-8" value="Select project" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="840" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="SlI7Oe4868T6xrQJ0KUJ-10" target="SlI7Oe4868T6xrQJ0KUJ-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SlI7Oe4868T6xrQJ0KUJ-10" value="Press &quot;Submit&quot;-Button to save the time entry" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="1040" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
