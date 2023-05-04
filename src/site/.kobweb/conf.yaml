@@ -1,0 +1,14 @@
+site:
+  title: "compose-html"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/developmentExecutable/cgi.js"
+      api: "build/libs/cgi.jar"
+    prod:
+      script: "build/distributions/cgi.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080

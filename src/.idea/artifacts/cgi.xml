@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cgi">
+    <output-path>$PROJECT_DIR$/site/build/libs</output-path>
+    <root id="archive" name="cgi.jar">
+      <element id="module-output" name="KMP_Timetracking.site.jvmMain" />
+    </root>
+  </artifact>
+</component>
