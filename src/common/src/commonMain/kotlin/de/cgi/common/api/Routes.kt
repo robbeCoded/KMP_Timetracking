@@ -11,6 +11,7 @@ object Routes {
     val NEW_TIME_ENTRY = "$BASE_URL/timeentry/new"
     val UPDATE_TIME_ENTRY = "$BASE_URL/timeentry/update"
     val GET_TIME_ENTRIES_FOR_WEEK = "$BASE_URL/timeentry/getAllForWeek"
+    val GET_TEAM_TIME_ENTRIES_FOR_WEEK = "$BASE_URL/timeentry/getAllForTeamWeek"
     val GET_TIME_ENTRY_BY_ID = "$BASE_URL/timeentry/getOne"
     val DELETE_TIME_ENTRY = "$BASE_URL/timeentry/delete"
 
@@ -24,7 +25,7 @@ object Routes {
     val UPDATE_TEAM_NAME = "$BASE_URL/team/updateName"
     val GET_TEAM = "$BASE_URL/team/getOne"
     val DELETE_TEAM = "$BASE_URL/team/delete"
-    val GET_TEAMS_FOR_USER = "$BASE_URL/team/getTeamsForUser"
+    val GET_TEAMS_FOR_USER = "$BASE_URL/team/teamsForUser"
     val GET_ALL_USERS = "$BASE_URL/users"
     val ADD_USERS_TO_TEAM = "$BASE_URL/team/addUsers"
 }

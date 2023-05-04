@@ -2,17 +2,16 @@ package de.cgi.android.dashboard.team
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.dashboard.DashboardData
+import de.cgi.android.dashboard.DashboardDataPerProject
 import de.cgi.android.dashboard.DashboardUseCase
 import de.cgi.android.timeentry.list.TimeEntryListUseCase
 import de.cgi.android.util.getWeekStartDate
-import de.cgi.common.ErrorEntity
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
+import de.cgi.common.data.model.requests.TeamTimeEntriesRequest
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 class TeamDashboardViewModel(
@@ -24,8 +23,9 @@ class TeamDashboardViewModel(
 
     private val userId = userRepository.getUserId()
 
-    private var loadTeamsJob: Job? = null
+    private var loadUserIdsJob: Job? = null
     private var loadDataJob: Job? = null
+    private var loadTimeEntriesJob: Job? = null
 
     private val _teamListState = MutableStateFlow(TeamListState())
     val teamListState = _teamListState.asStateFlow()
@@ -33,17 +33,20 @@ class TeamDashboardViewModel(
     private val _dataListState = MutableStateFlow(TeamDashboardDataState())
     val dataListState = _dataListState.asStateFlow()
 
+    private val _userIds = MutableStateFlow<List<String>>(emptyList())
+    private val userIds: StateFlow<List<String>> = _userIds
+
     private val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
     private val _selectedDate = MutableStateFlow(currentDate)
     private val selectedDate: StateFlow<LocalDate> = _selectedDate
 
     init {
-        getTeams()
+        getUserIds()
     }
 
-    fun getTeams() {
-        loadTeamsJob?.cancel()
-        loadTeamsJob =
+    fun getUserIds() {
+        loadUserIdsJob?.cancel()
+        loadUserIdsJob =
             teamDashboardUseCase.getAllTeamsForUser(userId = userId)
                 .onEach { resultState ->
                     _teamListState.update { it.copy(teamListState = resultState) }
@@ -53,66 +56,40 @@ class TeamDashboardViewModel(
                         if (team != null) {
                             val userIds = team.teamMemberIds
                             if (userIds != null) {
-                                getData(userIds)
-                                println(userIds)
+                                _userIds.value = userIds
+                                println(_userIds.value)
+                                fetchTeamDashboardData(_userIds.value)
                             }
                         }
                     }
                 }.launchIn(viewModelScope)
-    }
-
-    private suspend fun fetchTeamDashboardData(userIds: List<String>): List<TeamDashboardData> {
-        val teamDashboardDataList = mutableListOf<TeamDashboardData>()
-
-        for (userId in userIds) {
-            val timeEntriesFlow = timeEntryListUseCase.getTimeEntries(
-                userId,
-                getWeekStartDate(selectedDate.value).toString(),
-                true
-            )
-            println("collected time entries")
-
-            timeEntriesFlow.collect { resultState ->
-                if (resultState is ResultState.Success) {
-
-                    val dashboardData = processTimeEntriesToDashboardData(resultState.data, userId)
-                    teamDashboardDataList.add(dashboardData)
-                }
-            }
-        }
-        return teamDashboardDataList
+        println("Out of coroutine getUserIds")
     }
 
 
-    private fun getData(userIds: List<String>) {
+    fun fetchTeamDashboardData(userIds: List<String>) {
         loadDataJob?.cancel()
-
-        loadDataJob = viewModelScope.launch {
-            try {
-                val combinedDashboardDataList = fetchTeamDashboardData(userIds)
-
-                // Update the dataList state with the combined data
-                _dataListState.update {
-                    it.copy(
-                        teamDashboardData = combinedDashboardDataList,
-                        teamDashboardDataState = ResultState.Success(combinedDashboardDataList)
-                    )
+        val request = TeamTimeEntriesRequest(userIds, getWeekStartDate(selectedDate.value).toString())
+        loadDataJob = teamDashboardUseCase.getTeamTimeEntriesForWeek(request).onEach { resultState ->
+            _dataListState.update { it.copy(teamDashboardDataState = resultState) }
+            if(resultState is ResultState.Success){
+                val dashboardDataPerUserList = mutableListOf<DashboardDataPerUser>()
+                resultState.data.forEach {
+                    val currentUserId = it?.firstOrNull()?.userId ?: ""
+                    val dashboardDataPerProjectList = processTimeEntriesToDashboardData(it) ?: emptyList()
+                    dashboardDataPerUserList.add(DashboardDataPerUser(currentUserId, dashboardDataPerProjectList))
                 }
-            } catch (e: Exception) {
-                _dataListState.update {
-                    it.copy(
-                        teamDashboardDataState = ResultState.Error(ErrorEntity())
-                    )
-                }
+                println(dashboardDataPerUserList)
+                _dataListState.update { it.copy(teamDashboardData = dashboardDataPerUserList) }
             }
-        }
+        }.launchIn(viewModelScope)
     }
+
 
     private fun processTimeEntriesToDashboardData(
-        timeEntries: List<TimeEntry>,
-        userId: String
-    ): TeamDashboardData {
-        val dashboardData = dashboardUseCase.processData(timeEntries)
-        return TeamDashboardData(name = userId, dataList = dashboardData)
+        timeEntries: List<TimeEntry>?,
+    ): List<DashboardDataPerProject>? {
+        return dashboardUseCase.processData(timeEntries)
     }
 }
+

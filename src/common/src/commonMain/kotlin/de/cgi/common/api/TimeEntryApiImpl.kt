@@ -4,6 +4,7 @@ import de.cgi.common.ErrorEntity
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
+import de.cgi.common.data.model.requests.TeamTimeEntriesRequest
 import de.cgi.common.data.model.requests.TimeEntryRequest
 import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
 import io.ktor.client.*
@@ -61,6 +62,25 @@ class TimeEntryApiImpl(private val client: HttpClient) : TimeEntryApi {
             awaitClose {  }
         }
     }
+
+    override fun getTeamTimeEntries(request: TeamTimeEntriesRequest): Flow<ResultState<List<List<TimeEntry>?>>> {
+        return callbackFlow {
+            trySend(ResultState.Loading)
+            val response = client.get(Routes.GET_TEAM_TIME_ENTRIES_FOR_WEEK) {
+                parameter("userIds", request.userIds.joinToString(","))
+                parameter("startDate", request.date)
+            }
+            when (response.status) {
+                HttpStatusCode.OK -> {trySend(ResultState.Success(response.body()))
+                    println("HELLO FROM API GET TEAM TIME ETNRIES")}
+                else -> {trySend(ResultState.Error(ErrorEntity(RuntimeException("Unexpected response status: ${response.bodyAsText()}"))))
+                    println("HELLO FROM API WITH ERROR GET TEAM TIME ETNRIES")}
+            }
+            println("HELLO FROM API GET TEAM TIME ETNRIES")
+            awaitClose {  }
+        }
+    }
+
 
     override fun getTimeEntryById(timeEntryRequest: TimeEntryRequest): Flow<ResultState<TimeEntry?>> {
         return callbackFlow {

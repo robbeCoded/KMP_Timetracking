@@ -48,21 +48,20 @@ fun AuthScreenContent(
 
     Column(
         Modifier
-            .padding(LocalSpacing.current.medium)
+            .padding(horizontal = LocalSpacing.current.medium, vertical = LocalSpacing.current.extraSmall)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(LocalColor.current.white),
-        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
+        verticalArrangement = Arrangement.spacedBy(LocalSpacing.current.medium, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(screenHeightDp / 4)
+                .height(screenHeightDp / 5)
         ) {
             Image(
                 painter = cornerstone, contentDescription = "", modifier = Modifier
-                    .size(screenHeightDp / 4)
                     .align(alignment = Alignment.TopEnd)
             )
         }

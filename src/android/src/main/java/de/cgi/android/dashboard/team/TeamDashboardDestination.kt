@@ -5,7 +5,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 import de.cgi.android.navigation.Router
 import de.cgi.common.UserRepository
 import org.koin.androidx.compose.get
@@ -30,7 +29,7 @@ fun TeamDashboardDestination(
         isManager = isManager,
         onNavigateToTeamDashboard = { router.showTeamDashboard() },
         onNavigateToPersonalDashboard = { router.back() },
-        onReloadData = viewModel::getTeams,
+        onReloadData = viewModel::getUserIds,
         teamDashboardData = teamDashboardDataState.teamDashboardData,
         teamDashboardDataState = teamDashboardDataState.teamDashboardDataState,
     )

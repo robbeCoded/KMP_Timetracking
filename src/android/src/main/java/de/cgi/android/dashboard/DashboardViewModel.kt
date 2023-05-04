@@ -31,8 +31,8 @@ class DashboardViewModel(
     private val _totalDuration = MutableStateFlow(LocalTime(0, 0, 0))
     private val totalDuration: StateFlow<LocalTime> = _totalDuration
 
-    private val _projectSummaries = MutableStateFlow<List<DashboardData>>(emptyList())
-    val projectSummaries: StateFlow<List<DashboardData>> = _projectSummaries
+    private val _projectSummaries = MutableStateFlow<List<DashboardDataPerProject>>(emptyList())
+    val projectSummaries: StateFlow<List<DashboardDataPerProject>> = _projectSummaries
 
     init {
         getTimeEntries()
@@ -53,15 +53,18 @@ class DashboardViewModel(
                             selectedDate.value
                         )
                         val summaries = dashboardUseCase.processData(resultState.data)
-                        _listState.value = DashboardDataState(
-                            dashboardDataState = resultState,
-                            dashboardData = summaries
-                        )
+                        if (!summaries.isNullOrEmpty()) {
+                            _listState.value = DashboardDataState(
+                                dashboardDataState = resultState,
+                                dashboardData = summaries
+                            )
+                        }
                     } else {
                         _listState.update { it.copy(dashboardDataState = resultState) }
                     }
                 }.launchIn(viewModelScope)
     }
+
     fun updateSelectedDateAndReloadMinus() {
         _selectedDate.value = selectedDate.value.minus(DatePeriod(days = 7))
         getTimeEntries()
@@ -72,6 +75,8 @@ class DashboardViewModel(
         getTimeEntries()
     }
 
-    fun getSelectedDate(): LocalDate {return selectedDate.value}
+    fun getSelectedDate(): LocalDate {
+        return selectedDate.value
+    }
 
 }

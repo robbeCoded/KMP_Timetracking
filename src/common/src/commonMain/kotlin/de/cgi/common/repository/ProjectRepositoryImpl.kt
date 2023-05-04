@@ -2,8 +2,8 @@ package de.cgi.common.repository
 
 import de.cgi.common.ResultState
 import de.cgi.common.api.ProjectApi
-import de.cgi.common.cache.Database
-import de.cgi.common.cache.DatabaseDriverFactory
+//import de.cgi.common.cache.Database
+//import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.requests.NewProjectRequest
 import de.cgi.common.data.model.requests.ProjectRequest
@@ -11,11 +11,11 @@ import de.cgi.common.data.model.requests.UpdateProjectRequest
 import kotlinx.coroutines.flow.Flow
 
 class ProjectRepositoryImpl(
-    databaseDriverFactory: DatabaseDriverFactory,
+    //databaseDriverFactory: DatabaseDriverFactory,
     private val api: ProjectApi
 ) : ProjectRepository {
 
-    private val database = Database(databaseDriverFactory)
+    //private val database = Database(databaseDriverFactory)
     override fun newProject(
         name: String,
         description: String?,

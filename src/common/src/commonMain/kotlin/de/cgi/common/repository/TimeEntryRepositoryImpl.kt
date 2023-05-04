@@ -2,25 +2,21 @@ package de.cgi.common.repository
 
 import de.cgi.common.ResultState
 import de.cgi.common.api.TimeEntryApi
-import de.cgi.common.cache.Database
-import de.cgi.common.cache.DatabaseDriverFactory
+//import de.cgi.common.cache.Database
+//import de.cgi.common.cache.DatabaseDriverFactory
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
+import de.cgi.common.data.model.requests.TeamTimeEntriesRequest
 import de.cgi.common.data.model.requests.TimeEntryRequest
 import de.cgi.common.data.model.requests.UpdateTimeEntryRequest
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.plus
 
 class TimeEntryRepositoryImpl(
-    databaseDriverFactory: DatabaseDriverFactory,
+    //databaseDriverFactory: DatabaseDriverFactory,
     private val api: TimeEntryApi
 ) : TimeEntryRepository {
 
-    private val database = Database(databaseDriverFactory)
+    //private val database = Database(databaseDriverFactory)
     override fun newTimeEntry(
         date: String,
         startTime: String,
@@ -53,6 +49,14 @@ class TimeEntryRepositoryImpl(
         forceReload: Boolean
     ): Flow<ResultState<List<TimeEntry>>> {
         return api.getTimeEntries(userId, startDate)
+    }
+
+    override fun getTeamTimeEntriesForWeek(
+        request: TeamTimeEntriesRequest,
+        forceReload: Boolean
+    ): Flow<ResultState<List<List<TimeEntry>?>>> {
+        println("HELLO FROM REPO GET TEAM TIME ETNRIES")
+        return api.getTeamTimeEntries(request)
     }
 
     override fun getTimeEntryById(

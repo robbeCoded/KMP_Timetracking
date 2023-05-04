@@ -1,8 +1,10 @@
 package de.cgi.android.timeentry.addedit
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.android.projects.list.ProjectListState
+import de.cgi.android.ui.components.showToast
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
@@ -122,28 +124,48 @@ class TimeEntryEditViewModel(
     }
 
 
-    fun startTimeChanged(startTime: LocalTime) {
+    fun startTimeChanged(startTime: LocalTime, context: Context) {
         _startTime.value = startTime
-        _endTime.value = LocalTime(
+        val newEndTime = LocalTime(
             startTime.hour.plus(duration.value!!.hour),
             startTime.minute.plus(duration.value!!.minute)
         )
+
+        if (newEndTime <= LocalTime(23, 59)) {
+            _endTime.value = newEndTime
+        } else {
+            context.showToast("The selected times exceed the current day. Setting end time to the maximum possible.")
+            _endTime.value = LocalTime(23, 59)
+        }
     }
 
-    fun endTimeChanged(endTime: LocalTime) {
-        _endTime.value = endTime
-        _duration.value = (LocalTime(
-            endTime.hour.minus(startTime.value!!.hour),
-            endTime.minute.minus(startTime.value!!.minute)
-        ))
+    fun endTimeChanged(endTime: LocalTime, context: Context) {
+        if (endTime >= startTime.value!!) {
+            _endTime.value = endTime
+            _duration.value = LocalTime(
+                endTime.hour.minus(startTime.value!!.hour),
+                endTime.minute.minus(startTime.value!!.minute)
+            )
+        } else {
+            context.showToast("The end time should be after the start time.")
+        }
     }
 
-    fun durationChanged(duration: LocalTime) {
-        _duration.value = duration
-        _endTime.value = LocalTime(
-            startTime.value!!.hour.plus(duration.hour),
-            startTime.value!!.minute.plus(duration.minute)
-        )
+    fun durationChanged(duration: LocalTime, context: Context) {
+        if (startTime.value!!.hour.plus(duration.hour) <= 23 && startTime.value!!.minute.plus(
+                duration.minute
+            ) <= 59
+        ) {
+            _duration.value = duration
+            _endTime.value = LocalTime(
+                startTime.value!!.hour.plus(duration.hour),
+                startTime.value!!.minute.plus(duration.minute)
+            )
+        } else {
+            context.showToast("The selected duration exceeds the current day. Setting duration to the maximum possible.")
+            _duration.value = LocalTime(23 - startTime.value!!.hour, 59 - startTime.value!!.minute)
+            _endTime.value = LocalTime(23, 59)
+        }
     }
 
     fun dateChanged(date: LocalDate) {

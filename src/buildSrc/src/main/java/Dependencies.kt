@@ -11,7 +11,7 @@ object Versions {
 
     const val kmpNativeCoroutinesVersion = "1.0.0-ALPHA-4"
 
-    const val compose = "1.4.0-alpha03"
+    const val compose = "1.3.0"
     const val composeCompiler = "1.4.0"
     const val navCompose = "2.5.2"
     const val accompanist = "0.29.0-alpha"
@@ -115,6 +115,8 @@ object Deps {
     }
 
     object Compose {
+        const val runtime = "androidx.compose.runtime:runtime:${Versions.compose}"
+        //const val html = "org.jetbrains.compose.html:html-core"
         const val compiler = "androidx.compose.compiler:compiler:${Versions.composeCompiler}"
         const val ui = "androidx.compose.ui:ui:${Versions.compose}"
         const val uiGraphics = "androidx.compose.ui:ui-graphics:${Versions.compose}"

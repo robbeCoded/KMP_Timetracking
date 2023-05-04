@@ -3,6 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://us-central1-maven.pkg.dev/varabyte-repos/public")
     }
     resolutionStrategy {
         eachPlugin {
@@ -16,6 +17,7 @@ pluginManagement {
 rootProject.name = "KMP_Timetracking"
 
 include(":android", ":common")
-include(":compose-web")
+//include(":compose-web")
 include(":backend")
+include(":site")
 

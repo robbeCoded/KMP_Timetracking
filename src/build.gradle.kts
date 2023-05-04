@@ -8,6 +8,7 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
         maven(uri("https://plugins.gradle.org/m2/")) // For kotlinter-gradle
+        maven("https://us-central1-maven.pkg.dev/varabyte-repos/public")
     }
 
     dependencies {
@@ -17,11 +18,12 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:${kotlinVersion}")
 
 
+
         with(Deps.Gradle) {
             classpath(shadow)
             classpath(kotlinter)
             classpath(gradleVersionsPlugin)
-            classpath(sqlDelight)
+            //classpath(sqlDelight)
             classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.8.0-1.0.8")
             classpath("com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin:${Versions.kmpNativeCoroutinesVersion}")
         }

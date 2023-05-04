@@ -32,6 +32,7 @@ fun Application.configureRouting(
         getTimeEntries(timeEntryDataSource)
         getTimeEntriesForDate(timeEntryDataSource)
         getTimeEntriesForWeek(timeEntryDataSource)
+        getTeamTimeEntriesForWeek(timeEntryDataSource)
         getTimeEntry(timeEntryDataSource)
         deleteTimeEntry(timeEntryDataSource)
 

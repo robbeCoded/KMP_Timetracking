@@ -19,6 +19,7 @@ import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.ui.theme.LocalTypography
 import de.cgi.android.util.GenericError
 import de.cgi.common.ResultState
+import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectMapProvider
 import org.koin.androidx.compose.get
 import kotlin.math.roundToInt
@@ -31,8 +32,8 @@ fun TeamDashboardScreen(
     onNavigateToTeamDashboard: () -> Unit,
     onNavigateToPersonalDashboard: () -> Unit,
     onReloadData: () -> Unit,
-    teamDashboardData: List<TeamDashboardData>,
-    teamDashboardDataState: ResultState<List<TeamDashboardData>>,
+    teamDashboardData: List<DashboardDataPerUser>,
+    teamDashboardDataState: ResultState<List<List<TimeEntry>?>>,
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -52,11 +53,7 @@ fun TeamDashboardScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (isManager) {
-                TabMenu(
-                    onNavigateToPersonalDashboard = { onNavigateToPersonalDashboard() },
-                    onNavigateToTeamDashboard = { onNavigateToTeamDashboard() }
-                )
-                Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+
             }
 
             SwitchWeeks(
@@ -72,7 +69,7 @@ fun TeamDashboardScreen(
 }
 @Composable
 fun TeamDashboard(
-    teamDashboardDataState: ResultState<List<TeamDashboardData>>,
+    teamDashboardDataState: ResultState<List<List<TimeEntry>?>>,
     onReloadData: () -> Unit
 ) {
     val projectMapProvider = get<ProjectMapProvider>()
@@ -91,11 +88,11 @@ fun TeamDashboard(
                     .padding(LocalSpacing.current.medium),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            ) {/*
                 items(teamDashboardData) { teamDashboardDataItem ->
-                    println(teamDashboardDataItem.name)
-                    val userId = teamDashboardDataItem.name
-                    val dashboardData = teamDashboardDataItem.dataList
+                    println(teamDashboardDataItem.userId)
+                    val userId = teamDashboardDataItem.userId
+                    val dashboardData = teamDashboardDataItem.data
 
                     Text(
                         text = "User: $userId",
@@ -166,7 +163,7 @@ fun TeamDashboard(
                             textAlign = TextAlign.Center,
                         )
                     }
-                }
+                } */
             }
         }
     }

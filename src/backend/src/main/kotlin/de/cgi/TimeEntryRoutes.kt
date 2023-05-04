@@ -141,6 +141,31 @@ fun Route.getTimeEntriesForWeek(
         }
     }
 }
+fun Route.getTeamTimeEntriesForWeek(
+    timeEntryDataSource: TimeEntryDataSource
+) {
+    authenticate {
+        get("timeentry/getAllForTeamWeek") {
+            val userIdsString = call.parameters["userIds"]
+            val startDate = call.parameters["startDate"]
+
+            if (userIdsString != null && startDate != null) {
+                val userIds = userIdsString.split(",").map { ObjectId(it) }
+                val teamTimeEntries = mutableListOf<List<TimeEntry>?>(emptyList())
+
+                for (userId in userIds) {
+                    val timeEntries = timeEntryDataSource.getTimeEntriesForWeek(userId, startDate)
+                    teamTimeEntries.add(timeEntries)
+                }
+
+                call.respond(HttpStatusCode.OK, teamTimeEntries)
+            } else {
+                call.respond(HttpStatusCode.BadRequest, "Missing required parameters")
+            }
+        }
+    }
+}
+
 
 
 fun Route.getTimeEntry(

@@ -14,7 +14,7 @@
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/compose-web" />
+            <option value="$PROJECT_DIR$/site" />
           </set>
         </option>
       </GradleProjectSettings>

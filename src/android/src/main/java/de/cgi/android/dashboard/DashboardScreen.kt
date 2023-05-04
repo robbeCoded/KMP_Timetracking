@@ -1,14 +1,18 @@
 package de.cgi.android.dashboard
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import de.cgi.android.ui.components.PieChartView
+import de.cgi.android.dashboard.team.DashboardDataPerUser
 import de.cgi.android.ui.components.SwitchWeeks
 import de.cgi.android.ui.components.TabMenu
 import de.cgi.android.ui.components.Table
@@ -24,12 +28,16 @@ import org.koin.androidx.compose.get
 
 @Composable
 fun DashboardScreen(
+    onLoadTeamData: (List<String>) -> Unit,
     isManager: Boolean,
     onNavigateToTeamDashboard: () -> Unit,
     onNavigateToPersonalDashboard: () -> Unit,
     dashboardDataState: ResultState<List<TimeEntry>>,
-    dashboardData: List<DashboardData>,
+    dashboardData: List<DashboardDataPerProject>,
+    teamDashboardDataState: ResultState<List<List<TimeEntry>?>>?,
+    teamDashboardData: List<DashboardDataPerUser>?,
     onReloadDashboardData: () -> Unit,
+    onReloadTeamDashboardData: () -> Unit,
     onUpdateDateAndReloadPlus: () -> Unit,
     onUpdateDateAndReloadMinus: () -> Unit,
     onGetSelectedDate: () -> LocalDate
@@ -43,68 +51,114 @@ fun DashboardScreen(
         "Calender Week ${onGetSelectedDate().dayOfYear / 7 + 1}"
     }
 
-    LaunchedEffect(Unit) {
-        onReloadDashboardData()
-    }
+    val (selectedTab, setSelectedTab) = remember { mutableStateOf(0) }
+    val isTeamDashboard = selectedTab != 0
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(LocalSpacing.current.medium),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SwitchWeeks(
-            onUpdateDateAndReloadMinus = onUpdateDateAndReloadMinus,
-            onUpdateDateAndReloadPlus = onUpdateDateAndReloadPlus,
-            weekText = weekText
-        )
-
-        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
-
-        if (isManager) {
-            TabMenu(
-                onNavigateToPersonalDashboard = onNavigateToPersonalDashboard,
-                onNavigateToTeamDashboard = onNavigateToTeamDashboard
+        item {
+            SwitchWeeks(
+                onUpdateDateAndReloadMinus = onUpdateDateAndReloadMinus,
+                onUpdateDateAndReloadPlus = onUpdateDateAndReloadPlus,
+                weekText = weekText
             )
         }
 
-        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+        item {
+            Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+        }
 
-        AsyncData(resultState = dashboardDataState, errorContent = {
-            GenericError(
-                onDismissAction = onReloadDashboardData
-            )
-        }) {
-            if (!it.isNullOrEmpty()) {
-                if (dashboardData.first().duration.toSecondOfDay() == 0) {
-                    Text(
-                        text = "There are no time entries for the selected week.",
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        textAlign = TextAlign.Center
-                    )
-                } else {
 
-                    Box(
-                        modifier = Modifier
-                            .height(200.dp)
-                            .width(200.dp)
-                    ) {
-                        PieChartView(dashboardData, projectMapProvider)
-                    }
+        if (isManager) {
+            item {
+                TabMenu(
+                    onNavigateToPersonalDashboard = { setSelectedTab(0) },
+                    onNavigateToTeamDashboard = {
+                        setSelectedTab(1)
+                        onReloadTeamDashboardData()
 
-                    Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+                    },
+                    onSelectTab = setSelectedTab,
+                )
+                Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+            }
 
-                    Table(dashboardData, onReloadDashboardData, projectMapProvider)
-                }
-            } else {
-                Text(
-                    text = "There are no time entries for the selected week.",
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    textAlign = TextAlign.Center
+
+        }
+        if (isTeamDashboard) {
+            item {
+                TeamDashboardContent(
+                    teamDashboardDataState = teamDashboardDataState,
+                    onReloadTeamDashboardData = { onReloadDashboardData() },
+                    teamDashboardData = teamDashboardData,
+                    projectMapProvider = projectMapProvider
                 )
             }
         }
     }
+
+
 }
 
+@Composable
+fun TeamDashboardOneMember(
+    dashboardDataPerUser: DashboardDataPerUser,
+    projectMapProvider: ProjectMapProvider
+) {
+    Text(text = dashboardDataPerUser.userId)
+    Table(dashboardDataPerUser.data, projectMapProvider)
+}
+
+@Composable
+fun TeamDashboardContent(
+    teamDashboardDataState: ResultState<List<List<TimeEntry>?>>?,
+    onReloadTeamDashboardData: () -> Unit,
+    teamDashboardData: List<DashboardDataPerUser>?,
+    projectMapProvider: ProjectMapProvider
+) {
+    AsyncData(resultState = teamDashboardDataState, errorContent = {
+        GenericError(
+            onDismissAction = onReloadTeamDashboardData
+        )
+    }) {
+        if (teamDashboardData.isNullOrEmpty()) {
+            Text(
+                text = "There are no time entries for the selected week.",
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Box(
+                modifier = Modifier
+                    .height(200.dp)
+                    .width(200.dp)
+            ) {
+                //PieChartView(teamDashboardData, projectMapProvider)
+            }
+
+            Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Column {
+                    teamDashboardData.forEach { userDashboardData ->
+                        TeamDashboardOneMember(
+                            dashboardDataPerUser = userDashboardData,
+                            projectMapProvider = projectMapProvider
+                        )
+                    }
+                }
+            }
+
+
+        }
+
+    }
+}

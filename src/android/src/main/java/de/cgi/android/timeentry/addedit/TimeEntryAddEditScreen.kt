@@ -2,11 +2,11 @@ package de.cgi.android.timeentry.addedit
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.os.Build
+import android.content.Context
 import android.widget.DatePicker
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,17 +17,16 @@ import compose.icons.feathericons.X
 import de.cgi.android.ui.components.AddEditButtonSection
 import de.cgi.android.ui.components.ProjectDropdownMenu
 import de.cgi.android.ui.components.SelectableTextField
+import de.cgi.android.ui.components.showToast
 import de.cgi.android.util.format
 import kotlinx.datetime.*
 
-@RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeEntryAddEditScreen(
     onDateChanged: (LocalDate) -> Unit,
-    onStartTimeChanged: (LocalTime) -> Unit,
-    onEndTimeChanged: (LocalTime) -> Unit,
-    onDurationChanged: (LocalTime) -> Unit,
+    onStartTimeChanged: (LocalTime, Context) -> Unit,
+    onEndTimeChanged: (LocalTime, Context) -> Unit,
+    onDurationChanged: (LocalTime, Context) -> Unit,
     onProjectChanged: (String, String) -> Unit,
     onDescriptionChanged: (String) -> Unit,
     onSubmitTimeEntry: () -> Unit,
@@ -92,13 +91,13 @@ fun TimeEntryAddEditScreen(
 
     fun timePickerDialog(
         time: MutableState<LocalTime?>,
-        onTimeChanged: (LocalTime) -> Unit
+        onTimeChanged: (LocalTime, Context) -> Unit,
     ): TimePickerDialog {
         return TimePickerDialog(
             context,
             { _, hourOfDay, minute ->
-                time.value = LocalTime(hourOfDay, minute)
-                onTimeChanged(time.value!!)
+                    time.value = LocalTime(hourOfDay, minute)
+                    onTimeChanged(time.value!!, context)
             },
             time.value!!.hour,
             time.value!!.minute,
@@ -143,7 +142,8 @@ fun TimeEntryAddEditScreen(
                 onValueChange = { newValue ->
                     duration.value = newValue.toLocalTime()
                     onDurationChanged(
-                        newValue.toLocalTime()
+                        newValue.toLocalTime(),
+                        context
                     )
                 },
                 label = "Duration",
@@ -164,7 +164,7 @@ fun TimeEntryAddEditScreen(
                 value = startTime.value.toString(),
                 onValueChange = { newValue ->
                     startTime.value = newValue.toLocalTime()
-                    onStartTimeChanged(newValue.toLocalTime())
+                    onStartTimeChanged(newValue.toLocalTime(), context)
                 },
                 label = "Start time",
                 modifier = Modifier.weight(1f),
@@ -175,7 +175,7 @@ fun TimeEntryAddEditScreen(
                 value = endTime.value.toString(),
                 onValueChange = { newValue ->
                     endTime.value = newValue.toLocalTime()
-                    onEndTimeChanged(newValue.toLocalTime())
+                    onEndTimeChanged(newValue.toLocalTime(), context)
                 },
                 label = "End time",
                 modifier = Modifier.weight(1f),

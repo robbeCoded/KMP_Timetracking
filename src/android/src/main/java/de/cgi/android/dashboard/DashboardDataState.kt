@@ -5,5 +5,5 @@ import de.cgi.common.data.model.TimeEntry
 
 data class DashboardDataState(
     val dashboardDataState: ResultState<List<TimeEntry>> = ResultState.Loading,
-    val dashboardData: List<DashboardData> = emptyList()
+    val dashboardData: List<DashboardDataPerProject> = emptyList()
 )

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.ChevronLeft
 import compose.icons.feathericons.ChevronRight
-import de.cgi.android.dashboard.DashboardData
+import de.cgi.android.dashboard.DashboardDataPerProject
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.ui.theme.LocalTypography
@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun PieChartView(dashboardData: List<DashboardData>, projectMapProvider: ProjectMapProvider) {
+fun PieChartView(dashboardData: List<DashboardDataPerProject>, projectMapProvider: ProjectMapProvider) {
     PieChart(
         pieChartData = PieChartData(
             slices = dashboardData.map {
@@ -55,8 +55,7 @@ fun PieChartView(dashboardData: List<DashboardData>, projectMapProvider: Project
 
 @Composable
 fun Table(
-    dashboardDataList: List<DashboardData>,
-    reloadDashboardData: () -> Unit,
+    dashboardDataList: List<DashboardDataPerProject>,
     projectMapProvider: ProjectMapProvider
 ) {
     val column2Weight = .5f // 70%
@@ -80,6 +79,7 @@ fun Table(
             }
         }
         items(dashboardDataList) { projectSummary ->
+            println(projectSummary)
             val colorString = projectMapProvider.getProjectColorById(projectSummary.projectId)
             val color = if (colorString != null) {
                 stringToColor(colorString)
@@ -134,6 +134,7 @@ fun RowScope.TableCell(
 fun TabMenu(
     onNavigateToPersonalDashboard: () -> Unit,
     onNavigateToTeamDashboard: () -> Unit,
+    onSelectTab: (Int) -> Unit
 ) {
     val tabs = listOf("Personal", "Team")
     var selectedTabIndex by remember { mutableStateOf(0) }
@@ -151,6 +152,7 @@ fun TabMenu(
                 },
                 selected = selectedTabIndex == index,
                 onClick = {
+                    onSelectTab(index)
                     if (selectedTabIndex == 1) {
                         onNavigateToTeamDashboard()
                     }
@@ -162,8 +164,8 @@ fun TabMenu(
             )
         }
     }
-
 }
+
 
 @Composable
 fun SwitchWeeks(
