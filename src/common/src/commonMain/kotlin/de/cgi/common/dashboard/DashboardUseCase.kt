@@ -1,4 +1,4 @@
-package de.cgi.android.dashboard
+package de.cgi.common.dashboard
 
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.TeamRepository
@@ -7,7 +7,6 @@ import kotlinx.datetime.toLocalTime
 
 class DashboardUseCase(
     private val teamRepository: TeamRepository,
-
     ) {
     fun processData(timeEntries: List<TimeEntry>?): List<DashboardDataPerProject>? {
         if (!timeEntries.isNullOrEmpty()) {

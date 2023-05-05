@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.Project
+import de.cgi.common.projects.ProjectListState
+import de.cgi.common.projects.ProjectListUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class ProjectListViewModel(
     private val projectListUseCase: ProjectListUseCase,

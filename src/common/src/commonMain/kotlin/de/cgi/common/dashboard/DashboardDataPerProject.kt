@@ -1,4 +1,4 @@
-package de.cgi.android.dashboard
+package de.cgi.common.dashboard
 
 import kotlinx.datetime.LocalTime
 

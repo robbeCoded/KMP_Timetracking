@@ -1,7 +1,5 @@
-package de.cgi.android.auth.signup
+package de.cgi.common.auth
 
-import de.cgi.android.auth.SignInState
-import de.cgi.android.auth.SignUpState
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.repository.AuthRepository

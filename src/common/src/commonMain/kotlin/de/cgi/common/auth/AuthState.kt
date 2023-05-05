@@ -1,7 +1,6 @@
-package de.cgi.android.auth
+package de.cgi.common.auth
 
 import de.cgi.common.data.model.responses.AuthResponse
-import de.cgi.common.data.model.responses.GetUserRole
 
 sealed class SignInState {
     object Loading : SignInState()

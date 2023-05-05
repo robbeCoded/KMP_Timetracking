@@ -25,20 +25,17 @@ android {
 }
 
 kotlin {
-
-    val sdkName: String? = System.getenv("SDK_NAME")
     android()
     jvm()
     js(IR) {
         useCommonJs()
-        browser() {
+        browser {
             commonWebpackConfig {
-
             }
         }
         binaries.executable()
     }
-
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -58,6 +55,9 @@ kotlin {
                 }
                 with(Deps.Koin) {
                     implementation(core)
+                }
+                with(Deps.Compose){
+                    implementation(runtime)
                 }
 
             }
@@ -83,6 +83,7 @@ kotlin {
                 with(Deps.Koin){
                     implementation(android)
                 }
+                implementation(Deps.Kotlinx.coroutinesAndroid)
                 /*
                 with(Deps.sqlDelight){
                     implementation(android)
@@ -93,7 +94,9 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
+                implementation(Deps.Compose.runtime)
                 implementation(Deps.Ktor.clientJs)
+                implementation(Deps.Kotlinx.coroutinesJS)
                 //implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
                 //implementation(npm("sql.js", "1.6.2"))
                 //implementation(devNpm("copy-webpack-plugin", "9.1.0"))

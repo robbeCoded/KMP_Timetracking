@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.ChevronLeft
 import compose.icons.feathericons.ChevronRight
-import de.cgi.android.dashboard.DashboardDataPerProject
+import de.cgi.common.dashboard.DashboardDataPerProject
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.ui.theme.LocalTypography

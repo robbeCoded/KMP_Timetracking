@@ -2,7 +2,6 @@ package de.cgi.android.dashboard.team
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.projects.list.ProjectListState
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.Team

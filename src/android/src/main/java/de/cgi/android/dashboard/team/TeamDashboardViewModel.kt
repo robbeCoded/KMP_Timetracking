@@ -2,9 +2,9 @@ package de.cgi.android.dashboard.team
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.dashboard.DashboardDataPerProject
-import de.cgi.android.dashboard.DashboardUseCase
-import de.cgi.android.timeentry.list.TimeEntryListUseCase
+import de.cgi.common.dashboard.DashboardDataPerProject
+import de.cgi.common.dashboard.DashboardUseCase
+import de.cgi.common.timeentry.TimeEntryListUseCase
 import de.cgi.android.util.getWeekStartDate
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository

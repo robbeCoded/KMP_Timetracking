@@ -1,4 +1,4 @@
-package de.cgi.android.timeentry
+package de.cgi.common.timeentry
 
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.Project

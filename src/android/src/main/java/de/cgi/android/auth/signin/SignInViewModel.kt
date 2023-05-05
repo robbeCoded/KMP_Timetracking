@@ -2,8 +2,9 @@ package de.cgi.android.auth.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.auth.SignInState
+import de.cgi.common.auth.SignInState
 import de.cgi.common.UserRepository
+import de.cgi.common.auth.SignInUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -3,7 +3,7 @@ package de.cgi.android.auth.signin
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import de.cgi.android.auth.InputType
-import de.cgi.android.auth.SignInState
+import de.cgi.common.auth.SignInState
 import de.cgi.android.ui.components.AuthScreenContent
 import de.cgi.android.ui.components.showToast
 

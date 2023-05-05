@@ -11,7 +11,7 @@ object Versions {
 
     const val kmpNativeCoroutinesVersion = "1.0.0-ALPHA-4"
 
-    const val compose = "1.3.0"
+    const val compose = "1.4.0"
     const val composeCompiler = "1.4.0"
     const val navCompose = "2.5.2"
     const val accompanist = "0.29.0-alpha"
@@ -69,6 +69,8 @@ object Deps {
             "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinxSerialization}"
         const val coroutinesCore =
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
+        const val coroutinesJS = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.kotlinCoroutines}"
+        const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
         const val coroutinesTest =
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
         const val htmlJs = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.kotlinxHtmlJs}"
@@ -115,7 +117,7 @@ object Deps {
     }
 
     object Compose {
-        const val runtime = "androidx.compose.runtime:runtime:${Versions.compose}"
+        const val runtime = "org.jetbrains.compose.runtime:runtime:${Versions.compose}"
         //const val html = "org.jetbrains.compose.html:html-core"
         const val compiler = "androidx.compose.compiler:compiler:${Versions.composeCompiler}"
         const val ui = "androidx.compose.ui:ui:${Versions.compose}"

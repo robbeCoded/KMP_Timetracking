@@ -3,12 +3,13 @@ package de.cgi.android.timeentry.addedit
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.android.projects.list.ProjectListState
+import de.cgi.common.projects.ProjectListState
 import de.cgi.android.ui.components.showToast
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectMapProvider
+import de.cgi.common.timeentry.TimeEntryEditUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate

@@ -1,6 +1,5 @@
 package de.cgi.android.dashboard.team
 
-import de.cgi.android.dashboard.DashboardDataPerProject
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 

@@ -1,4 +1,4 @@
-package de.cgi.android.projects.addedit
+package de.cgi.common.projects
 
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.Project
