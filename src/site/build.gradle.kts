@@ -30,6 +30,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
+
             }
         }
         val jsMain by getting {

@@ -2,11 +2,10 @@ package de.cgi
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import de.cgi.android.di.appModule
 
-import de.cgi.common.di.commonModule
-import de.cgi.common.di.initKoin
+import de.cgi.common.dashboard.commonModule
+import de.cgi.common.dashboard.initKoin
 import org.koin.android.ext.koin.androidContext
 
 import org.koin.dsl.KoinAppDeclaration

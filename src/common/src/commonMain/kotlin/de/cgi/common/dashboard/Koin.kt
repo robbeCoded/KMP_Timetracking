@@ -1,10 +1,19 @@
-package de.cgi.common.di
+package de.cgi.common.dashboard
 
+import de.cgi.common.UserRepository
 import de.cgi.common.api.*
+import de.cgi.common.auth.SignInUseCase
+import de.cgi.common.auth.SignUpUseCase
 import de.cgi.common.data.model.KeyValueStorage
-import de.cgi.common.platformModule
-import de.cgi.common.repository.ProjectMapProvider
-import de.cgi.common.repository.ProjectMapProviderImpl
+import de.cgi.common.httpClientPlatformModule
+import de.cgi.common.projects.ProjectAddUseCase
+import de.cgi.common.projects.ProjectEditUseCase
+import de.cgi.common.projects.ProjectListUseCase
+import de.cgi.common.repository.*
+import de.cgi.common.timeentry.GetProjectsUseCase
+import de.cgi.common.timeentry.TimeEntryAddUseCase
+import de.cgi.common.timeentry.TimeEntryEditUseCase
+import de.cgi.common.timeentry.TimeEntryListUseCase
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.*
@@ -24,7 +33,7 @@ import org.koin.dsl.module
 fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(commonModule(enableNetworkLogs = enableNetworkLogs), platformModule())
+        modules(commonModule(enableNetworkLogs = enableNetworkLogs), httpClientPlatformModule())
     }
 
 fun initKoin() = initKoin(enableNetworkLogs = false) {}
@@ -34,6 +43,25 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     single { createHttpClient(get(), get(), get(), enableNetworkLogs = enableNetworkLogs) }
 
     single { CoroutineScope(Dispatchers.Default + SupervisorJob() ) }
+
+
+
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+    single<TimeEntryRepository> { TimeEntryRepositoryImpl(get()/*, get()*/) }
+    single<ProjectRepository> { ProjectRepositoryImpl(get() /*,get()*/) }
+    single<TeamRepository> { TeamRepositoryImpl(get()) }
+
+    single { SignUpUseCase(get()) }
+    single { SignInUseCase(get()) }
+    single { TimeEntryListUseCase(get()) }
+    single { TimeEntryEditUseCase(get()) }
+    single { ProjectListUseCase(get()) }
+    single { ProjectAddUseCase(get()) }
+    single { ProjectEditUseCase(get()) }
+    single { GetProjectsUseCase(get()) }
+    single { TimeEntryAddUseCase(get()) }
+    single { DashboardUseCase(get()) }
+    single { TeamDashboardUseCase(get(), get()) }
 
     single<AuthApi>{AuthApiImpl(get())}
     single<ProjectApi>{ProjectApiImpl(get())}

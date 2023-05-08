@@ -3,6 +3,7 @@ package de.cgi.android.dashboard.team
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.common.UserRepository
+import de.cgi.common.dashboard.TeamDashboardUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 

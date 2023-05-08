@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
+import de.cgi.common.dashboard.TeamDashboardUseCase
 import de.cgi.common.data.model.Team
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*

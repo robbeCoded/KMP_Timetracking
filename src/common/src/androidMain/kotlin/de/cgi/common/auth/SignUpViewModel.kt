@@ -1,21 +1,20 @@
-package de.cgi.android.auth.signup
+package de.cgi.common.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.common.auth.SignUpState
-import de.cgi.common.auth.SignUpUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SignUpViewModel (
-    private val useCase: SignUpUseCase
-) : ViewModel(){
-    
+actual class SignUpViewModel actual constructor(
+    private val useCase: SignUpUseCase,
+    private val authValidationUseCase: AuthValidationUseCase
+): ViewModel() {
     private val _signUpState = MutableStateFlow<SignUpState?>(SignUpState.Loading)
-    val signUpState: StateFlow<SignUpState?> = _signUpState
+    actual val signUpState: StateFlow<SignUpState?>
+        get() = _signUpState
 
     private val _signUpEmail = MutableStateFlow("")
     private val signUpEmail: StateFlow<String> = _signUpEmail
@@ -27,7 +26,8 @@ class SignUpViewModel (
     private val signUpName: StateFlow<String> = _signUpName
 
     private var signUpJob: Job? = null
-    fun signUp() {
+
+    actual fun signUp() {
         signUpJob?.cancel()
         signUpJob = useCase.signUp(
             name = signUpName.value,
@@ -38,23 +38,24 @@ class SignUpViewModel (
         }.launchIn(viewModelScope)
     }
 
-    fun signUpEmailChanged(email: String) {
+    actual fun signUpEmailChanged(email: String) {
         _signUpEmail.value = email
     }
 
-    fun signUpPasswordChanged(password: String) {
+    actual fun signUpPasswordChanged(password: String) {
         _signUpPassword.value = password
     }
 
-    fun signUpNameChanged(name: String) {
+    actual fun signUpNameChanged(name: String) {
         _signUpName.value = name
     }
 
-    fun isEmailValid(): Boolean {
-        return _signUpEmail.value.contains("@")
+    actual fun isEmailValid(): Boolean {
+        return authValidationUseCase.isEmailValid(signUpEmail.value)
     }
 
-    fun isPasswordValid(): Boolean {
-        return _signUpPassword.value.length >= 8
+    actual fun isPasswordValid(): Boolean {
+        return authValidationUseCase.isPasswordValid(signUpPassword.value)
     }
+
 }

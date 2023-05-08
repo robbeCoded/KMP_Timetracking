@@ -27,7 +27,6 @@ import de.cgi.android.auth.InputType
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.ui.theme.LocalSpacing
 
-@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun AuthScreenContent(
     buttonText: String,

@@ -6,7 +6,7 @@ object Versions {
     const val koinCore = "3.3.2"
     const val koinAndroid = "3.3.2"
     const val koinAndroidCompose = "3.4.1"
-
+    const val kodein = "7.18.0"
     const val kotlinxHtmlJs = "0.7.3"
 
     const val kmpNativeCoroutinesVersion = "1.0.0-ALPHA-4"

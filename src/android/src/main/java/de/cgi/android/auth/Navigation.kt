@@ -1,7 +1,5 @@
 package de.cgi.android.auth
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -9,13 +7,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import de.cgi.android.auth.signin.SignInScreen
-import de.cgi.android.auth.signin.SignInViewModel
 import de.cgi.android.auth.signup.SignUpScreen
-import de.cgi.android.auth.signup.SignUpViewModel
 import de.cgi.android.navigation.Router
+import de.cgi.common.SignInViewModel
+import de.cgi.common.auth.SignUpViewModel
 import org.koin.androidx.compose.getViewModel
 
-@RequiresApi(Build.VERSION_CODES.M)
 @ExperimentalAnimationApi
 fun NavGraphBuilder.authGraph(
     router: Router

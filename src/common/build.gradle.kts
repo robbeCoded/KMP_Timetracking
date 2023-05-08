@@ -78,6 +78,8 @@ kotlin {
                     implementation(clientSerialization)
                 }
                 with(Deps.AndroidX){
+                    implementation(lifecycleRuntimeCompose)
+                    implementation(lifecycleRuntimeKtx)
                     implementation(lifecycleViewmodelKtx)
                 }
                 with(Deps.Koin){
@@ -97,6 +99,9 @@ kotlin {
                 implementation(Deps.Compose.runtime)
                 implementation(Deps.Ktor.clientJs)
                 implementation(Deps.Kotlinx.coroutinesJS)
+                with(Deps.Koin){
+                    implementation(core)
+                }
                 //implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
                 //implementation(npm("sql.js", "1.6.2"))
                 //implementation(devNpm("copy-webpack-plugin", "9.1.0"))

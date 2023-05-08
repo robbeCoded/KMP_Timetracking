@@ -8,6 +8,7 @@ import de.cgi.common.timeentry.TimeEntryListUseCase
 import de.cgi.android.util.getWeekStartDate
 import de.cgi.common.ResultState
 import de.cgi.common.UserRepository
+import de.cgi.common.dashboard.TeamDashboardUseCase
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.TeamTimeEntriesRequest
 import kotlinx.coroutines.Job
