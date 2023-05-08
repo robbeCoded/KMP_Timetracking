@@ -25,6 +25,8 @@ import de.cgi.android.timeentry.TimeEntryListRoute
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.common.UserRepository
 import kotlinx.coroutines.launch
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 import org.koin.androidx.compose.get
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -33,11 +35,13 @@ fun MainAppScaffold(
     content: @Composable () -> Unit,
     router: Router
 ) {
+    val di = localDI()
+    val userRepository: UserRepository by di.instance()
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    val userRepository = get<UserRepository>()
     val userName = userRepository.getUserName()
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {

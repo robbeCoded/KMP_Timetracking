@@ -1,5 +1,5 @@
 package de.cgi.android.di
-
+/*
 //import de.cgi.common.cache.DatabaseDriverFactory
 import android.content.Context
 import android.content.SharedPreferences
@@ -53,4 +53,4 @@ fun provideDatabaseDriverFactory(context: Context): DatabaseDriverFactory {
 
 fun provideSharedPreferences(context: Context): SharedPreferences {
     return context.getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE)
-}
+}*/

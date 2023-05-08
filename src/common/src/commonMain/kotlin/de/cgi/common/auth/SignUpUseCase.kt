@@ -23,9 +23,6 @@ class SignUpUseCase(
                     }
                 }
                 is ResultState.Error -> SignUpState.Error(resultState.entity.message)
-                else -> {
-                    SignUpState.Error("Unknown error occurred")
-                }
             }
         }
     }

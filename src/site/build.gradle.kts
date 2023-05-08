@@ -30,7 +30,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
-
             }
         }
         val jsMain by getting {
@@ -40,6 +39,10 @@ kotlin {
                 implementation(libs.kobweb.silk.core)
                 implementation(libs.kobweb.silk.icons.fa)
                 implementation(libs.kobwebx.markdown)
+                with(Deps.Kodein){
+                    implementation(compose)
+                    implementation(core)
+                }
                 implementation(project(":common"))
             }
         }

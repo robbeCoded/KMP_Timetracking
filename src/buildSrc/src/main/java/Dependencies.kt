@@ -141,6 +141,13 @@ object Deps {
         const val compose = "io.insert-koin:koin-androidx-compose:${Versions.koinAndroidCompose}"
     }
 
+    object Kodein {
+        const val core = "org.kodein.di:kodein-di:${Versions.kodein}"
+        const val compose = "org.kodein.di:kodein-di-framework-compose:${Versions.kodein}"
+        const val androidX = "org.kodein.di:kodein-di-framework-android-x:${Versions.kodein}"
+        const val androidXViewModel = "org.kodein.di:kodein-di-framework-android-x-viewmodel:${Versions.kodein}"
+    }
+
     object Ktor {
         const val serverCore = "io.ktor:ktor-server-core:${Versions.ktor}"
         const val serverNetty = "io.ktor:ktor-server-netty:${Versions.ktor}"

@@ -56,10 +56,14 @@ kotlin {
                 with(Deps.Koin) {
                     implementation(core)
                 }
+                with(Deps.Kodein){
+                    implementation(compose)
+                    implementation(core)
+                }
                 with(Deps.Compose){
                     implementation(runtime)
                 }
-
+                implementation("com.russhwolf:multiplatform-settings:1.0.0")
             }
         }
         val commonTest by getting {
@@ -85,6 +89,11 @@ kotlin {
                 with(Deps.Koin){
                     implementation(android)
                 }
+                with(Deps.Kodein){
+                    implementation(androidX)
+                    implementation(androidXViewModel)
+                }
+
                 implementation(Deps.Kotlinx.coroutinesAndroid)
                 /*
                 with(Deps.sqlDelight){

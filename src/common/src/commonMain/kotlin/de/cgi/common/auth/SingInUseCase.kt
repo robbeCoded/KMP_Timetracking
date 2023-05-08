@@ -24,7 +24,6 @@ class SignInUseCase(
                 is ResultState.Error -> SignInState.Error(
                     resultState.entity.message ?: "Unknown error occurred"
                 )
-                else -> SignInState.Error("Unknown error occurred")
             }
         }
     }
@@ -56,7 +55,6 @@ class SignInUseCase(
                     }
                 }
                 is ResultState.Error -> SignInState.Error(resultState.entity.message)
-                else -> SignInState.Error("Unknown error occurred")
             }
         }
     }

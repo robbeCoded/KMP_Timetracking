@@ -6,7 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import de.cgi.android.navigation.Router
+import de.cgi.common.SignInViewModel
+import org.kodein.di.compose.localDI
+import org.kodein.di.compose.rememberDI
+import org.kodein.di.instance
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -15,7 +20,8 @@ import org.koin.androidx.compose.getViewModel
 fun TimeEntryListDestination(
     router: Router,
 ) {
-    val viewModel = getViewModel<TimeEntryListViewModel>()
+    val di = localDI()
+    val viewModel: TimeEntryListViewModel by di.instance()
     val timeEntryListState by viewModel.listState.collectAsState()
 
     LaunchedEffect(viewModel.updateTrigger.value) {

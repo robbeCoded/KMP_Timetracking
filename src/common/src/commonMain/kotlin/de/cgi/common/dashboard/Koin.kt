@@ -1,11 +1,11 @@
 package de.cgi.common.dashboard
-
+/*
 import de.cgi.common.UserRepository
 import de.cgi.common.api.*
 import de.cgi.common.auth.SignInUseCase
 import de.cgi.common.auth.SignUpUseCase
 import de.cgi.common.data.model.KeyValueStorage
-import de.cgi.common.httpClientPlatformModule
+import de.cgi.common.di.httpClientPlatformModule
 import de.cgi.common.projects.ProjectAddUseCase
 import de.cgi.common.projects.ProjectEditUseCase
 import de.cgi.common.projects.ProjectListUseCase
@@ -91,3 +91,4 @@ fun createHttpClient(httpClientEngine: HttpClientEngine, json: Json, keyValueSto
         }
     }
 }
+*/

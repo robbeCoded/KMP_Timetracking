@@ -15,7 +15,6 @@ pluginManagement {
 }
 
 rootProject.name = "KMP_Timetracking"
-
 include(":android", ":common")
 //include(":compose-web")
 include(":backend")

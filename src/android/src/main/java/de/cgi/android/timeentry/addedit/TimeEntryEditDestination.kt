@@ -9,10 +9,11 @@ import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.list.TimeEntryListViewModel
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
@@ -20,11 +21,12 @@ fun TimeEntryEditDestination(
     backStackEntry: NavBackStackEntry,
     router: Router,
 ) {
+    val di = localDI()
     val timeEntryId = TimeEntryEditRoute.getTimeEntryId(backStackEntry) ?: "0"
+    val viewModel: TimeEntryEditViewModel by di.instance(parametersOf(timeEntryId))
+    val listViewModel: TimeEntryListViewModel by di.instance()
     val editTimeEntry = true
 
-    val viewModel = getViewModel<TimeEntryEditViewModel>(parameters = { parametersOf(timeEntryId) })
-    val listViewModel = getViewModel<TimeEntryListViewModel>()
     TimeEntryAddEditScreen(
         onDateChanged = viewModel::dateChanged,
         onStartTimeChanged = viewModel::startTimeChanged,
