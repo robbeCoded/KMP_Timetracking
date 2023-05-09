@@ -21,7 +21,7 @@ class TimeEntryEditViewModel(
     private val editUseCase: TimeEntryEditUseCase,
     private val projectMapProvider: ProjectMapProvider,
     userRepository: UserRepository,
-    private val timeEntryId: String,
+    var timeEntryId: String,
 ) : ViewModel() {
 
     private val userId: String = userRepository.getUserId()

@@ -11,6 +11,7 @@ import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.list.TimeEntryListViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
+import org.kodein.di.instanceOrNull
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -23,7 +24,12 @@ fun TimeEntryEditDestination(
 ) {
     val di = localDI()
     val timeEntryId = TimeEntryEditRoute.getTimeEntryId(backStackEntry) ?: "0"
-    val viewModel: TimeEntryEditViewModel by di.instance(parametersOf(timeEntryId))
+    // Get the existing instance or create a new one
+    val viewModel: TimeEntryEditViewModel by di.instance()
+
+// If the viewModel is not null, update the timeEntryId
+    viewModel.timeEntryId = timeEntryId
+
     val listViewModel: TimeEntryListViewModel by di.instance()
     val editTimeEntry = true
 

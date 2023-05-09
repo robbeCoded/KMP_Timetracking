@@ -1,25 +1,23 @@
 package de.cgi.android.projects.addedit
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import de.cgi.android.navigation.Router
 import de.cgi.android.projects.list.ProjectListViewModel
 import de.cgi.common.repository.ProjectMapProvider
-import org.koin.androidx.compose.get
-import org.koin.androidx.compose.getViewModel
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
 fun ProjectAddDestination(
     router: Router,
 ) {
     val editProject = false
+    val di = localDI()
+    val viewModel: ProjectAddViewModel by di.instance()
+    val listViewModel: ProjectListViewModel by di.instance()
 
-    val viewModel = getViewModel<ProjectAddViewModel>()
-    val listViewModel = getViewModel<ProjectListViewModel>()
-
-    val projectMapProvider = get<ProjectMapProvider>()
+    val projectMapProvider: ProjectMapProvider by di.instance()
 
     ProjectAddEditScreen(
         onStartDateChanged = viewModel::startDateChanged,

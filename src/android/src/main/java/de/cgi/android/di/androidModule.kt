@@ -19,29 +19,25 @@ import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.di.commonModule
 import org.kodein.di.*
 
-
 fun appModule(context: Context) = DI.Module("appModule") {
     import(commonModule)
     bind<SharedPreferences>() with singleton { provideSharedPreferences(context) }
     bind<KeyValueStorage>() with singleton { KeyValueStorage(instance()) }
     bind<UserRepository>() with singleton { UserRepository(instance()) }
 
-    bindProvider { SignInViewModel(instance(), instance()) }
-    bindProvider { SignUpViewModel(instance(), instance()) }
-    //bindProvider { TimeEntryListViewModel(instance(), instance(), instance()) }
-    bindProvider { TimeEntryAddViewModel(instance(), instance(), instance()) }
-
-    bindProvider { ProjectListViewModel(instance(), instance()) }
-    bindProvider { ProjectAddViewModel(instance(), instance()) }
+    bind<SignInViewModel>() with singleton { SignInViewModel(instance(), instance()) }
+    bind<SignUpViewModel>() with singleton { SignUpViewModel(instance(), instance()) }
     bind<TimeEntryListViewModel>() with singleton { TimeEntryListViewModel(instance(), instance(), instance()) }
+    bind<TimeEntryAddViewModel>() with singleton { TimeEntryAddViewModel(instance(), instance(), instance()) }
+    bind<ProjectListViewModel>() with singleton { ProjectListViewModel(instance(), instance()) }
+    bind<ProjectAddViewModel>() with singleton { ProjectAddViewModel(instance(), instance()) }
+    bind<DashboardViewModel>() with singleton { DashboardViewModel(instance(), instance(), instance()) }
+    bind<TeamListViewModel>() with singleton { TeamListViewModel(instance(), instance()) }
+    bind<TeamAddViewModel>() with singleton { TeamAddViewModel(instance(), instance()) }
+    bind<TeamDashboardViewModel>() with singleton { TeamDashboardViewModel(instance(), instance(), instance(), instance()) }
 
-    bindProvider { DashboardViewModel(instance(), instance(), instance()) }
-    bindProvider { TeamListViewModel(instance(), instance()) }
-    bindProvider { TeamAddViewModel(instance(), instance()) }
-    bindProvider { TeamDashboardViewModel(instance(), instance(), instance(), instance()) }
-
-    bindFactory { projectId: String -> ProjectEditViewModel(instance(), instance(), projectId) }
-    bindFactory { timeEntryId: String -> TimeEntryEditViewModel(instance(), instance(), instance(), timeEntryId) }
+    bind<TimeEntryEditViewModel>() with singleton { TimeEntryEditViewModel(instance(), instance(), instance(), "") }
+    bind<ProjectEditViewModel>() with singleton { ProjectEditViewModel(instance(), instance(), "") }
 }
 
 fun provideSharedPreferences(context: Context): SharedPreferences {

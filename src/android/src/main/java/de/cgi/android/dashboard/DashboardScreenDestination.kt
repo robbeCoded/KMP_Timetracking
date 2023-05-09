@@ -8,6 +8,8 @@ import androidx.compose.runtime.getValue
 import de.cgi.android.dashboard.team.TeamDashboardViewModel
 import de.cgi.android.navigation.Router
 import de.cgi.common.UserRepository
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
@@ -17,13 +19,14 @@ import org.koin.androidx.compose.getViewModel
 fun DashboardScreenDestination(
     router: Router,
 ) {
-    val viewModel = getViewModel<DashboardViewModel>()
+    val di = localDI()
+    val viewModel: DashboardViewModel by di.instance()
 
-    val userRepository = get<UserRepository>()
+    val userRepository: UserRepository by di.instance()
     val role = userRepository.getUserRole()
     val isManager = role == "team_manager"
 
-    val teamViewModel = getViewModel<TeamDashboardViewModel>()
+    val teamViewModel: TeamDashboardViewModel by di.instance()
     val teamDashboardDataState by teamViewModel.dataListState.collectAsState()
 
 

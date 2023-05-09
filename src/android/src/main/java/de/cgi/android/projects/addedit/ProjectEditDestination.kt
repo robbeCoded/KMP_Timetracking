@@ -1,7 +1,5 @@
 package de.cgi.android.projects.addedit
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -9,11 +7,9 @@ import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import de.cgi.android.projects.ProjectEditRoute
 import de.cgi.common.repository.ProjectMapProvider
-import org.koin.androidx.compose.get
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
-@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
@@ -21,11 +17,13 @@ fun ProjectEditDestination(
     backStackEntry: NavBackStackEntry,
     router: Router,
 ) {
+    val di = localDI()
     val projectId = ProjectEditRoute.getProjectById(backStackEntry) ?: "0"
     val editProject = true
 
-    val viewModel = getViewModel<ProjectEditViewModel>(parameters = { parametersOf(projectId) })
-    val projectMapProvider = get<ProjectMapProvider>()
+    val viewModel: ProjectEditViewModel by di.instance()
+    viewModel.projectId = projectId
+    val projectMapProvider: ProjectMapProvider by di.instance()
 
     ProjectAddEditScreen(
         onStartDateChanged = viewModel::startDateChanged,

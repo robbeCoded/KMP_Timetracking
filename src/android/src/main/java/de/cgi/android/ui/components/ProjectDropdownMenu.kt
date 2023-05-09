@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.cgi.common.ResultState
 import de.cgi.common.repository.ProjectMapProvider
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 import org.koin.androidx.compose.get
 
 @Composable
@@ -19,8 +21,9 @@ fun ProjectDropdownMenu(
     selectedProject: MutableState<String>,
     onProjectChanged: (String, String) -> Unit,
 ) {
+    val di = localDI()
     val expandedProject = remember { mutableStateOf(false) }
-    val projectMapProvider = get<ProjectMapProvider>()
+    val projectMapProvider: ProjectMapProvider by di.instance()
     val projectListState = projectMapProvider.getProjectNameMapValue()
 
     Column(modifier = Modifier.wrapContentSize()) {
