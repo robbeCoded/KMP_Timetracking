@@ -3,9 +3,7 @@ object Versions {
     const val kotlinCoroutines = "1.6.4"
     const val kotlinxSerialization = "1.4.1"
     const val ktor = "2.2.2"
-    const val koinCore = "3.3.2"
-    const val koinAndroid = "3.3.2"
-    const val koinAndroidCompose = "3.4.1"
+
     const val kodein = "7.18.0"
     const val kotlinxHtmlJs = "0.7.3"
 
@@ -131,14 +129,6 @@ object Deps {
         const val coilCompose = "io.coil-kt:coil-compose:2.0.0"
 
         const val composeImageLoader = "io.github.qdsfdhvh:image-loader:1.2.9"
-    }
-
-    object Koin {
-        const val core = "io.insert-koin:koin-core:${Versions.koinCore}"
-        const val test = "io.insert-koin:koin-test:${Versions.koinCore}"
-        const val testJUnit4 = "io.insert-koin:koin-test-junit4:${Versions.koinCore}"
-        const val android = "io.insert-koin:koin-android:${Versions.koinAndroid}"
-        const val compose = "io.insert-koin:koin-androidx-compose:${Versions.koinAndroidCompose}"
     }
 
     object Kodein {

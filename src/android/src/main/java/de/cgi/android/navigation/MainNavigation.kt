@@ -1,7 +1,5 @@
 package de.cgi.android.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -18,7 +16,6 @@ import de.cgi.android.projects.projectsGraph
 import de.cgi.android.settings.settingsGraph
 import de.cgi.android.timeentry.timeEntryGraph
 
-@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi

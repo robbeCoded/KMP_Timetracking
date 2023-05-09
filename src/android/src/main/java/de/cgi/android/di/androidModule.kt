@@ -3,7 +3,6 @@ package de.cgi.android.di
 import android.content.Context
 import android.content.SharedPreferences
 import de.cgi.android.dashboard.DashboardViewModel
-import de.cgi.android.dashboard.team.TeamAddViewModel
 import de.cgi.android.dashboard.team.TeamDashboardViewModel
 import de.cgi.android.dashboard.team.TeamListViewModel
 import de.cgi.android.projects.addedit.ProjectAddViewModel
@@ -33,7 +32,6 @@ fun appModule(context: Context) = DI.Module("appModule") {
     bind<ProjectAddViewModel>() with singleton { ProjectAddViewModel(instance(), instance()) }
     bind<DashboardViewModel>() with singleton { DashboardViewModel(instance(), instance(), instance()) }
     bind<TeamListViewModel>() with singleton { TeamListViewModel(instance(), instance()) }
-    bind<TeamAddViewModel>() with singleton { TeamAddViewModel(instance(), instance()) }
     bind<TeamDashboardViewModel>() with singleton { TeamDashboardViewModel(instance(), instance(), instance(), instance()) }
 
     bind<TimeEntryEditViewModel>() with singleton { TimeEntryEditViewModel(instance(), instance(), instance(), "") }

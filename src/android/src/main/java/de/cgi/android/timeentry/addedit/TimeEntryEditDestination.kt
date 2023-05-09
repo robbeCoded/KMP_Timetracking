@@ -1,7 +1,5 @@
 package de.cgi.android.timeentry.addedit
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -11,9 +9,6 @@ import de.cgi.android.timeentry.TimeEntryEditRoute
 import de.cgi.android.timeentry.list.TimeEntryListViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
-import org.kodein.di.instanceOrNull
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi

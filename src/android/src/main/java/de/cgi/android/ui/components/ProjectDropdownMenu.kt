@@ -14,7 +14,6 @@ import de.cgi.common.ResultState
 import de.cgi.common.repository.ProjectMapProvider
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
-import org.koin.androidx.compose.get
 
 @Composable
 fun ProjectDropdownMenu(
