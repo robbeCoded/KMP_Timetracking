@@ -1,29 +1,24 @@
 package de.cgi
+
 import android.app.Application
-import android.os.Build
-import androidx.annotation.RequiresApi
 import de.cgi.android.di.appModule
+import de.cgi.common.api.setBaseUrl
+import de.cgi.common.di.commonModule
+import org.kodein.di.DI
+import org.kodein.di.DIAware
+import org.kodein.di.android.x.androidXModule
 
-import de.cgi.common.dashboard.commonModule
-import de.cgi.common.dashboard.initKoin
-import org.koin.android.ext.koin.androidContext
+class TimetrackingApplication : Application(), DIAware {
 
-import org.koin.dsl.KoinAppDeclaration
-
-@RequiresApi(Build.VERSION_CODES.M)
-class TimetrackingApplication : Application() {
-
+    override val di: DI by DI.lazy {
+        import(commonModule)
+        import(appModule(this@TimetrackingApplication))
+    }
     override fun onCreate() {
+        setBaseUrl("http://10.0.2.2:8080")
         super.onCreate()
-        // Initialize Koin
-        initKoin(enableNetworkLogs = true, appDeclaration = appDeclaration())
         instance = this
     }
-    private fun appDeclaration(): KoinAppDeclaration = {
-        androidContext(this@TimetrackingApplication)
-        modules(commonModule(false), appModule)
-    }
-
     companion object {
         var instance: TimetrackingApplication? = null
     }

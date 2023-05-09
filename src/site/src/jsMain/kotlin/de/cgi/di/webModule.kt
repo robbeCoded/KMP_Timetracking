@@ -1,20 +1,15 @@
 package de.cgi.di
 
-import org.koin.core.context.startKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
+import de.cgi.common.auth.SignUpViewModel
+import de.cgi.common.data.model.KeyValueStorage
+import de.cgi.common.di.commonModule
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.singleton
 
-fun main() {
-    val koinModules = listOf<Module>(
-        // Add your Koin modules here
-        module {
-
-        }
-    )
-
-    startKoin {
-        modules(koinModules)
-    }
-
-    // Your web app initialization code
+val webModule = DI.Module("webModule") {
+    import(commonModule)
+    bind<KeyValueStorage>() with singleton { KeyValueStorage() }
+    bind<SignUpViewModel>() with singleton { SignUpViewModel(instance(), instance()) }
 }

@@ -1,24 +1,24 @@
 package de.cgi.android.timeentry.addedit
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import de.cgi.android.navigation.Router
 import de.cgi.android.timeentry.list.TimeEntryListViewModel
-import org.koin.androidx.compose.getViewModel
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun TimeEntryAddDestination(
     router: Router
 ) {
+    val di = localDI()
     val editTimeEntry = false
-    val viewModel = getViewModel<TimeEntryAddViewModel>()
-    val listViewModel = getViewModel<TimeEntryListViewModel>()
+    val viewModel: TimeEntryAddViewModel by di.instance()
+    val listViewModel: TimeEntryListViewModel by di.instance()
 
     TimeEntryAddEditScreen(
         onDateChanged = viewModel::dateChanged,

@@ -20,9 +20,6 @@ interface Router {
     fun showDashboard()
     fun showTeamDashboard()
 
-    fun showTeamList()
-    fun showTeamEdit(team: Team)
-    fun showTeamAdd()
 
     fun showCalender()
 

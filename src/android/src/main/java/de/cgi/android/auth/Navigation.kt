@@ -11,7 +11,8 @@ import de.cgi.android.auth.signup.SignUpScreen
 import de.cgi.android.navigation.Router
 import de.cgi.common.SignInViewModel
 import de.cgi.common.auth.SignUpViewModel
-import org.koin.androidx.compose.getViewModel
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.authGraph(
@@ -22,7 +23,8 @@ fun NavGraphBuilder.authGraph(
         startDestination = SignInScreenRoute.route,
     ) {
         composable(SignInScreenRoute.route) {
-            val viewModel = getViewModel<SignInViewModel>()
+            val di = localDI()
+            val viewModel: SignInViewModel by di.instance()
             val signInState by viewModel.signInState.collectAsState()
 
             SignInScreen(
@@ -37,7 +39,8 @@ fun NavGraphBuilder.authGraph(
         }
 
         composable(SignUpScreenRoute.route) {
-            val viewModel = getViewModel<SignUpViewModel>()
+            val di = localDI()
+            val viewModel: SignUpViewModel by di.instance()
             val signUpState by viewModel.signUpState.collectAsState()
 
             SignUpScreen(

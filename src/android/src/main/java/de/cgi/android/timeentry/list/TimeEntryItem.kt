@@ -11,7 +11,8 @@ import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toLocalTime
-import org.koin.androidx.compose.get
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
 
 @Composable
@@ -19,9 +20,10 @@ fun TimeEntryListItem(
     timeEntry: TimeEntry,
     onClick: (TimeEntry) -> Unit,
 ) {
+    val di = localDI()
     val startTime: LocalTime = timeEntry.startTime.toLocalTime()
     val endTime: LocalTime = timeEntry.endTime.toLocalTime()
-    val projectMapProvider = get<ProjectMapProvider>()
+    val projectMapProvider: ProjectMapProvider by di.instance()
 
     Card(
         modifier = Modifier

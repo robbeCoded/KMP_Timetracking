@@ -17,7 +17,7 @@ import kotlinx.datetime.toLocalDate
 class ProjectEditViewModel(
     private val useCase: ProjectEditUseCase,
     userRepository: UserRepository,
-    private val projectId: String,
+    var projectId: String,
 ) : ViewModel() {
 
     private val userId: String = userRepository.getUserId()

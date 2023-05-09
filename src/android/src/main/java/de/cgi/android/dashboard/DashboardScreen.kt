@@ -25,7 +25,8 @@ import de.cgi.common.dashboard.DashboardDataPerProject
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectMapProvider
 import kotlinx.datetime.LocalDate
-import org.koin.androidx.compose.get
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
 @Composable
 fun DashboardScreen(
@@ -43,8 +44,8 @@ fun DashboardScreen(
     onUpdateDateAndReloadMinus: () -> Unit,
     onGetSelectedDate: () -> LocalDate
 ) {
-
-    val projectMapProvider = get<ProjectMapProvider>()
+    val di = localDI()
+    val projectMapProvider: ProjectMapProvider by di.instance()
     val currentDate = getCurrentDateTime().date
     val weekText = if (onGetSelectedDate() == currentDate) {
         "This Week (${currentDate.dayOfYear / 7 + 1})"

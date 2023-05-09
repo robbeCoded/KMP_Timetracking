@@ -117,9 +117,11 @@ dependencies {
         implementation(dateTime)
     }
 
-    with(Deps.Koin) {
-        api(android)
-        api(compose)
+    with(Deps.Kodein){
+        implementation(compose)
+        implementation(core)
+        implementation(androidX)
+        implementation(androidXViewModel)
     }
     with(Deps.Ktor){
         implementation(clientAndroid)

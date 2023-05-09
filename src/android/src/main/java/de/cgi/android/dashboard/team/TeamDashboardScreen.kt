@@ -1,33 +1,24 @@
 package de.cgi.android.dashboard.team
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import compose.icons.FeatherIcons
-import compose.icons.feathericons.Edit
 import de.cgi.android.ui.components.*
-import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.ui.theme.LocalSpacing
-import de.cgi.android.ui.theme.LocalTypography
 import de.cgi.android.util.GenericError
 import de.cgi.common.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectMapProvider
-import org.koin.androidx.compose.get
-import kotlin.math.roundToInt
+import org.kodein.di.compose.localDI
+import org.kodein.di.instance
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TeamDashboardScreen(
-    showTeamEditScreen: () -> Unit,
     isManager: Boolean,
     onNavigateToTeamDashboard: () -> Unit,
     onNavigateToPersonalDashboard: () -> Unit,
@@ -39,11 +30,6 @@ fun TeamDashboardScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        floatingActionButton = {
-            FloatingActionButton(onClick = { showTeamEditScreen() }) {
-                Icon(imageVector = FeatherIcons.Edit, contentDescription = "Edit Team")
-            }
-        }
     ) {
         Column(
             modifier = Modifier
@@ -62,17 +48,22 @@ fun TeamDashboardScreen(
                 weekText = ""
             )
 
-            TeamDashboard(teamDashboardDataState = teamDashboardDataState, onReloadData = onReloadData)
+            TeamDashboard(
+                teamDashboardDataState = teamDashboardDataState,
+                onReloadData = onReloadData
+            )
 
         }
     }
 }
+
 @Composable
 fun TeamDashboard(
     teamDashboardDataState: ResultState<List<List<TimeEntry>?>>,
     onReloadData: () -> Unit
 ) {
-    val projectMapProvider = get<ProjectMapProvider>()
+    val di = localDI()
+    val projectMapProvider: ProjectMapProvider by di.instance()
     when (teamDashboardDataState) {
         is ResultState.Loading -> {
             CircularProgressIndicator()

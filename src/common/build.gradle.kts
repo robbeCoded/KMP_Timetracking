@@ -53,13 +53,15 @@ kotlin {
                     implementation(serializationCore)
                     implementation(dateTime)
                 }
-                with(Deps.Koin) {
+
+                with(Deps.Kodein){
+                    implementation(compose)
                     implementation(core)
                 }
                 with(Deps.Compose){
                     implementation(runtime)
                 }
-
+                implementation("com.russhwolf:multiplatform-settings:1.0.0")
             }
         }
         val commonTest by getting {
@@ -82,9 +84,12 @@ kotlin {
                     implementation(lifecycleRuntimeKtx)
                     implementation(lifecycleViewmodelKtx)
                 }
-                with(Deps.Koin){
-                    implementation(android)
+
+                with(Deps.Kodein){
+                    implementation(androidX)
+                    implementation(androidXViewModel)
                 }
+
                 implementation(Deps.Kotlinx.coroutinesAndroid)
                 /*
                 with(Deps.sqlDelight){
@@ -99,9 +104,7 @@ kotlin {
                 implementation(Deps.Compose.runtime)
                 implementation(Deps.Ktor.clientJs)
                 implementation(Deps.Kotlinx.coroutinesJS)
-                with(Deps.Koin){
-                    implementation(core)
-                }
+
                 //implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
                 //implementation(npm("sql.js", "1.6.2"))
                 //implementation(devNpm("copy-webpack-plugin", "9.1.0"))

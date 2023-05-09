@@ -1,27 +1,23 @@
 package de.cgi.android
 
 import TimetrackingTheme
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
+import de.cgi.android.di.appModule
 import de.cgi.android.navigation.MainNavigation
+import org.kodein.di.compose.withDI
 
-@RequiresApi(Build.VERSION_CODES.M)
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
-fun MainApp(
-    appState: AppState,
-) {
+fun MainApp(appState: AppState, context: Context) = withDI(appModule(context))
+ {
     TimetrackingTheme {
         MainNavigation(appState)
     }

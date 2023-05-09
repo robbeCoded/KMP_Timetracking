@@ -1,5 +1,6 @@
 package de.cgi.android.timeentry.list
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,7 @@ class TimeEntryListViewModel(
     val updateTrigger = mutableStateOf(false)
 
     init {
+        Log.d("TimeEntryListViewModel", "init viewModel")
         getTimeEntries()
         projectMapProvider.notifyProjectUpdates()
     }
@@ -45,6 +47,7 @@ class TimeEntryListViewModel(
     }
 
     fun getTimeEntries() {
+
        loadTimeEntriesJob?.cancel()
         loadTimeEntriesJob =
             timeEntryListUseCase.getTimeEntries(userId = userId, date = getWeekStartDate(selectedDate.value).toString(), true)

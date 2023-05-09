@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onEach
 class SignInViewModel (
     private val useCase: SignInUseCase,
     userRepository: UserRepository
-) : ViewModel(){
+) : ViewModel() {
 
     val userId = userRepository.getUserId()
 
