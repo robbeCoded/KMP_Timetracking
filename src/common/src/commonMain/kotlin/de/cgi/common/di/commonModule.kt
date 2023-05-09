@@ -1,6 +1,7 @@
 package de.cgi.common.di
 
 import de.cgi.common.api.*
+import de.cgi.common.auth.AuthValidationUseCase
 import de.cgi.common.auth.SignInUseCase
 import de.cgi.common.auth.SignUpUseCase
 import de.cgi.common.dashboard.DashboardUseCase
@@ -42,6 +43,7 @@ val commonModule = DI.Module("common") {
 
     bind<SignUpUseCase>() with provider { SignUpUseCase(instance()) }
     bind<SignInUseCase>() with provider { SignInUseCase(instance()) }
+    bind<AuthValidationUseCase>() with provider { AuthValidationUseCase() }
     bind<TimeEntryListUseCase>() with provider { TimeEntryListUseCase(instance()) }
     bind<TimeEntryEditUseCase>() with provider { TimeEntryEditUseCase(instance()) }
     bind<ProjectListUseCase>() with provider { ProjectListUseCase(instance()) }
@@ -73,6 +75,7 @@ fun createHttpClient(httpClientEngine: HttpClientEngine, json: Json, keyValueSto
             headers.append(HttpHeaders.Authorization, "Bearer $token")
         }
     }
+
     if (enableNetworkLogs) {
         install(Logging) {
             logger = Logger.DEFAULT
