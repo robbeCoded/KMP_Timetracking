@@ -34,4 +34,3 @@ object Routes {
     val ADD_USERS_TO_TEAM = "$BASE_URL/team/addUsers"
 }
 
-expect fun setBaseUrl(url: String)

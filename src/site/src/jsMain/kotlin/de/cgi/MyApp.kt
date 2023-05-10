@@ -13,7 +13,6 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.init.registerBaseStyle
-import de.cgi.common.api.setBaseUrl
 import de.cgi.common.di.webModule
 import kotlinx.browser.localStorage
 import org.jetbrains.compose.web.css.*
@@ -38,7 +37,6 @@ fun initSilk(ctx: InitSilkContext) {
 fun MyApp(content: @Composable () -> Unit) = withDI(webModule) {
     SilkApp {
         val colorMode = getColorMode()
-        setBaseUrl("http://127.0.0.1:8082")
         LaunchedEffect(colorMode) {
             localStorage.setItem(COLOR_MODE_KEY, colorMode.name)
         }
