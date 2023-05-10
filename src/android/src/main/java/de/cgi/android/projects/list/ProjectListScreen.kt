@@ -1,7 +1,5 @@
 package de.cgi.android.projects.list
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -11,13 +9,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import compose.icons.FeatherIcons
-import compose.icons.feathericons.*
+import compose.icons.feathericons.Plus
 import de.cgi.android.util.AsyncData
 import de.cgi.android.util.GenericError
-import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Project
+import de.cgi.common.util.ResultState
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable

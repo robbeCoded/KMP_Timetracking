@@ -8,13 +8,13 @@ import de.cgi.android.dashboard.team.TeamListViewModel
 import de.cgi.android.projects.addedit.ProjectAddViewModel
 import de.cgi.android.projects.addedit.ProjectEditViewModel
 import de.cgi.android.projects.list.ProjectListViewModel
-import de.cgi.android.timeentry.addedit.TimeEntryAddViewModel
-import de.cgi.android.timeentry.addedit.TimeEntryEditViewModel
 import de.cgi.common.UserRepository
 import de.cgi.common.auth.SignInViewModel
 import de.cgi.common.auth.SignUpViewModel
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.di.commonModule
+import de.cgi.common.timeentry.TimeEntryAddViewModel
+import de.cgi.common.timeentry.TimeEntryEditViewModel
 import de.cgi.common.timeentry.TimeEntryListViewModel
 import org.kodein.di.*
 

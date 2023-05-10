@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import de.cgi.android.timeentry.TimeEntryEditRoute
+import de.cgi.common.timeentry.TimeEntryEditViewModel
 import de.cgi.common.timeentry.TimeEntryListViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance

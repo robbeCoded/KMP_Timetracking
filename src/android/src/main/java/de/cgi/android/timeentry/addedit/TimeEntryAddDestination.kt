@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import de.cgi.android.navigation.Router
+import de.cgi.common.timeentry.TimeEntryAddViewModel
 import de.cgi.common.timeentry.TimeEntryListViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance

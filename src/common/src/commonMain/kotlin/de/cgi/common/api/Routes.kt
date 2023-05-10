@@ -1,7 +1,11 @@
 package de.cgi.common.api
 
 object Routes {
-    var BASE_URL = "http://127.0.0.1:8082"
+    //To reach the server from the Android Emulator
+    var BASE_URL = "http://10.0.2.2:8082"
+
+    //To reach the server from the web page
+    //var BASE_URL = "http://127.0.0.1:8082"
 
     val SIGNUP = "$BASE_URL/signup"
     val SIGNIN = "$BASE_URL/signin"

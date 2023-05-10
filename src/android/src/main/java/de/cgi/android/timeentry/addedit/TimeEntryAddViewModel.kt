@@ -1,3 +1,4 @@
+/*
 package de.cgi.android.timeentry.addedit
 
 import android.content.Context
@@ -140,3 +141,4 @@ class TimeEntryAddViewModel(
     fun getProjectName(): String? = projectName.value
 
 }
+*/

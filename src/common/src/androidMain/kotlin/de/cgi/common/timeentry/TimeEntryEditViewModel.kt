@@ -1,15 +1,12 @@
-package de.cgi.android.timeentry.addedit
+package de.cgi.common.timeentry
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.common.projects.ProjectListState
-import de.cgi.android.ui.components.showToast
-import de.cgi.common.util.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
+import de.cgi.common.projects.ProjectListState
 import de.cgi.common.repository.ProjectMapProvider
-import de.cgi.common.timeentry.TimeEntryEditUseCase
+import de.cgi.common.util.ResultState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
@@ -17,7 +14,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toLocalDate
 import kotlinx.datetime.toLocalTime
 
-class TimeEntryEditViewModel(
+actual class TimeEntryEditViewModel actual constructor(
     private val editUseCase: TimeEntryEditUseCase,
     private val projectMapProvider: ProjectMapProvider,
     userRepository: UserRepository,
@@ -27,39 +24,38 @@ class TimeEntryEditViewModel(
     private val userId: String = userRepository.getUserId()
 
     private val _timeEntryEditState = MutableStateFlow<ResultState<TimeEntry?>>(ResultState.Loading)
-    val timeEntryEditState: StateFlow<ResultState<TimeEntry?>> = _timeEntryEditState
+    actual val timeEntryEditState: StateFlow<ResultState<TimeEntry?>> = _timeEntryEditState
 
     private val _timeEntryDeleteState = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
-    val timeEntryDeleteState: StateFlow<ResultState<Boolean>> = _timeEntryDeleteState
+    actual val timeEntryDeleteState: StateFlow<ResultState<Boolean>> = _timeEntryDeleteState
 
     private val _timeEntryFetchState =
         MutableStateFlow<ResultState<TimeEntry?>>(ResultState.Loading)
-    val timeEntryFetchState: StateFlow<ResultState<TimeEntry?>> = _timeEntryFetchState
+    actual val timeEntryFetchState: StateFlow<ResultState<TimeEntry?>> = _timeEntryFetchState
 
     private val _listState = MutableStateFlow(ProjectListState())
-    val listState = _listState.asStateFlow()
-
+    actual val listState = _listState.asStateFlow()
 
     private val _startTime = MutableStateFlow<LocalTime?>(null)
-    private val startTime: StateFlow<LocalTime?> = _startTime
+    actual val startTime: StateFlow<LocalTime?> = _startTime
 
     private val _endTime = MutableStateFlow<LocalTime?>(null)
-    private val endTime: StateFlow<LocalTime?> = _endTime
+    actual val endTime: StateFlow<LocalTime?> = _endTime
 
     private val _duration = MutableStateFlow<LocalTime?>(null)
-    private val duration: StateFlow<LocalTime?> = _duration
+    actual val duration: StateFlow<LocalTime?> = _duration
 
     private val _date = MutableStateFlow<LocalDate?>(null)
-    private val date: StateFlow<LocalDate?> = _date
+    actual val date: StateFlow<LocalDate?> = _date
 
     private val _description = MutableStateFlow<String?>(null)
-    private val description: StateFlow<String?> = _description
+    actual val description: StateFlow<String?> = _description
 
     private val _projectId = MutableStateFlow<String?>(null)
-    private val projectId: StateFlow<String?> = _projectId
+    actual val projectId: StateFlow<String?> = _projectId
 
     private val _projectName = MutableStateFlow<String?>(null)
-    private val projectName: StateFlow<String?> = _projectName
+    actual val projectName: StateFlow<String?> = _projectName
 
 
     private var updateJob: Job? = null
@@ -70,7 +66,7 @@ class TimeEntryEditViewModel(
         projectMapProvider.notifyProjectUpdates()
     }
 
-    fun updateTimeEntry() {
+    actual fun updateTimeEntry() {
         updateJob?.cancel()
         updateJob = editUseCase.updateTimeEntry(
             id = timeEntryId,
@@ -85,16 +81,14 @@ class TimeEntryEditViewModel(
         }.launchIn(viewModelScope)
     }
 
-    fun deleteTimeEntry() {
+    actual fun deleteTimeEntry() {
         deleteJob?.cancel()
         deleteJob = editUseCase.deleteTimeEntry(timeEntryId).onEach {
             _timeEntryDeleteState.value = it
         }.launchIn(viewModelScope)
-
     }
 
-    fun getTimeEntryById() {
-        println("Ran the get TimeEntryById with $timeEntryId")
+    actual fun getTimeEntryById() {
         getTimeEntryJob?.cancel()
         getTimeEntryJob = editUseCase.getTimeEntryById(timeEntryId, true).onEach { result ->
             when (result) {
@@ -107,7 +101,7 @@ class TimeEntryEditViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun updateValues(timeEntry: TimeEntry) {
+    actual fun updateValues(timeEntry: TimeEntry) {
         _startTime.value = timeEntry.startTime.toLocalTime()
         _endTime.value = timeEntry.endTime.toLocalTime()
         _duration.value = LocalTime(
@@ -119,14 +113,14 @@ class TimeEntryEditViewModel(
         _projectId.value = timeEntry.projectId
         _projectName.value = timeEntry.projectId?.let {
             projectMapProvider.getProjectNameById(
-                timeEntry.projectId!!
+                timeEntry.projectId
             )
         }
     }
-
-
-    fun startTimeChanged(startTime: LocalTime, context: Context) {
+    /*TODO Implement notifiers for else cases */
+    actual fun startTimeChanged(startTime: LocalTime) {
         _startTime.value = startTime
+
         val newEndTime = LocalTime(
             startTime.hour.plus(duration.value!!.hour),
             startTime.minute.plus(duration.value!!.minute)
@@ -134,13 +128,10 @@ class TimeEntryEditViewModel(
 
         if (newEndTime <= LocalTime(23, 59)) {
             _endTime.value = newEndTime
-        } else {
-            context.showToast("The selected times exceed the current day. Setting end time to the maximum possible.")
-            _endTime.value = LocalTime(23, 59)
         }
     }
 
-    fun endTimeChanged(endTime: LocalTime, context: Context) {
+    actual fun endTimeChanged(endTime: LocalTime) {
         if (endTime >= startTime.value!!) {
             _endTime.value = endTime
             _duration.value = LocalTime(
@@ -148,11 +139,11 @@ class TimeEntryEditViewModel(
                 endTime.minute.minus(startTime.value!!.minute)
             )
         } else {
-            context.showToast("The end time should be after the start time.")
+            _endTime.value = LocalTime(23, 59)
         }
     }
 
-    fun durationChanged(duration: LocalTime, context: Context) {
+    actual fun durationChanged(duration: LocalTime) {
         if (startTime.value!!.hour.plus(duration.hour) <= 23 && startTime.value!!.minute.plus(
                 duration.minute
             ) <= 59
@@ -163,33 +154,29 @@ class TimeEntryEditViewModel(
                 startTime.value!!.minute.plus(duration.minute)
             )
         } else {
-            context.showToast("The selected duration exceeds the current day. Setting duration to the maximum possible.")
             _duration.value = LocalTime(23 - startTime.value!!.hour, 59 - startTime.value!!.minute)
             _endTime.value = LocalTime(23, 59)
         }
     }
 
-    fun dateChanged(date: LocalDate) {
+    actual fun dateChanged(date: LocalDate) {
         _date.value = date
     }
 
-    fun descriptionChanged(description: String) {
+    actual fun descriptionChanged(description: String) {
         _description.value = description
     }
 
-    fun projectChanged(projectId: String, projectName: String) {
+    actual fun projectChanged(projectId: String, projectName: String) {
         _projectId.value = projectId
         _projectName.value = projectName
     }
 
-    fun getStartTime(): LocalTime? = startTime.value
-    fun getEndTime(): LocalTime? = endTime.value
-    fun getDuration(): LocalTime? = duration.value
-    fun getDate(): LocalDate? = date.value
-    fun getDescription(): String? = description.value
-    fun getProjectId(): String? = projectId.value
-
-    fun getProjectName(): String? = projectName.value
-
-
+    actual fun getStartTime(): LocalTime? = startTime.value
+    actual fun getEndTime(): LocalTime? = endTime.value
+    actual fun getDuration(): LocalTime? = duration.value
+    actual fun getDate(): LocalDate? = date.value
+    actual fun getDescription(): String? = description.value
+    actual fun getProjectId(): String? = projectId.value
+    actual fun getProjectName(): String? = projectName.value
 }
