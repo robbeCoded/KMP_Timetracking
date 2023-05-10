@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import de.cgi.android.navigation.Router
+import de.cgi.common.timeentry.TimeEntryListViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 

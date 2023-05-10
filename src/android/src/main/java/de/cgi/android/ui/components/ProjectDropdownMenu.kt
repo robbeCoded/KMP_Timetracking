@@ -10,7 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.repository.ProjectMapProvider
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance

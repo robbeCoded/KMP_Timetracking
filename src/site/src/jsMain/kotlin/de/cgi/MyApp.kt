@@ -14,8 +14,7 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.init.registerBaseStyle
 import de.cgi.common.api.setBaseUrl
-import de.cgi.common.di.commonModule
-import de.cgi.di.webModule
+import de.cgi.common.di.webModule
 import kotlinx.browser.localStorage
 import org.jetbrains.compose.web.css.*
 import org.kodein.di.compose.withDI

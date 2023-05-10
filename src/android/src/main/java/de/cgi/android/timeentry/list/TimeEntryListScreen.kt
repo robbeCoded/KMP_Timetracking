@@ -18,7 +18,7 @@ import de.cgi.android.ui.components.WeekdayHeader
 import de.cgi.android.ui.theme.LocalColor
 import de.cgi.android.util.AsyncData
 import de.cgi.android.util.GenericError
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.TimeEntry
 import kotlinx.datetime.*
 

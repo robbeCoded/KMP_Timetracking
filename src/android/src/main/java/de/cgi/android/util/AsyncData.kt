@@ -1,7 +1,7 @@
 package de.cgi.android.util
 
 import androidx.compose.runtime.Composable
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 
 @Composable
 fun <T> AsyncData(

@@ -2,7 +2,7 @@ package de.cgi.android.projects.addedit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.Project
 import de.cgi.common.projects.ProjectAddUseCase

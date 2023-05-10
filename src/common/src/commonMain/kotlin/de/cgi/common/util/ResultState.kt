@@ -1,4 +1,4 @@
-package de.cgi.common
+package de.cgi.common.util
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

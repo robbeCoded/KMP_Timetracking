@@ -1,4 +1,4 @@
-package de.cgi.common
+package de.cgi.common.util
 
 data class ErrorEntity(
     val throwable: Throwable? = null,

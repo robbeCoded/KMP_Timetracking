@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import de.cgi.common.dashboard.DashboardDataPerProject
 import de.cgi.common.dashboard.DashboardUseCase
 import de.cgi.common.timeentry.TimeEntryListUseCase
-import de.cgi.android.util.getWeekStartDate
-import de.cgi.common.ResultState
+import de.cgi.common.util.getWeekStartDate
+import de.cgi.common.util.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.dashboard.TeamDashboardUseCase
 import de.cgi.common.data.model.TimeEntry

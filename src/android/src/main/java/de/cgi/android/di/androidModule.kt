@@ -10,12 +10,12 @@ import de.cgi.android.projects.addedit.ProjectEditViewModel
 import de.cgi.android.projects.list.ProjectListViewModel
 import de.cgi.android.timeentry.addedit.TimeEntryAddViewModel
 import de.cgi.android.timeentry.addedit.TimeEntryEditViewModel
-import de.cgi.android.timeentry.list.TimeEntryListViewModel
-import de.cgi.common.SignInViewModel
 import de.cgi.common.UserRepository
+import de.cgi.common.auth.SignInViewModel
 import de.cgi.common.auth.SignUpViewModel
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.di.commonModule
+import de.cgi.common.timeentry.TimeEntryListViewModel
 import org.kodein.di.*
 
 fun appModule(context: Context) = DI.Module("appModule") {

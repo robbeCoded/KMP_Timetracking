@@ -1,31 +1,29 @@
-package de.cgi.android.timeentry.list
+package de.cgi.common.timeentry
 
-import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import de.cgi.android.util.getWeekStartDate
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.repository.ProjectMapProvider
-import de.cgi.common.timeentry.TimeEntryListState
-import de.cgi.common.timeentry.TimeEntryListUseCase
+import de.cgi.common.util.getWeekStartDate
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
 
-class TimeEntryListViewModel(
+actual class TimeEntryListViewModel actual constructor(
     private val timeEntryListUseCase: TimeEntryListUseCase,
     userRepository: UserRepository,
     projectMapProvider: ProjectMapProvider
-) : ViewModel() {
+) {
+    private val jsScope = MainScope()
 
     private val userId = userRepository.getUserId()
 
     private var loadTimeEntriesJob: Job? = null
 
     private val _listState = MutableStateFlow(TimeEntryListState())
-    val listState = _listState.asStateFlow()
+    actual val listState: StateFlow<TimeEntryListState> = _listState
 
     private val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
     private val _selectedDate = MutableStateFlow(currentDate)
@@ -34,21 +32,15 @@ class TimeEntryListViewModel(
     private val _totalDuration = MutableStateFlow(LocalTime(0, 0, 0))
     private val totalDuration: StateFlow<LocalTime> = _totalDuration
 
-    val updateTrigger = mutableStateOf(false)
+    actual val updateTrigger: MutableState<Boolean> = mutableStateOf(false)
 
     init {
-        Log.d("TimeEntryListViewModel", "init viewModel")
         getTimeEntries()
         projectMapProvider.notifyProjectUpdates()
     }
 
-    fun notifyTimeEntryUpdates() {
-        updateTrigger.value = !updateTrigger.value
-    }
-
-    fun getTimeEntries() {
-
-       loadTimeEntriesJob?.cancel()
+    actual fun getTimeEntries() {
+        loadTimeEntriesJob?.cancel()
         loadTimeEntriesJob =
             timeEntryListUseCase.getTimeEntries(userId = userId, date = getWeekStartDate(selectedDate.value).toString(), true)
                 .onEach { resultState ->
@@ -56,15 +48,19 @@ class TimeEntryListViewModel(
                     if (resultState is ResultState.Success) {
                         _totalDuration.value = timeEntryListUseCase.calculateTotalDuration(resultState.data, selectedDate.value)
                     }
-                }.launchIn(viewModelScope)
+                }.launchIn(jsScope)
     }
 
-    fun selectedDateChanged(date: LocalDate) {
+    actual fun notifyTimeEntryUpdates() {
+        updateTrigger.value = !updateTrigger.value
+    }
+
+    actual fun selectedDateChanged(date: LocalDate) {
         _selectedDate.value = date
         getTimeEntries()
     }
-    fun getTotalDuration(): LocalTime {
+
+    actual fun getTotalDuration(): LocalTime {
         return totalDuration.value
     }
-
 }

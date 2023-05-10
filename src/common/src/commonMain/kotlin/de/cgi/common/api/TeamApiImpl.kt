@@ -1,14 +1,13 @@
 package de.cgi.common.api
 
-import de.cgi.common.ErrorEntity
-import de.cgi.common.ResultState
+import de.cgi.common.util.ErrorEntity
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Team
 import de.cgi.common.data.model.User
 import de.cgi.common.data.model.requests.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.utils.EmptyContent.contentType
 import io.ktor.http.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

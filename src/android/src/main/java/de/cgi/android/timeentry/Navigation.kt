@@ -1,7 +1,5 @@
 package de.cgi.android.timeentry
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -15,7 +13,6 @@ import de.cgi.android.timeentry.addedit.TimeEntryEditDestination
 import de.cgi.android.timeentry.list.TimeEntryListDestination
 import de.cgi.android.ui.components.MainAppScaffold
 
-@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi

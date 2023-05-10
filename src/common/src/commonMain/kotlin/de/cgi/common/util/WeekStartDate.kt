@@ -1,4 +1,4 @@
-package de.cgi.android.util
+package de.cgi.common.util
 
 import io.ktor.util.date.*
 import kotlinx.datetime.*

@@ -1,15 +1,19 @@
 package de.cgi.common
 
-actual class UserRepository {
+import org.w3c.dom.Storage
+import org.w3c.dom.get
+
+actual class UserRepository(private val keyValueStorage: Storage) {
+
     actual fun getUserId(): String {
-        TODO("Not yet implemented")
+        return keyValueStorage["userId"] ?: ""
     }
 
     actual fun getUserName(): String {
-        TODO("Not yet implemented")
+        return keyValueStorage["username"] ?: ""
     }
 
     actual fun getUserRole(): String {
-        TODO("Not yet implemented")
+        return keyValueStorage["role"] ?: ""
     }
 }

@@ -1,6 +1,6 @@
 package de.cgi.common.repository
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.api.TeamApi
 import de.cgi.common.data.model.Team
 import de.cgi.common.data.model.User

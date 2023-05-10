@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import de.cgi.common.projects.ProjectListState
 import de.cgi.common.timeentry.GetProjectsUseCase
 import de.cgi.android.ui.components.showToast
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.UserRepository
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.timeentry.TimeEntryAddUseCase

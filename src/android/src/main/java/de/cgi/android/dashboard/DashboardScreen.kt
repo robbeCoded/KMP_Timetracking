@@ -19,8 +19,8 @@ import de.cgi.android.ui.components.Table
 import de.cgi.android.ui.theme.LocalSpacing
 import de.cgi.android.util.AsyncData
 import de.cgi.android.util.GenericError
-import de.cgi.android.util.getCurrentDateTime
-import de.cgi.common.ResultState
+import de.cgi.common.util.getCurrentDateTime
+import de.cgi.common.util.ResultState
 import de.cgi.common.dashboard.DashboardDataPerProject
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.repository.ProjectMapProvider

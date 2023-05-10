@@ -1,10 +1,8 @@
 package de.cgi.common.repository
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Team
 import de.cgi.common.data.model.User
-import de.cgi.common.data.model.requests.AddUsersToTeamRequest
-import de.cgi.common.data.model.requests.NewTeamRequest
 import kotlinx.coroutines.flow.Flow
 
 interface TeamRepository {

@@ -1,7 +1,7 @@
 package de.cgi.common.api
 
-import de.cgi.common.ErrorEntity
-import de.cgi.common.ResultState
+import de.cgi.common.util.ErrorEntity
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.TimeEntry
 import de.cgi.common.data.model.requests.NewTimeEntry
 import de.cgi.common.data.model.requests.TeamTimeEntriesRequest

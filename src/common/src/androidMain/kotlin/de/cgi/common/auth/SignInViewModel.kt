@@ -1,24 +1,23 @@
-package de.cgi.common
+package de.cgi.common.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.cgi.common.auth.SignInState
-import de.cgi.common.auth.SignInUseCase
+import de.cgi.common.UserRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SignInViewModel (
+actual class SignInViewModel actual constructor(
     private val useCase: SignInUseCase,
     userRepository: UserRepository
 ) : ViewModel() {
 
-    val userId = userRepository.getUserId()
+    actual val userId = userRepository.getUserId()
 
     private val _signInState = MutableStateFlow<SignInState?>(SignInState.Loading)
-    val signInState: StateFlow<SignInState?> = _signInState
+    actual val signInState: StateFlow<SignInState?> = _signInState
 
     private val _signInEmail = MutableStateFlow("")
     private val signInEmail: StateFlow<String> = _signInEmail
@@ -31,18 +30,27 @@ class SignInViewModel (
     private var authJob: Job? = null
 
     init {
-        if(userId.isNotEmpty()) {
+        if (userId.isNotEmpty()) {
             authenticate()
         }
     }
-    fun signIn() {
+
+    actual fun signIn() {
         signInJob?.cancel()
         signInJob = useCase.signIn(email = signInEmail.value, password = signInPassword.value).onEach {
             _signInState.value = it
         }.launchIn(viewModelScope)
     }
 
-    fun getUserRole() {
+    actual fun signInEmailChanged(email: String) {
+        _signInEmail.value = email
+    }
+
+    actual fun signInPasswordChanged(password: String) {
+        _signInPassword.value = password
+    }
+
+    actual fun getUserRole() {
         getUserRoleJob?.cancel()
         getUserRoleJob = useCase.getUserRole().onEach {
             _signInState.value = it
@@ -54,12 +62,5 @@ class SignInViewModel (
         authJob = useCase.authenticate().onEach {
             _signInState.value = it
         }.launchIn(viewModelScope)
-    }
-
-    fun signInEmailChanged(email: String) {
-        _signInEmail.value = email
-    }
-    fun signInPasswordChanged(password: String) {
-        _signInPassword.value = password
     }
 }

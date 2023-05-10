@@ -1,6 +1,6 @@
 package de.cgi.common.auth
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.responses.AuthResult
 import de.cgi.common.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow

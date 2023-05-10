@@ -1,6 +1,6 @@
 package de.cgi.common.repository
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.api.ProjectApi
 //import de.cgi.common.cache.Database
 //import de.cgi.common.cache.DatabaseDriverFactory

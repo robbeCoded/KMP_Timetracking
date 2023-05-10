@@ -1,6 +1,6 @@
 package de.cgi.common.repository
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Project
 import kotlinx.coroutines.flow.Flow
 

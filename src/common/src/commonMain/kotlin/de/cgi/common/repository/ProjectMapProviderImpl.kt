@@ -1,7 +1,7 @@
 package de.cgi.common.repository
 
-import de.cgi.common.ErrorEntity
-import de.cgi.common.ResultState
+import de.cgi.common.util.ErrorEntity
+import de.cgi.common.util.ResultState
 import de.cgi.common.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*

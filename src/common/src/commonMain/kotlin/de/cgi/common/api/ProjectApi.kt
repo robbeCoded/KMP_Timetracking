@@ -1,6 +1,6 @@
 package de.cgi.common.api
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Project
 import de.cgi.common.data.model.requests.NewProjectRequest
 import de.cgi.common.data.model.requests.ProjectRequest

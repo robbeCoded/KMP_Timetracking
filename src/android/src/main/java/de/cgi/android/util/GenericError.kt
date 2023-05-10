@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.X
-import de.cgi.common.ErrorEntity
+import de.cgi.common.util.ErrorEntity
 
 @Composable
 fun GenericError(

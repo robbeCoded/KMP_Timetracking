@@ -9,13 +9,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
 import de.cgi.android.util.AsyncData
 import de.cgi.android.util.GenericError
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Project
 
 @RequiresApi(Build.VERSION_CODES.O)

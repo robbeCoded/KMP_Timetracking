@@ -9,7 +9,7 @@ import androidx.navigation.navigation
 import de.cgi.android.auth.signin.SignInScreen
 import de.cgi.android.auth.signup.SignUpScreen
 import de.cgi.android.navigation.Router
-import de.cgi.common.SignInViewModel
+import de.cgi.common.auth.SignInViewModel
 import de.cgi.common.auth.SignUpViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance

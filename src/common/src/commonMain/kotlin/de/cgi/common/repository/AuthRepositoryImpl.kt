@@ -1,6 +1,6 @@
 package de.cgi.common.repository
 
-import de.cgi.common.ResultState
+import de.cgi.common.util.ResultState
 import de.cgi.common.api.AuthApi
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.data.model.requests.AuthRequest
