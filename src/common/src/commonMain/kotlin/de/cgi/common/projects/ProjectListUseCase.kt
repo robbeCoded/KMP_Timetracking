@@ -14,5 +14,4 @@ class ProjectListUseCase (
     fun getProjects(userId: String, forceReload: Boolean): Flow<ResultState<List<Project>>> {
         return repository.getProjectsForUser(userId = userId, forceReload = forceReload)
     }
-
 }

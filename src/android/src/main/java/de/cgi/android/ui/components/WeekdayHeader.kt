@@ -1,7 +1,5 @@
 package de.cgi.android.ui.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,9 +12,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.cgi.android.ui.theme.LocalColor
+import de.cgi.common.util.customDateFormatter
+import de.cgi.common.util.generateWeekDates
 import kotlinx.datetime.*
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WeekdayHeader(
     currentDate: LocalDate,
@@ -73,13 +72,3 @@ fun WeekdayHeader(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun generateWeekDates(selectedDate: LocalDate): List<LocalDate> {
-    val startOfWeek =
-        selectedDate.minus(DatePeriod(days = (selectedDate.dayOfWeek.ordinal - (DayOfWeek(1).ordinal))))
-    return List(7) { startOfWeek.plus(DatePeriod(days = it)) }
-}
-
-fun customDateFormatter(date: LocalDate) : String {
-    return "${date.dayOfWeek.name}, ${date.month} ${date.dayOfMonth}"
-}

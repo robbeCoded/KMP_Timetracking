@@ -26,7 +26,6 @@ android {
 
 kotlin {
     android()
-    jvm()
     js(IR) {
         useCommonJs()
         browser {
@@ -110,12 +109,6 @@ kotlin {
                 //implementation(devNpm("copy-webpack-plugin", "9.1.0"))
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation(Deps.Compose.runtime)
-            }
-        }
-
 
     }
 }

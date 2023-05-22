@@ -73,6 +73,7 @@ object Deps {
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
         const val htmlJs = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.kotlinxHtmlJs}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+        const val dateTimeJs = "org.jetbrains.kotlinx:kotlinx-datetime-js:0.4.0"
     }
 
     object Android {

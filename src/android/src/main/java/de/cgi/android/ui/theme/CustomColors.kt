@@ -2,32 +2,26 @@ package de.cgi.android.ui.theme
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
+import de.cgi.common.ui.ColorConstants
 
 data class CustomColors(
-    internal val background: Color = Color(0xFFFFFDF6),
-    internal val topAppbar: Color = Color(0xFFFFFCF3),
-    internal val lightGrey: Color = Color(0xFFF9F9F9),
-    internal val darkGrey: Color = Color(0xFFEBEBEB),
-    internal val actionPrimary: Color = Color(0xFFa199ff),
-    internal val actionSecondary: Color = Color(0xFFd0ccff),
-    internal val actionSuperWeak: Color = Color(0xFFecebff),
-    internal val actionRed: Color = Color(0xFFff4765),
-    internal val itemColor: Color = Color(0xFFe4e4e4),
-    internal val white: Color = Color.White,
-    internal val black: Color = Color.Black,
-    internal val darkBlue: Color = Color(0xFF00008B),
-    internal val cgiRed: Color = Color(0xFFE31937),
-    internal val cgiPurple: Color = Color(0xFF592eb2),
-    internal val cgiPurpleLight: Color = Color(0xFF2b81d3),
-    internal val lightGreen: Color = Color(0xFFCEFFA7),
-
-    internal val projectColorsList: List<Color> = listOf(
-        Color(0xFF4E6A53),
-        Color(0xFF527A7A),
-        Color(0xFF709AA3),
-        Color(0xFF7088A3),
-        Color(0xFF8070A3),
-    )
+    val background: Color = Color(ColorConstants.BACKGROUND),
+    val topAppbar: Color = Color(ColorConstants.TOP_APPBAR),
+    val lightGrey: Color = Color(ColorConstants.LIGHT_GREY),
+    val darkGrey: Color = Color(ColorConstants.DARK_GREY),
+    val actionPrimary: Color = Color(ColorConstants.ACTION_PRIMARY),
+    val actionSecondary: Color = Color(ColorConstants.ACTION_SECONDARY),
+    val actionSuperWeak: Color = Color(ColorConstants.ACTION_SUPER_WEAK),
+    val actionRed: Color = Color(ColorConstants.ACTION_RED),
+    val itemColor: Color = Color(ColorConstants.ITEM_COLOR),
+    val white: Color = Color(ColorConstants.WHITE),
+    val black: Color = Color(ColorConstants.BLACK),
+    val darkBlue: Color = Color(ColorConstants.DARK_BLUE),
+    val cgiRed: Color = Color(ColorConstants.CGI_RED),
+    val cgiPurple: Color = Color(ColorConstants.CGI_PURPLE),
+    val cgiPurpleLight: Color = Color(ColorConstants.CGI_PURPLE_LIGHT),
+    val lightGreen: Color = Color(ColorConstants.LIGHT_GREEN),
+    val projectColorsList: List<Color> = ColorConstants.PROJECT_COLORS_LIST.map { Color(it) }
 )
 
 val LocalColor = compositionLocalOf { CustomColors() }

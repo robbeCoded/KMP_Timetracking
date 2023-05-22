@@ -16,24 +16,25 @@ private val INTERACT_COLOR = Color.rgb(0x00, 0x70, 0xf3)
 val BORDER_COLOR = Color.rgb(0xea, 0xea, 0xea)
 
 /** Common styles for all todo widgets */
-val TodoStyle by ComponentStyle.base {
+val InputFieldStyle by ComponentStyle.base {
     Modifier
         .width(85.percent)
-        .height(5.cssRem)
-        .border(1.px, LineStyle.Solid, BORDER_COLOR)
+        .height(2.cssRem)
+        .border(1.px, LineStyle.Solid, Colors.Black)
         .borderRadius(10.px)
-        .transition(*CSSTransition.group(listOf("color", "border-color"), 0.15.s, TransitionTimingFunction.Ease))
         .textDecorationLine(TextDecorationLine.None)
 }
 
 /** Styles for the bordered, outer container (the form component has an inner and outer layer) */
-val TodoContainerStyle by ComponentStyle.base {
+val AuthContainerStyle by ComponentStyle.base {
+
     Modifier
+        .textAlign(TextAlign.Left)/*
         .margin(0.5.cssRem)
         .border(1.px, LineStyle.Solid, BORDER_COLOR)
         .display(DisplayStyle.Flex)
-        .textAlign(TextAlign.Left)
-        .alignItems(AlignItems.Center)
+
+        .alignItems(AlignItems.Center)*/
 }
 
 /** Styles for the text parts of todo widgets */

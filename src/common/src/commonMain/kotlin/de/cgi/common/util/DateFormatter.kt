@@ -1,11 +1,8 @@
-package de.cgi.android.util
+package de.cgi.common.util
 
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import kotlinx.datetime.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun LocalDate.format() : String {
     val day = if (this.dayOfMonth < 10) {
         "0${this.dayOfMonth}"

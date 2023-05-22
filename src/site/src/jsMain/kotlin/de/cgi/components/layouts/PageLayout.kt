@@ -4,6 +4,7 @@ import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -11,7 +12,7 @@ import kotlinx.browser.document
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import de.cgi.components.sections.Footer
-import de.cgi.components.sections.NavHeader
+import de.cgi.components.sections.NavMenu
 
 @Composable
 fun PageLayout(title: String, content: @Composable () -> Unit) {
@@ -31,15 +32,13 @@ fun PageLayout(title: String, content: @Composable () -> Unit) {
         // page.
         .gridTemplateRows("minmax(0, 1fr) min-content")
     ) {
-        Column(
+        Row(
             modifier = Modifier.fillMaxSize().textAlign(TextAlign.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            NavHeader()
-            H1 { Text(title) }
+            NavMenu()
             content()
         }
         // Associate the footer with the row that will get pushed off the bottom of the page if it can't fit.
-        Footer(Modifier.align(Alignment.Center).gridRowStart(2).gridRowEnd(3))
     }
 }

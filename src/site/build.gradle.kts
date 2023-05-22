@@ -29,13 +29,21 @@ kobweb {
                     rel = "stylesheet"
                     href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
                 }
+
+                script {
+                    src = "https://cdn.jsdelivr.net/npm/flatpickr"
+                }
+                link {
+                    rel = "stylesheet"
+                    href = "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+                }
             }
         }
     }
 }
 
 kotlin {
-    configAsKobwebApplication("cgi", includeServer = true)
+    configAsKobwebApplication("cgi", includeServer = false)
 
     @Suppress("UNUSED_VARIABLE") // Suppress spurious warnings about sourceset variables not being used
     sourceSets {
@@ -55,17 +63,10 @@ kotlin {
                     implementation(compose)
                     implementation(core)
                 }
+                implementation(npm("@js-joda/timezone", "2.3.0"))
                 implementation(project(":common"))
             }
         }
-
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.kobweb.api)
-                implementation(project(":common"))
-            }
-        }
-
 
     }
 }

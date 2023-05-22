@@ -30,11 +30,12 @@ fun initSilk(ctx: InitSilkContext) {
             "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif"
         )
     }
-}
 
+}
 @App
 @Composable
 fun MyApp(content: @Composable () -> Unit) = withDI(webModule) {
+
     SilkApp {
         val colorMode = getColorMode()
         LaunchedEffect(colorMode) {

@@ -12,7 +12,8 @@ import kotlinx.datetime.LocalTime
 actual class TimeEntryEditViewModel actual constructor(
     editUseCase: TimeEntryEditUseCase,
     projectMapProvider: ProjectMapProvider,
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    timeEntryId: String,
 ) {
     actual val timeEntryEditState: StateFlow<ResultState<TimeEntry?>>
         get() = TODO("Not yet implemented")

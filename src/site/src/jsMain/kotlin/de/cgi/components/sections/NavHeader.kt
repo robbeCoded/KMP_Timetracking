@@ -3,6 +3,7 @@ package de.cgi.components.sections
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.dom.ElementTarget
 import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -25,8 +26,8 @@ import org.jetbrains.compose.web.css.px
 
 val NavHeaderStyle by ComponentStyle.base(extraModifiers = { SmoothColorStyle.toModifier() }) {
     Modifier
-        .fillMaxWidth()
-        .height(50.px)
+        .fillMaxHeight()
+        .width(200.px)
         // Intentionally invert the header colors from the rest of the page
         .backgroundColor(colorMode.toSilkPalette().color)
 }
@@ -51,30 +52,19 @@ private fun NavLink(path: String, text: String) {
 }
 
 @Composable
-fun NavHeader() {
-    var colorMode by rememberColorMode()
+fun NavMenu() {
     Box(NavHeaderStyle.toModifier()) {
-        Row(
+        Column(
             Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NavLink("/", "HOME")
-            NavLink("/about", "ABOUT")
-            NavLink("/markdown", "MARKDOWN")
+            NavLink("/calender/home", "Kalender")
+            NavLink("/timeentry/list", "Zeiterfassung")
+            NavLink("/project/list", "Projekte")
+            NavLink("/dashboard", "Dashboard")
+            NavLink("/settings/home", "Einstellungen")
+            NavLink("/account/home", "Account")
             Spacer()
-
-            Button(
-                onClick = { colorMode = colorMode.opposite() },
-                NavItemStyle.toModifier(NavButtonVariant)
-            ) {
-                Box(Modifier.margin(8.px)) {
-                    when (colorMode) {
-                        ColorMode.LIGHT -> FaMoon()
-                        ColorMode.DARK -> FaSun()
-                    }
-                }
-            }
-            Tooltip(ElementTarget.PreviousSibling, "Toggle color mode", placement = PopupPlacement.BottomRight)
         }
     }
 }

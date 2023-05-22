@@ -24,3 +24,13 @@ fun getWeekOfYear(date: LocalDate): Int {
 fun getCurrentDateTime(): LocalDateTime {
     return Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin"))
 }
+
+fun generateWeekDates(selectedDate: LocalDate): List<LocalDate> {
+    val startOfWeek =
+        selectedDate.minus(DatePeriod(days = (selectedDate.dayOfWeek.ordinal - (DayOfWeek(1).ordinal))))
+    return List(7) { startOfWeek.plus(DatePeriod(days = it)) }
+}
+
+fun customDateFormatter(date: LocalDate) : String {
+    return "${date.dayOfWeek.name}, ${date.month} ${date.dayOfMonth}"
+}

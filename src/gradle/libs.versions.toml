@@ -1,7 +1,7 @@
 [versions]
 jetbrains-compose = "1.4.0" # replace with actual version, see COMPATIBILITY.md!
-kobweb = "0.13.0" # replace with actual version
-kotlin = "1.8.0" # replace with actual version
+kobweb = "0.13.2" # replace with actual version
+kotlin = "1.8.2" # replace with actual version
 
 [libraries]
 kobweb-api = { module = "com.varabyte.kobweb:kobweb-api", version.ref = "kobweb" }
