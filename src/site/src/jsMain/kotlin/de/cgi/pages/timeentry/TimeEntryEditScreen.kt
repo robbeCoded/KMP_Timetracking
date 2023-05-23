@@ -25,6 +25,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextInput
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -70,11 +71,13 @@ fun TimeEntryEdit(
     val selectedProject = viewModel.projectId.collectAsState()
     val descriptionStateFlow = viewModel.description.collectAsState()
 
-    var description by remember { mutableStateOf(descriptionStateFlow.value ?: "") }
+    val description = remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = "edit") {
         viewModel.getTimeEntryById()
     }
+    description.value = viewModel.getDescription() ?: ""
+
 
     Column(modifier = Modifier.fillMaxHeight()) {
         Row(modifier = Modifier.width(450.px), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -151,14 +154,12 @@ fun TimeEntryEdit(
             Label {
                 Text("Description")
             }
-            Input(
-                InputType.Text,
+            TextInput(
+                value = description.value,
                 attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
-                        name("description")
-                        value(description)
-                        onChange {
-                            description = it.value
+                        onInput {
+                            description.value = it.value
                         }
                     }
             )
@@ -180,7 +181,7 @@ fun TimeEntryEdit(
             Button(
                 modifier = Modifier.width(450.px),
                 onClick = {
-                    viewModel.descriptionChanged(description)
+                    viewModel.descriptionChanged(description.value)
                     viewModel.updateTimeEntry()
                     onTimeEntriesUpdated()
                     onNavigateBack()

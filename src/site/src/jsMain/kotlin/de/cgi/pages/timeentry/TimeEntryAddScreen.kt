@@ -25,6 +25,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextInput
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -61,10 +62,8 @@ fun TimeEntryAdd(
 
     val project = viewModel.projectName.collectAsState()
     val selectedProject = viewModel.projectId.collectAsState()
-    val descriptionStateFlow = viewModel.description.collectAsState()
 
-    var description by remember { mutableStateOf(descriptionStateFlow.value ?: "") }
-
+    val description = remember { mutableStateOf("") }
 
 
     Column(modifier = Modifier.fillMaxHeight()) {
@@ -143,18 +142,15 @@ fun TimeEntryAdd(
             Label {
                 Text("Description")
             }
-            Input(
-                InputType.Text,
+            TextInput(
+                value = description.value,
                 attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
-                        name("description")
-                        value(description)
-                        onChange {
-                            description = it.value
+                        onInput {
+                            description.value = it.value
                         }
                     }
             )
-
             Label {
                 Text("Project")
             }
@@ -162,9 +158,8 @@ fun TimeEntryAdd(
                 InputType.Text,
                 attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
-                        name("project")
                         value(project.value.toString())
-                        onChange {
+                        onInput {
                             //onProjectChanged(it.value)
                         }
                     }
@@ -172,7 +167,7 @@ fun TimeEntryAdd(
             Button(
                 modifier = Modifier.width(450.px),
                 onClick = {
-                    viewModel.descriptionChanged(description)
+                    viewModel.descriptionChanged(description.value)
                     viewModel.submitTimeEntry()
                     onTimeEntriesUpdated()
                     onNavigateBack()

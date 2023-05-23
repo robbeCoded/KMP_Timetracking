@@ -25,6 +25,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextInput
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -56,7 +57,6 @@ fun ProjectEditForm(
     onNavigateBack: () -> Unit,
     onProjectsUpdated: () -> Unit
 ) {
-
     val startDate = viewModel.startDate.collectAsState()
     val endDate = viewModel.endDate.collectAsState()
     val nameFlow = viewModel.name.collectAsState()
@@ -64,13 +64,17 @@ fun ProjectEditForm(
     val selectedColor = viewModel.color.collectAsState()
     val billable = viewModel.billable.collectAsState()
 
-
-    var description by remember { mutableStateOf(descriptionFlow.value ?: "") }
-    var name by remember { mutableStateOf(nameFlow.value) }
+    val name = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = "edit") {
         viewModel.getProjectById()
     }
+
+    name.value = nameFlow.value
+    description.value = descriptionFlow.value ?: ""
+
+
 
     Column(modifier = Modifier.fillMaxHeight().width(450.px)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -110,31 +114,29 @@ fun ProjectEditForm(
         Label {
             Text("Project Title")
         }
-        Input(
-            InputType.Text,
+        TextInput(
+            value = name.value,
             attrs = listOf(InputFieldStyleBig)
                 .toAttrs {
-                    value(name)
-                    onChange {
-                        name = it.value
+                    onInput {
+                        name.value = it.value
                     }
                 }
         )
         Label {
             Text("Description")
         }
-        Input(
-            InputType.Text,
+        TextInput(
+            value = description.value,
             attrs = listOf(InputFieldStyleBig)
                 .toAttrs {
-                    value(description)
-                    onChange {
-                        description = it.value
+                    onInput {
+                        description.value = it.value
                     }
                 }
         )
         VerticalSpacer(8)
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
             Input(
                 InputType.Checkbox,
                 attrs = {
@@ -173,8 +175,8 @@ fun ProjectEditForm(
         Button(
             modifier = Modifier.width(450.px),
             onClick = {
-                viewModel.descriptionChanged(description)
-                viewModel.nameChanged(name)
+                viewModel.descriptionChanged(description.value)
+                viewModel.nameChanged(name.value)
                 viewModel.updateProject()
                 onProjectsUpdated()
                 onNavigateBack()
