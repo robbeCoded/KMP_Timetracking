@@ -72,10 +72,6 @@ fun TimeEntryEditForm(
         viewModel.getTimeEntryById()
     }
 
-    console.log(date)
-    console.log(startTime.value)
-    console.log(endTime.value)
-
     Column(modifier = Modifier.fillMaxHeight()) {
         Row(modifier = Modifier.width(450.px), horizontalArrangement = Arrangement.SpaceBetween) {
             Column() {
