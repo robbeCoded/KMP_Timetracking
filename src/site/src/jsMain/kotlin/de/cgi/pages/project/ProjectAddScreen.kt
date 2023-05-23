@@ -1,7 +1,6 @@
 package de.cgi.pages.project
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.varabyte.kobweb.compose.css.Cursor
@@ -22,7 +21,7 @@ import de.cgi.components.styles.MainButtonStyle
 import de.cgi.components.styles.Theme
 import de.cgi.components.util.JsJodaTimeZoneModule
 import de.cgi.components.widgets.AuthContainerStyle
-import de.cgi.components.widgets.InputFieldStyle
+import de.cgi.components.widgets.InputFieldStyleSmall
 import kotlinx.datetime.*
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.name
@@ -67,7 +66,7 @@ fun ProjectAddScreen() {
             onBillableChanged = viewModel::billableChanged,
             onGetBillable = viewModel::getBillable,
 
-            onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() }
+            onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() },
         )
     }
 }
@@ -110,12 +109,6 @@ fun ProjectAddEditForm(
     }
     val billable = remember { mutableStateOf(false) }
 
-    if (editProject) {
-        LaunchedEffect(key1 = "edit") {
-            onGetProjectById()
-        }
-    }
-
     startDate.value = onGetStartDate() ?: currentDate
     endDate.value = onGetEndDate() ?: currentDate
     name.value = onGetName() ?: ""
@@ -127,6 +120,7 @@ fun ProjectAddEditForm(
         onSubmit { evt ->
             evt.preventDefault()
             onSubmitProject()
+            onNavigateBack()
         }
     }) {
         Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
@@ -139,7 +133,7 @@ fun ProjectAddEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("startdate")
                         onChange {
@@ -157,7 +151,7 @@ fun ProjectAddEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("enddate")
                         onChange {
@@ -176,7 +170,7 @@ fun ProjectAddEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("projectname")
                         onChange {
@@ -194,7 +188,7 @@ fun ProjectAddEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("description")
                         onChange {
@@ -212,7 +206,7 @@ fun ProjectAddEditForm(
             }
             Input(
                 InputType.Checkbox,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("billable")
                         onChange {

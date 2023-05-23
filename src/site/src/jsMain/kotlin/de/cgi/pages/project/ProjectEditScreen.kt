@@ -23,7 +23,7 @@ import de.cgi.components.styles.MainButtonStyle
 import de.cgi.components.styles.Theme
 import de.cgi.components.util.JsJodaTimeZoneModule
 import de.cgi.components.widgets.AuthContainerStyle
-import de.cgi.components.widgets.InputFieldStyle
+import de.cgi.components.widgets.InputFieldStyleSmall
 import kotlinx.datetime.*
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.name
@@ -111,17 +111,21 @@ fun ProjectEditForm(
     val billable = remember { mutableStateOf(false) }
 
 
+    val projectLoaded = remember { mutableStateOf(false) }
+
     LaunchedEffect(key1 = "edit") {
         onGetProjectById()
+        projectLoaded.value = true
     }
 
-
-    startDate.value = onGetStartDate() ?: currentDate
-    endDate.value = onGetEndDate() ?: currentDate
-    name.value = onGetName() ?: ""
-    description.value = onGetDescription() ?: ""
-    selectedColor.value = onGetColor() ?: ""
-    billable.value = onGetBillable()
+    LaunchedEffect(projectLoaded.value) {
+        startDate.value = onGetStartDate() ?: currentDate
+        endDate.value = onGetEndDate() ?: currentDate
+        name.value = onGetName() ?: ""
+        description.value = onGetDescription() ?: ""
+        selectedColor.value = onGetColor() ?: ""
+        billable.value = onGetBillable()
+    }
 
     Form(attrs = listOf(AuthContainerStyle).toAttrs {
         onSubmit { evt ->
@@ -139,7 +143,7 @@ fun ProjectEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("startdate")
                         onChange {
@@ -157,7 +161,7 @@ fun ProjectEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("enddate")
                         onChange {
@@ -176,7 +180,7 @@ fun ProjectEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("projectname")
                         onChange {
@@ -194,7 +198,7 @@ fun ProjectEditForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("description")
                         onChange {
@@ -212,7 +216,7 @@ fun ProjectEditForm(
             }
             Input(
                 InputType.Checkbox,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("billable")
                         onChange {

@@ -1,7 +1,6 @@
 package de.cgi.components.widgets
 
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.AlignItems
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -16,10 +15,18 @@ private val INTERACT_COLOR = Color.rgb(0x00, 0x70, 0xf3)
 val BORDER_COLOR = Color.rgb(0xea, 0xea, 0xea)
 
 /** Common styles for all todo widgets */
-val InputFieldStyle by ComponentStyle.base {
+val InputFieldStyleSmall by ComponentStyle.base {
     Modifier
-        .width(85.percent)
-        .height(2.cssRem)
+        .width(200.px)
+        .height(30.px)
+        .border(1.px, LineStyle.Solid, Colors.Black)
+        .borderRadius(10.px)
+        .textDecorationLine(TextDecorationLine.None)
+}
+val InputFieldStyleBig by ComponentStyle.base {
+    Modifier
+        .width(450.px)
+        .height(30.px)
         .border(1.px, LineStyle.Solid, Colors.Black)
         .borderRadius(10.px)
         .textDecorationLine(TextDecorationLine.None)

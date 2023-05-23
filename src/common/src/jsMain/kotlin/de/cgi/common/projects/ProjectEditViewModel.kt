@@ -133,4 +133,23 @@ actual class ProjectEditViewModel actual constructor(
     actual fun getColor(): String? = _color.value
 
     actual fun getBillable(): Boolean = _billable.value
+
+
+    fun clear() {
+        updateJob?.cancel()
+        deleteJob?.cancel()
+        getTimeEntryJob?.cancel()
+
+        _projectEditState.value = ResultState.Loading
+        _projectDeleteState.value = ResultState.Loading
+        _projectFetchState.value = ResultState.Loading
+
+        _startDate.value = null
+        _endDate.value = null
+        _description.value = null
+        _name.value = ""
+        _color.value = null
+        _billable.value = false
+    }
+
 }

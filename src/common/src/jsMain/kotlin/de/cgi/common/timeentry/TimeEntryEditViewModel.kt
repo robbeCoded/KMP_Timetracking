@@ -178,4 +178,25 @@ actual class TimeEntryEditViewModel actual constructor(
     actual fun getDescription(): String? = description.value
     actual fun getProjectId(): String? = projectId.value
     actual fun getProjectName(): String? = projectName.value
+
+    fun clear() {
+        updateJob?.cancel()
+        deleteJob?.cancel()
+        getTimeEntryJob?.cancel()
+
+        _timeEntryEditState.value = ResultState.Loading
+        _timeEntryDeleteState.value = ResultState.Loading
+        _timeEntryFetchState.value = ResultState.Loading
+
+        _listState.value = ProjectListState()
+
+        _startTime.value = null
+        _endTime.value = null
+        _duration.value = null
+        _date.value = null
+        _description.value = null
+        _projectId.value = null
+        _projectName.value = null
+    }
+
 }

@@ -17,7 +17,7 @@ import de.cgi.components.styles.MainButtonStyle
 import de.cgi.components.styles.Theme
 import de.cgi.components.util.JsJodaTimeZoneModule
 import de.cgi.components.widgets.AuthContainerStyle
-import de.cgi.components.widgets.InputFieldStyle
+import de.cgi.components.widgets.InputFieldStyleSmall
 import kotlinx.datetime.*
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.name
@@ -112,7 +112,7 @@ fun TimeEntryAddForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("date")
                         value(date.value.toString())
@@ -131,7 +131,7 @@ fun TimeEntryAddForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("duration")
                         value(duration.value.toString())
@@ -151,7 +151,7 @@ fun TimeEntryAddForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("starttime")
                         value(startTime.value.toString())
@@ -170,7 +170,7 @@ fun TimeEntryAddForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("endtime")
                         value(endTime.value.toString())
@@ -189,7 +189,7 @@ fun TimeEntryAddForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("description")
                         value(description.value)
@@ -208,7 +208,7 @@ fun TimeEntryAddForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleSmall)
                     .toAttrs {
                         name("project")
                         onChange {
@@ -249,7 +249,7 @@ fun DatePicker(value: String, onValueChange: (String) -> Unit) {
     Div {
         Input(
             type = InputType.Text,
-            attrs = listOf(InputFieldStyle)
+            attrs = listOf(InputFieldStyleSmall)
                 .toAttrs {
                     value(value)
                     onChange {

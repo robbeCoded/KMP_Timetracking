@@ -5,7 +5,9 @@ import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
-import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
+import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.forms.Button
@@ -18,10 +20,7 @@ import de.cgi.components.layouts.PageLayout
 import de.cgi.components.util.AsyncData
 import de.cgi.components.util.JsJodaTimeZoneModule
 import kotlinx.datetime.*
-import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.dom.Text
-import org.kodein.di.DI
-
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -146,17 +145,14 @@ fun TimeEntryListItem(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-
             Text(timeEntry.description ?: "Keine Beschreibung")
-
+            Spacer()
             Text("$startTime - $endTime")
-
+            Spacer()
             val projectText =
                 timeEntry.projectId?.let { projectMapProvider.getProjectNameById(it) }
                     ?: "Internal"
-
             Text(projectText)
-
         }
     }
 }
