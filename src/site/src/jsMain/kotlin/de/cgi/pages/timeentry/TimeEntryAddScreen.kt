@@ -12,6 +12,7 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.style.toAttrs
 import com.varabyte.kobweb.silk.components.style.toModifier
 import de.cgi.common.timeentry.TimeEntryAddViewModel
+import de.cgi.components.layouts.PageLayout
 import de.cgi.components.styles.MainButtonStyle
 import de.cgi.components.styles.Theme
 import de.cgi.components.util.JsJodaTimeZoneModule
@@ -35,24 +36,26 @@ fun TimeEntryAddScreen() {
 
     val jsJodaTz = JsJodaTimeZoneModule
 
-    TimeEntryAddForm(
-        onSubmitClick = viewModel::submitTimeEntry,
-        onDeleteClick = {},
-        onDateChanged = viewModel::dateChanged,
-        onStartTimeChanged = viewModel::startTimeChanged,
-        onEndTimeChanged = viewModel::endTimeChanged,
-        onDurationChanged = viewModel::durationChanged,
-        onDescriptionChanged = viewModel::descriptionChanged,
-        onProjectChanged = viewModel::projectChanged,
-        editTimeEntry = false,
-        onGetDate = viewModel::getDate,
-        onGetDescription = viewModel::getDescription,
-        onGetDuration = viewModel::getDuration,
-        onGetEndTime = viewModel::getEndTime,
-        onGetProjectId = viewModel::getProjectId,
-        onGetProjectName = viewModel::getProjectName,
-        onGetStartTime = viewModel::getStartTime,
-    )
+    PageLayout(title = "Add Time Entry") {
+        TimeEntryAddForm(
+            onSubmitClick = viewModel::submitTimeEntry,
+            onDeleteClick = {},
+            onDateChanged = viewModel::dateChanged,
+            onStartTimeChanged = viewModel::startTimeChanged,
+            onEndTimeChanged = viewModel::endTimeChanged,
+            onDurationChanged = viewModel::durationChanged,
+            onDescriptionChanged = viewModel::descriptionChanged,
+            onProjectChanged = viewModel::projectChanged,
+            onGetDate = viewModel::getDate,
+            onGetDescription = viewModel::getDescription,
+            onGetDuration = viewModel::getDuration,
+            onGetEndTime = viewModel::getEndTime,
+            onGetProjectId = viewModel::getProjectId,
+            onGetProjectName = viewModel::getProjectName,
+            onGetStartTime = viewModel::getStartTime,
+        )
+    }
+
 }
 
 @Composable
@@ -65,7 +68,6 @@ fun TimeEntryAddForm(
     onDurationChanged: (LocalTime) -> Unit,
     onDescriptionChanged: (String) -> Unit,
     onProjectChanged: (String, String) -> Unit,
-    editTimeEntry: Boolean,
     onGetStartTime: () -> LocalTime?,
     onGetEndTime: () -> LocalTime?,
     onGetDuration: () -> LocalTime?,
@@ -108,10 +110,18 @@ fun TimeEntryAddForm(
             ) {
                 Text("Date")
             }
-            DatePicker(date.value.toString()) { newDate ->
-                date.value = newDate.toLocalDate()
-                onDateChanged(newDate.toLocalDate())
-            }
+            Input(
+                InputType.Text,
+                attrs = listOf(InputFieldStyle)
+                    .toAttrs {
+                        name("date")
+                        value(date.value.toString())
+                        onChange {
+                            date.value = it.value.toLocalDate()
+                            onDateChanged(it.value.toLocalDate())
+                        }
+                    }
+            )
             Label(
                 attrs = Modifier
                     .classNames("form-label")
@@ -124,6 +134,7 @@ fun TimeEntryAddForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("duration")
+                        value(duration.value.toString())
                         onChange {
                             duration.value = it.value.toLocalTime()
                             onDurationChanged(it.value.toLocalTime())
@@ -143,6 +154,7 @@ fun TimeEntryAddForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("starttime")
+                        value(startTime.value.toString())
                         onChange {
                             startTime.value = it.value.toLocalTime()
                             onStartTimeChanged(it.value.toLocalTime())
@@ -161,6 +173,7 @@ fun TimeEntryAddForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("endtime")
+                        value(endTime.value.toString())
                         onChange {
                             endTime.value = it.value.toLocalTime()
                             onEndTimeChanged(it.value.toLocalTime())
@@ -179,6 +192,7 @@ fun TimeEntryAddForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("description")
+                        value(description.value)
                         onChange {
                             description.value = it.value
                             onDescriptionChanged(it.value)

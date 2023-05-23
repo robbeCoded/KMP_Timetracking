@@ -52,23 +52,22 @@ fun TimeEntryListScreen() {
                     viewModel.selectedDateChanged(newDate)
                 }
             )
-            Box(Modifier.fillMaxSize()) {
-                AsyncData(resultState = timeEntryListState.timeEntryListState) { timeEntryList ->
-                    timeEntryList?.let {
-                        if (timeEntryList.isNotEmpty()) {
-                            timeEntryList.forEach { timeEntry ->
-                                if (timeEntry.date == selectedDate.value.toString()) {
-                                    TimeEntryListItem(
-                                        timeEntry = timeEntry,
-                                        onClick = {ctx.router.navigateTo("/timeentry/edit/${timeEntry.id}")},
-                                        di = di
-                                    )
-                                }
+
+            AsyncData(resultState = timeEntryListState.timeEntryListState) { timeEntryList ->
+                timeEntryList?.let {
+                    if (timeEntryList.isNotEmpty()) {
+                        timeEntryList.forEach { timeEntry ->
+                            if (timeEntry.date == selectedDate.value.toString()) {
+                                TimeEntryListItem(
+                                    timeEntry = timeEntry,
+                                    onClick = { ctx.router.navigateTo("/timeentry/edit/${timeEntry.id}") },
+                                )
                             }
-                        } else {
-                            Text("There are no time entries for this date.")
                         }
+                    } else {
+                        Text("There are no time entries for this date.")
                     }
+
                 }
             }
             Button(onClick = { ctx.router.navigateTo("/timeentry/add") }) {
@@ -132,8 +131,8 @@ fun WeekdayHeader(
 fun TimeEntryListItem(
     timeEntry: TimeEntry,
     onClick: (TimeEntry) -> Unit,
-    di: DI,
 ) {
+    val di = localDI()
     val startTime: LocalTime = timeEntry.startTime.toLocalTime()
     val endTime: LocalTime = timeEntry.endTime.toLocalTime()
     val projectMapProvider: ProjectMapProvider by di.instance()
@@ -141,13 +140,11 @@ fun TimeEntryListItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(topBottom = 8.em, leftRight = 16.em)
             .onClick { onClick(timeEntry) }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.em)
         ) {
 
             Text(timeEntry.description ?: "Keine Beschreibung")

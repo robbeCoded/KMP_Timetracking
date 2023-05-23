@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import de.cgi.android.navigation.Router
 import de.cgi.android.projects.ProjectEditRoute
+import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.common.repository.ProjectMapProvider
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance

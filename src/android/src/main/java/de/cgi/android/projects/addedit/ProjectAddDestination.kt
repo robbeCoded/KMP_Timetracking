@@ -2,6 +2,7 @@ package de.cgi.android.projects.addedit
 
 import androidx.compose.runtime.Composable
 import de.cgi.android.navigation.Router
+import de.cgi.common.projects.ProjectAddViewModel
 import de.cgi.common.projects.ProjectListViewModel
 import de.cgi.common.repository.ProjectMapProvider
 import org.kodein.di.compose.localDI

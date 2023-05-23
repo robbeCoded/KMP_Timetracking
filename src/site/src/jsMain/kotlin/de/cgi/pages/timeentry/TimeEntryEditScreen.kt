@@ -6,7 +6,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.varabyte.kobweb.compose.css.Cursor
-import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -16,7 +15,6 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.style.toAttrs
 import com.varabyte.kobweb.silk.components.style.toModifier
-import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.common.repository.ProjectMapProvider
 import de.cgi.common.timeentry.TimeEntryEditViewModel
 import de.cgi.components.layouts.PageLayout
@@ -65,6 +63,7 @@ fun TimeEntryEditScreen() {
             onGetProjectId = viewModel::getProjectId,
             onGetProjectName = viewModel::getProjectName,
             onGetStartTime = viewModel::getStartTime,
+            onGetTimeEntryById = viewModel::getTimeEntryById,
         )
     }
 }
@@ -85,7 +84,12 @@ fun TimeEntryEditForm(
     onGetDescription: () -> String?,
     onGetProjectId: () -> String?,
     onGetProjectName: () -> String?,
+    onGetTimeEntryById: () -> Unit,
 ) {
+    LaunchedEffect(key1 = "edit") {
+        onGetTimeEntryById()
+    }
+
     val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
     val date = remember { mutableStateOf<LocalDate?>(null) }
@@ -120,10 +124,18 @@ fun TimeEntryEditForm(
             ) {
                 Text("Date")
             }
-            DatePicker(date.value.toString()) { newDate ->
-                date.value = newDate.toLocalDate()
-                onDateChanged(newDate.toLocalDate())
-            }
+            Input(
+                InputType.Text,
+                attrs = listOf(InputFieldStyle)
+                    .toAttrs {
+                        name("date")
+                        value(date.value.toString())
+                        onChange {
+                            date.value = it.value.toLocalDate()
+                            onDateChanged(it.value.toLocalDate())
+                        }
+                    }
+            )
             Label(
                 attrs = Modifier
                     .classNames("form-label")
@@ -136,6 +148,7 @@ fun TimeEntryEditForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("duration")
+                        value(duration.value.toString())
                         onChange {
                             duration.value = it.value.toLocalTime()
                             onDurationChanged(it.value.toLocalTime())
@@ -155,6 +168,7 @@ fun TimeEntryEditForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("starttime")
+                        value(startTime.value.toString())
                         onChange {
                             startTime.value = it.value.toLocalTime()
                             onStartTimeChanged(it.value.toLocalTime())
@@ -173,6 +187,7 @@ fun TimeEntryEditForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("endtime")
+                        value(endTime.value.toString())
                         onChange {
                             endTime.value = it.value.toLocalTime()
                             onEndTimeChanged(it.value.toLocalTime())
@@ -191,6 +206,7 @@ fun TimeEntryEditForm(
                 attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         name("description")
+                        value(description.value)
                         onChange {
                             description.value = it.value
                             onDescriptionChanged(it.value)
@@ -225,9 +241,8 @@ fun TimeEntryEditForm(
                     .cursor(Cursor.Pointer)
                     .toAttrs()
             ) {
-                Text("Submit")
+                Text("Update")
             }
         }
-
     }
 }

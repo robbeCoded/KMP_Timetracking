@@ -16,7 +16,7 @@ import compose.icons.feathericons.X
 import de.cgi.android.ui.components.AddEditButtonSection
 import de.cgi.android.ui.components.ProjectDropdownMenu
 import de.cgi.android.ui.components.SelectableTextField
-import de.cgi.android.util.format
+import de.cgi.common.util.format
 import kotlinx.datetime.*
 
 @Composable

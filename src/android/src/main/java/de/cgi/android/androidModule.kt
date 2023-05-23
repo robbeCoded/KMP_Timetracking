@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 import de.cgi.android.dashboard.DashboardViewModel
 import de.cgi.android.dashboard.team.TeamDashboardViewModel
 import de.cgi.android.dashboard.team.TeamListViewModel
-import de.cgi.android.projects.addedit.ProjectAddViewModel
-import de.cgi.android.projects.addedit.ProjectEditViewModel
 
 import de.cgi.common.UserRepository
 import de.cgi.common.auth.SignInViewModel
 import de.cgi.common.auth.SignUpViewModel
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.di.commonModule
+import de.cgi.common.projects.ProjectAddViewModel
+import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.common.projects.ProjectListViewModel
 import de.cgi.common.timeentry.TimeEntryAddViewModel
 import de.cgi.common.timeentry.TimeEntryEditViewModel
