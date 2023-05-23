@@ -1,29 +1,30 @@
 package de.cgi.pages.timeentry
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.Cursor
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
-import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxHeight
+import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.style.toAttrs
-import com.varabyte.kobweb.silk.components.style.toModifier
 import de.cgi.common.timeentry.TimeEntryAddViewModel
+import de.cgi.common.timeentry.TimeEntryListViewModel
 import de.cgi.components.layouts.PageLayout
-import de.cgi.components.styles.MainButtonStyle
-import de.cgi.components.styles.Theme
-import de.cgi.components.util.JsJodaTimeZoneModule
-import de.cgi.components.widgets.AuthContainerStyle
+import de.cgi.components.widgets.InputFieldStyleBig
 import de.cgi.components.widgets.InputFieldStyleSmall
-import kotlinx.datetime.*
+import kotlinx.datetime.toLocalDate
+import kotlinx.datetime.toLocalTime
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.name
-import org.jetbrains.compose.web.attributes.onSubmit
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Input
+import org.jetbrains.compose.web.dom.Label
+import org.jetbrains.compose.web.dom.Text
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -32,237 +33,154 @@ import org.kodein.di.instance
 fun TimeEntryAddScreen() {
     val di = localDI()
     val viewModel: TimeEntryAddViewModel by di.instance()
+    val listViewModel: TimeEntryListViewModel by di.instance()
+
     val ctx = rememberPageContext()
 
-    val jsJodaTz = JsJodaTimeZoneModule
-
     PageLayout(title = "Add Time Entry") {
-        TimeEntryAddForm(
-            onSubmitClick = viewModel::submitTimeEntry,
-            onDeleteClick = {},
-            onDateChanged = viewModel::dateChanged,
-            onStartTimeChanged = viewModel::startTimeChanged,
-            onEndTimeChanged = viewModel::endTimeChanged,
-            onDurationChanged = viewModel::durationChanged,
-            onDescriptionChanged = viewModel::descriptionChanged,
-            onProjectChanged = viewModel::projectChanged,
-            onGetDate = viewModel::getDate,
-            onGetDescription = viewModel::getDescription,
-            onGetDuration = viewModel::getDuration,
-            onGetEndTime = viewModel::getEndTime,
-            onGetProjectId = viewModel::getProjectId,
-            onGetProjectName = viewModel::getProjectName,
-            onGetStartTime = viewModel::getStartTime,
+        TimeEntryAdd(
+            viewModel = viewModel,
+            onNavigateBack = { ctx.router.navigateTo("/timeentry/list") },
+            onTimeEntriesUpdated = listViewModel::notifyTimeEntryUpdates
         )
     }
 
 }
 
 @Composable
-fun TimeEntryAddForm(
-    onSubmitClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-    onDateChanged: (LocalDate) -> Unit,
-    onStartTimeChanged: (LocalTime) -> Unit,
-    onEndTimeChanged: (LocalTime) -> Unit,
-    onDurationChanged: (LocalTime) -> Unit,
-    onDescriptionChanged: (String) -> Unit,
-    onProjectChanged: (String, String) -> Unit,
-    onGetStartTime: () -> LocalTime?,
-    onGetEndTime: () -> LocalTime?,
-    onGetDuration: () -> LocalTime?,
-    onGetDate: () -> LocalDate?,
-    onGetDescription: () -> String?,
-    onGetProjectId: () -> String?,
-    onGetProjectName: () -> String?,
+fun TimeEntryAdd(
+    viewModel: TimeEntryAddViewModel,
+    onNavigateBack: () -> Unit,
+    onTimeEntriesUpdated: () -> Unit,
 ) {
-    val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val date by viewModel.date.collectAsState()
+    val startTime = viewModel.startTime.collectAsState()
+    val endTime = viewModel.endTime.collectAsState()
 
-    val date = remember { mutableStateOf<LocalDate?>(null) }
-    val startTime =
-        remember { mutableStateOf<LocalTime?>(null) }
-    val endTime =
-        remember { mutableStateOf<LocalTime?>(null) }
-    val duration = remember { mutableStateOf<LocalTime?>(null) }
-    val project = remember { mutableStateOf("") }
-    val selectedProject = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
+    val duration = viewModel.duration.collectAsState()
 
-    date.value = onGetDate() ?: currentDateTime.date
-    startTime.value = onGetStartTime() ?: currentDateTime.time
-    endTime.value = onGetEndTime() ?: currentDateTime.time
-    duration.value = onGetDuration() ?: LocalTime(0, 0)
-    project.value = onGetProjectId() ?: ""
-    description.value = onGetDescription() ?: ""
-    selectedProject.value = onGetProjectName() ?: ""
+    val project = viewModel.projectName.collectAsState()
+    val selectedProject = viewModel.projectId.collectAsState()
+    val descriptionStateFlow = viewModel.description.collectAsState()
 
-    Form(attrs = listOf(AuthContainerStyle).toAttrs {
-        onSubmit { evt ->
-            evt.preventDefault()
-            onSubmitClick()
+    var description by remember { mutableStateOf(descriptionStateFlow.value ?: "") }
+
+
+
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Row(modifier = Modifier.width(450.px), horizontalArrangement = Arrangement.SpaceBetween) {
+            Column {
+                Label {
+                    Text("Date")
+                }
+                Input(
+                    InputType.Date,
+                    attrs = listOf(InputFieldStyleSmall)
+                        .toAttrs {
+                            name("date")
+                            value(date.toString())
+                            onChange {
+                                viewModel.dateChanged(it.value.toLocalDate())
+                            }
+                        }
+                )
+            }
+            Column {
+                Label {
+                    Text("Duration")
+                }
+                Input(
+                    InputType.Time,
+                    attrs = listOf(InputFieldStyleSmall)
+                        .toAttrs {
+                            name("duration")
+                            value(duration.value.toString())
+                            onChange {
+                                viewModel.durationChanged(it.value.toLocalTime())
+                            }
+                        }
+                )
+            }
         }
-    }) {
-        Column(Modifier.fillMaxSize()) {
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Date")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("date")
-                        value(date.value.toString())
-                        onChange {
-                            date.value = it.value.toLocalDate()
-                            onDateChanged(it.value.toLocalDate())
-                        }
-                    }
-            )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Duration")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("duration")
-                        value(duration.value.toString())
-                        onChange {
-                            duration.value = it.value.toLocalTime()
-                            onDurationChanged(it.value.toLocalTime())
-                        }
-                    }
-            )
 
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Start Time")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("starttime")
-                        value(startTime.value.toString())
-                        onChange {
-                            startTime.value = it.value.toLocalTime()
-                            onStartTimeChanged(it.value.toLocalTime())
+
+        Row(modifier = Modifier.width(450.px), horizontalArrangement = Arrangement.SpaceBetween) {
+            Column {
+                Label {
+                    Text("Start Time")
+                }
+                Input(
+                    InputType.Time,
+                    attrs = listOf(InputFieldStyleSmall)
+                        .toAttrs {
+                            name("starttime")
+                            value(startTime.value.toString())
+                            onChange {
+                                viewModel.startTimeChanged(it.value.toLocalTime())
+                            }
                         }
-                    }
-            )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("End Time")
+                )
+
             }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("endtime")
-                        value(endTime.value.toString())
-                        onChange {
-                            endTime.value = it.value.toLocalTime()
-                            onEndTimeChanged(it.value.toLocalTime())
+            Column {
+                Label {
+                    Text("End Time")
+                }
+                Input(
+                    InputType.Time,
+                    attrs = listOf(InputFieldStyleSmall)
+                        .toAttrs {
+                            name("endtime")
+                            value(endTime.value.toString())
+                            onChange {
+                                viewModel.endTimeChanged(it.value.toLocalTime())
+                            }
                         }
-                    }
-            )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
+                )
+            }
+        }
+        Column(modifier = Modifier.width(450.px), horizontalAlignment = Alignment.Start) {
+            Label {
                 Text("Description")
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
+                attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
                         name("description")
-                        value(description.value)
+                        value(description)
                         onChange {
-                            description.value = it.value
-                            onDescriptionChanged(it.value)
+                            description = it.value
                         }
                     }
             )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
+
+            Label {
                 Text("Project")
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
+                attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
                         name("project")
+                        value(project.value.toString())
                         onChange {
-                            project.value = it.value
                             //onProjectChanged(it.value)
                         }
                     }
             )
             Button(
-                attrs = MainButtonStyle.toModifier()
-                    .height(40.px)
-                    .border(width = 0.px)
-                    .borderRadius(r = 5.px)
-                    .backgroundColor(Theme.Primary.rgb)
-                    .color(Colors.White)
-                    .cursor(Cursor.Pointer)
-                    .toAttrs()
-            ) {
+                modifier = Modifier.width(450.px),
+                onClick = {
+                    viewModel.descriptionChanged(description)
+                    viewModel.submitTimeEntry()
+                    onTimeEntriesUpdated()
+                    onNavigateBack()
+                }) {
                 Text("Submit")
             }
+
         }
-
     }
 }
-
-@JsModule("flatpickr")
-@JsNonModule
-external val flatpickr: dynamic
-
-
-var idForPicker = 0
-
-@Composable
-fun DatePicker(value: String, onValueChange: (String) -> Unit) {
-    val id = remember { "input-${idForPicker++}" }
-
-
-    Div {
-        Input(
-            type = InputType.Text,
-            attrs = listOf(InputFieldStyleSmall)
-                .toAttrs {
-                    value(value)
-                    onChange {
-                        onValueChange(it.value.toString())
-                    }
-                }
-        )
-    }
-
-    LaunchedEffect(Unit) {
-        flatpickr(id, flatpickr) as Unit
-    }
-}
-
-
 

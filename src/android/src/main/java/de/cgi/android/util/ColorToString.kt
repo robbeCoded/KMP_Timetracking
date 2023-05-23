@@ -1,7 +1,6 @@
 package de.cgi.android.util
 
 import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.toColorInt
 
 fun colorToString(color: Color): String {
     val red = (color.red * 255).toInt()

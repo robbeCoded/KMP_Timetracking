@@ -1,35 +1,30 @@
 package de.cgi.pages.project
 
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import com.varabyte.kobweb.compose.css.Cursor
+import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.style.toAttrs
-import com.varabyte.kobweb.silk.components.style.toModifier
 import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.common.repository.ProjectMapProvider
 import de.cgi.components.layouts.PageLayout
-import de.cgi.components.styles.MainButtonStyle
-import de.cgi.components.styles.Theme
-import de.cgi.components.util.JsJodaTimeZoneModule
-import de.cgi.components.widgets.AuthContainerStyle
+import de.cgi.components.styles.*
+import de.cgi.components.widgets.InputFieldStyleBig
 import de.cgi.components.widgets.InputFieldStyleSmall
 import kotlinx.datetime.*
 import org.jetbrains.compose.web.attributes.InputType
-import org.jetbrains.compose.web.attributes.name
-import org.jetbrains.compose.web.attributes.onSubmit
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Input
+import org.jetbrains.compose.web.dom.Label
+import org.jetbrains.compose.web.dom.Text
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -44,32 +39,12 @@ fun ProjectEditScreen() {
 
     val viewModel: ProjectEditViewModel by di.instance()
     viewModel.projectId = projectId
-
     val projectMapProvider: ProjectMapProvider by di.instance()
-    val jsJodaTz = JsJodaTimeZoneModule
+
     PageLayout(title = "Neues Projekt") {
         ProjectEditForm(
-            onStartDateChanged = viewModel::startDateChanged,
-            onEndDateChanged = viewModel::endDateChanged,
-            onNameChanged = viewModel::nameChanged,
-            onDescriptionChanged = viewModel::descriptionChanged,
-
-            onDeleteProject = viewModel::deleteProject,
-            onUpdateProject = viewModel::updateProject,
-
+            viewModel = viewModel,
             onNavigateBack = { ctx.router.navigateTo("/project/list") },
-            onGetProjectById = viewModel::getProjectById,
-
-            onGetStartDate = viewModel::getStartDate,
-            onGetEndDate = viewModel::getEndDate,
-            onGetName = viewModel::getName,
-            onGetDescription = viewModel::getDescription,
-
-            onColorChanged = viewModel::colorChanged,
-            onGetColor = viewModel::getColor,
-            onBillableChanged = viewModel::billableChanged,
-            onGetBillable = viewModel::getBillable,
-
             onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() }
         )
     }
@@ -77,166 +52,143 @@ fun ProjectEditScreen() {
 
 @Composable
 fun ProjectEditForm(
-    onStartDateChanged: (LocalDate) -> Unit,
-    onEndDateChanged: (LocalDate) -> Unit,
-    onNameChanged: (String) -> Unit,
-    onDescriptionChanged: (String) -> Unit,
-
-    onDeleteProject: () -> Unit,
-    onUpdateProject: () -> Unit,
+    viewModel: ProjectEditViewModel,
     onNavigateBack: () -> Unit,
-    onGetProjectById: () -> Unit,
-
-    onGetStartDate: () -> LocalDate?,
-    onGetEndDate: () -> LocalDate?,
-    onGetName: () -> String?,
-    onGetDescription: () -> String?,
-
-    onColorChanged: (String) -> Unit,
-    onGetColor: () -> String?,
-    onGetBillable: () -> Boolean,
-    onBillableChanged: (Boolean) -> Unit,
-
     onProjectsUpdated: () -> Unit
 ) {
 
-    val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
-    val startDate = remember { mutableStateOf<LocalDate?>(null) }
-    val endDate = remember { mutableStateOf<LocalDate?>(null) }
-    val name = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
-    val selectedColor = remember {
-        mutableStateOf("")
-    }
-    val billable = remember { mutableStateOf(false) }
+    val startDate = viewModel.startDate.collectAsState()
+    val endDate = viewModel.endDate.collectAsState()
+    val nameFlow = viewModel.name.collectAsState()
+    val descriptionFlow = viewModel.description.collectAsState()
+    val selectedColor = viewModel.color.collectAsState()
+    val billable = viewModel.billable.collectAsState()
 
 
-    val projectLoaded = remember { mutableStateOf(false) }
+    var description by remember { mutableStateOf(descriptionFlow.value ?: "") }
+    var name by remember { mutableStateOf(nameFlow.value) }
 
     LaunchedEffect(key1 = "edit") {
-        onGetProjectById()
-        projectLoaded.value = true
+        viewModel.getProjectById()
     }
 
-    LaunchedEffect(projectLoaded.value) {
-        startDate.value = onGetStartDate() ?: currentDate
-        endDate.value = onGetEndDate() ?: currentDate
-        name.value = onGetName() ?: ""
-        description.value = onGetDescription() ?: ""
-        selectedColor.value = onGetColor() ?: ""
-        billable.value = onGetBillable()
-    }
+    Column(modifier = Modifier.fillMaxHeight().width(450.px)) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Column {
+                Label {
+                    Text("Start Date")
+                }
+                Input(
+                    InputType.Date,
+                    attrs = listOf(InputFieldStyleSmall)
+                        .toAttrs {
+                            value(startDate.value.toString())
+                            onChange {
+                                viewModel.startDateChanged(it.value.toLocalDate())
+                            }
+                        }
+                )
+            }
+            Column {
+                Label {
+                    Text("End Date")
+                }
+                Input(
+                    InputType.Date,
+                    attrs = listOf(InputFieldStyleSmall)
+                        .toAttrs {
+                            value(endDate.value.toString())
+                            onChange {
+                                viewModel.endDateChanged(it.value.toLocalDate())
+                            }
+                        }
+                )
+            }
 
-    Form(attrs = listOf(AuthContainerStyle).toAttrs {
-        onSubmit { evt ->
-            evt.preventDefault()
-            onUpdateProject()
+
         }
-    }) {
-        Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Start Date")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("startdate")
-                        onChange {
-                            startDate.value = it.value.toLocalDate()
-                            onStartDateChanged(it.value.toLocalDate())
-                        }
+        Label {
+            Text("Project Title")
+        }
+        Input(
+            InputType.Text,
+            attrs = listOf(InputFieldStyleBig)
+                .toAttrs {
+                    value(name)
+                    onChange {
+                        name = it.value
                     }
-            )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("End Date")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("enddate")
-                        onChange {
-                            endDate.value = it.value.toLocalDate()
-                            onEndDateChanged(it.value.toLocalDate())
-                        }
+                }
+        )
+        Label {
+            Text("Description")
+        }
+        Input(
+            InputType.Text,
+            attrs = listOf(InputFieldStyleBig)
+                .toAttrs {
+                    value(description)
+                    onChange {
+                        description = it.value
                     }
-            )
-
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Project Name")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("projectname")
-                        onChange {
-                            name.value = it.value
-                            onNameChanged(it.value)
-                        }
-                    }
-            )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Description")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("description")
-                        onChange {
-                            description.value = it.value
-                            onDescriptionChanged(it.value)
-                        }
-                    }
-            )
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Project is billable")
-            }
+                }
+        )
+        VerticalSpacer(8)
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
             Input(
                 InputType.Checkbox,
-                attrs = listOf(InputFieldStyleSmall)
-                    .toAttrs {
-                        name("billable")
-                        onChange {
-                            billable.value = it.value
-                            onBillableChanged(it.value)
-                        }
+                attrs = {
+                    checked(billable.value)
+                    onChange {
+                        viewModel.billableChanged(it.value)
                     }
+                }
             )
-            Button(
-                attrs = MainButtonStyle.toModifier()
-                    .height(40.px)
-                    .border(width = 0.px)
-                    .borderRadius(r = 5.px)
-                    .backgroundColor(Theme.Primary.rgb)
-                    .color(Colors.White)
-                    .cursor(Cursor.Pointer)
-                    .toAttrs()
-            ) {
-                Text("Submit")
+            HorizontalSpacer(16)
+            Text("Project is Billable")
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CustomColors.projectColorsList.forEach { color ->
+                val colorString = color.toString()
+                Box(
+                    modifier = Modifier
+                        .height(50.px)
+                        .width(50.px)
+                        .border(
+                            width = if (selectedColor.value == colorString) 3.px else 1.px,
+                            color = if (selectedColor.value == colorString) CustomColors.actionPrimary else CustomColors.black,
+                        )
+                        .background(color.toString())
+                        .onClick {
+                            viewModel.colorChanged(colorString)
+                        }
+                )
             }
+        }
+        Button(
+            modifier = Modifier.width(450.px),
+            onClick = {
+                viewModel.descriptionChanged(description)
+                viewModel.nameChanged(name)
+                viewModel.updateProject()
+                onProjectsUpdated()
+                onNavigateBack()
+            }) {
+            Text("Update")
+        }
+        Button(
+            modifier = Modifier.width(450.px),
+            onClick = {
+                viewModel.deleteProject()
+                onProjectsUpdated()
+                onNavigateBack()
+            }) {
+            Text("Delete")
         }
 
     }

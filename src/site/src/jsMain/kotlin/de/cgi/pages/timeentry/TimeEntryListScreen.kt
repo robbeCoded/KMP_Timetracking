@@ -30,8 +30,11 @@ fun TimeEntryListScreen() {
     val di = localDI()
     val viewModel: TimeEntryListViewModel by di.instance()
     val ctx = rememberPageContext()
+    val timeZoneModule = JsJodaTimeZoneModule
 
-    val jsJodaTz = JsJodaTimeZoneModule
+    LaunchedEffect(viewModel.updateTrigger.value) {
+        viewModel.getTimeEntries()
+    }
 
     val timeEntryListState by viewModel.listState.collectAsState()
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date

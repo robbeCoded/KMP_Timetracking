@@ -1,6 +1,7 @@
 package de.cgi.pages.project
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -33,6 +34,10 @@ fun ProjectsListScreen() {
     val ctx = rememberPageContext()
 
     val projectListState by viewModel.listState.collectAsState()
+
+    LaunchedEffect(viewModel.updateTrigger.value) {
+        viewModel.getProjects()
+    }
 
     PageLayout(title = "Projekte") {
         Column(

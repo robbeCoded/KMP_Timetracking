@@ -14,8 +14,8 @@ import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.style.toAttrs
 import de.cgi.common.repository.ProjectMapProvider
 import de.cgi.common.timeentry.TimeEntryEditViewModel
+import de.cgi.common.timeentry.TimeEntryListViewModel
 import de.cgi.components.layouts.PageLayout
-import de.cgi.components.util.JsJodaTimeZoneModule
 import de.cgi.components.widgets.InputFieldStyleBig
 import de.cgi.components.widgets.InputFieldStyleSmall
 import kotlinx.datetime.*
@@ -38,25 +38,27 @@ fun TimeEntryEditScreen() {
     val timeEntryId = ctx.route.params.getValue("id")
 
     val viewModel: TimeEntryEditViewModel by di.instance()
+    val listViewModel: TimeEntryListViewModel by di.instance()
     viewModel.timeEntryId = timeEntryId
 
     val projectMapProvider: ProjectMapProvider by di.instance()
-    val jsJodaTz = JsJodaTimeZoneModule
+
     PageLayout(title = "Edit Time Entry") {
         Column(modifier = Modifier.fillMaxSize()) {
-            TimeEntryEditForm(
+            TimeEntryEdit(
                 viewModel = viewModel,
                 onNavigateBack = { ctx.router.navigateTo("/timeentry/list") },
+                onTimeEntriesUpdated = listViewModel::notifyTimeEntryUpdates
             )
         }
-
     }
 }
 
 @Composable
-fun TimeEntryEditForm(
+fun TimeEntryEdit(
     viewModel: TimeEntryEditViewModel,
     onNavigateBack: () -> Unit,
+    onTimeEntriesUpdated: () -> Unit,
 ) {
     val date by viewModel.date.collectAsState()
     val startTime = viewModel.startTime.collectAsState()
@@ -66,7 +68,9 @@ fun TimeEntryEditForm(
 
     val project = viewModel.projectName.collectAsState()
     val selectedProject = viewModel.projectId.collectAsState()
-    val description = viewModel.description.collectAsState()
+    val descriptionStateFlow = viewModel.description.collectAsState()
+
+    var description by remember { mutableStateOf(descriptionStateFlow.value ?: "") }
 
     LaunchedEffect(key1 = "edit") {
         viewModel.getTimeEntryById()
@@ -74,7 +78,7 @@ fun TimeEntryEditForm(
 
     Column(modifier = Modifier.fillMaxHeight()) {
         Row(modifier = Modifier.width(450.px), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column() {
+            Column {
                 Label {
                     Text("Date")
                 }
@@ -110,7 +114,7 @@ fun TimeEntryEditForm(
 
 
         Row(modifier = Modifier.width(450.px), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column() {
+            Column {
                 Label {
                     Text("Start Time")
                 }
@@ -135,7 +139,6 @@ fun TimeEntryEditForm(
                     InputType.Time,
                     attrs = listOf(InputFieldStyleSmall)
                         .toAttrs {
-                            name("endtime")
                             value(endTime.value.toString())
                             onChange {
                                 viewModel.endTimeChanged(it.value.toLocalTime())
@@ -153,12 +156,13 @@ fun TimeEntryEditForm(
                 attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
                         name("description")
-                        value(description.value.toString())
+                        value(description)
                         onChange {
-                            viewModel.descriptionChanged(it.value)
+                            description = it.value
                         }
                     }
             )
+
             Label {
                 Text("Project")
             }
@@ -176,22 +180,22 @@ fun TimeEntryEditForm(
             Button(
                 modifier = Modifier.width(450.px),
                 onClick = {
-                viewModel.updateTimeEntry()
-                viewModel.clear()
-                onNavigateBack()
-            }) {
+                    viewModel.descriptionChanged(description)
+                    viewModel.updateTimeEntry()
+                    onTimeEntriesUpdated()
+                    onNavigateBack()
+                }) {
                 Text("Update")
             }
             Button(
                 modifier = Modifier.width(450.px),
                 onClick = {
-                viewModel.deleteTimeEntry()
-                onNavigateBack()
-                viewModel.clear()
-            }) {
+                    viewModel.deleteTimeEntry()
+                    onTimeEntriesUpdated()
+                    onNavigateBack()
+                }) {
                 Text("Delete")
             }
         }
-
     }
 }
