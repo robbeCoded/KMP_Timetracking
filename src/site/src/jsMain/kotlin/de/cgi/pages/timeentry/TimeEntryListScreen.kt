@@ -56,11 +56,11 @@ fun TimeEntryListScreen() {
                 AsyncData(resultState = timeEntryListState.timeEntryListState) { timeEntryList ->
                     timeEntryList?.let {
                         if (timeEntryList.isNotEmpty()) {
-                            timeEntryList.forEach {
-                                if (it.date == selectedDate.value.toString()) {
+                            timeEntryList.forEach { timeEntry ->
+                                if (timeEntry.date == selectedDate.value.toString()) {
                                     TimeEntryListItem(
-                                        timeEntry = it,
-                                        onClick = {},
+                                        timeEntry = timeEntry,
+                                        onClick = {ctx.router.navigateTo("/timeentry/edit/${timeEntry.id}")},
                                         di = di
                                     )
                                 }

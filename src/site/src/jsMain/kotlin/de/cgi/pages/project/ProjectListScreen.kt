@@ -43,12 +43,11 @@ fun ProjectsListScreen() {
             AsyncData(resultState = projectListState.projectListState) { projectList ->
                 projectList?.let {
                     if (projectList.isNotEmpty()) {
-                        projectList.forEach {
+                        projectList.forEach { project ->
                             ProjectListItem(
-                                project = it,
-                                onClick = {}
+                                project = project,
+                                onClick = {ctx.router.navigateTo("/edit/${project.id}")}
                             )
-                            Spacer()
                         }
                     } else {
                         Text("Du hast noch keine Projekte angelegt.")

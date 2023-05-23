@@ -34,7 +34,7 @@ fun PageLayout(title: String, content: @Composable () -> Unit) {
     ) {
         Row(
             modifier = Modifier.fillMaxSize().textAlign(TextAlign.Center),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
             NavMenu()
             content()

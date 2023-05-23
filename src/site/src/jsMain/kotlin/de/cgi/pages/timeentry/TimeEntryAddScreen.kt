@@ -35,7 +35,7 @@ fun TimeEntryAddScreen() {
 
     val jsJodaTz = JsJodaTimeZoneModule
 
-    AddEditForm(
+    TimeEntryAddForm(
         onSubmitClick = viewModel::submitTimeEntry,
         onDeleteClick = {},
         onDateChanged = viewModel::dateChanged,
@@ -56,7 +56,7 @@ fun TimeEntryAddScreen() {
 }
 
 @Composable
-fun AddEditForm(
+fun TimeEntryAddForm(
     onSubmitClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onDateChanged: (LocalDate) -> Unit,

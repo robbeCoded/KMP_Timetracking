@@ -5,6 +5,8 @@ import de.cgi.common.auth.SignInViewModel
 import de.cgi.common.auth.SignUpViewModel
 import de.cgi.common.data.model.KeyValueStorage
 import de.cgi.common.di.commonModule
+import de.cgi.common.projects.ProjectAddViewModel
+import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.common.projects.ProjectListViewModel
 import de.cgi.common.timeentry.TimeEntryAddViewModel
 import de.cgi.common.timeentry.TimeEntryEditViewModel
@@ -26,6 +28,8 @@ val webModule = DI.Module("webModule") {
     bind<TimeEntryListViewModel>() with singleton { TimeEntryListViewModel(instance(), instance(), instance()) }
     bind<TimeEntryAddViewModel>() with singleton { TimeEntryAddViewModel(instance(), instance(), instance()) }
     bind<ProjectListViewModel>() with singleton { ProjectListViewModel(instance(), instance()) }
+    bind<ProjectAddViewModel>() with singleton { ProjectAddViewModel(instance(), instance()) }
+    bind<ProjectEditViewModel>() with singleton { ProjectEditViewModel(instance(), instance(), "") }
 
     bind<TimeEntryEditViewModel>() with singleton { TimeEntryEditViewModel(instance(), instance(), instance(), "") }
 }
