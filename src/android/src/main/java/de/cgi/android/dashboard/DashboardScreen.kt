@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.cgi.android.dashboard.team.DashboardDataPerUser
+import de.cgi.android.ui.components.PieChartView
 import de.cgi.android.ui.components.SwitchWeeks
 import de.cgi.android.ui.components.TabMenu
 import de.cgi.android.ui.components.Table

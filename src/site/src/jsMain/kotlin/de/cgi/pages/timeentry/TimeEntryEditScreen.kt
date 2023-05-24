@@ -15,17 +15,16 @@ import com.varabyte.kobweb.silk.components.style.toAttrs
 import de.cgi.common.repository.ProjectMapProvider
 import de.cgi.common.timeentry.TimeEntryEditViewModel
 import de.cgi.common.timeentry.TimeEntryListViewModel
+import de.cgi.common.util.ResultState
 import de.cgi.components.layouts.PageLayout
 import de.cgi.components.widgets.InputFieldStyleBig
 import de.cgi.components.widgets.InputFieldStyleSmall
 import kotlinx.datetime.*
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.name
+import org.jetbrains.compose.web.attributes.selected
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.Input
-import org.jetbrains.compose.web.dom.Label
-import org.jetbrains.compose.web.dom.Text
-import org.jetbrains.compose.web.dom.TextInput
+import org.jetbrains.compose.web.dom.*
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -49,7 +48,8 @@ fun TimeEntryEditScreen() {
             TimeEntryEdit(
                 viewModel = viewModel,
                 onNavigateBack = { ctx.router.navigateTo("/timeentry/list") },
-                onTimeEntriesUpdated = listViewModel::notifyTimeEntryUpdates
+                onTimeEntriesUpdated = listViewModel::notifyTimeEntryUpdates,
+                projectMapProvider = projectMapProvider,
             )
         }
     }
@@ -60,7 +60,11 @@ fun TimeEntryEdit(
     viewModel: TimeEntryEditViewModel,
     onNavigateBack: () -> Unit,
     onTimeEntriesUpdated: () -> Unit,
+    projectMapProvider: ProjectMapProvider,
 ) {
+
+    val projectListState = projectMapProvider.getProjectNameMapValue()
+
     val date by viewModel.date.collectAsState()
     val startTime = viewModel.startTime.collectAsState()
     val endTime = viewModel.endTime.collectAsState()
@@ -167,17 +171,48 @@ fun TimeEntryEdit(
             Label {
                 Text("Project")
             }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyleBig)
-                    .toAttrs {
-                        name("project")
-                        value(project.value.toString())
-                        onChange {
-                            //onProjectChanged(it.value)
+            Select(attrs = {
+                onChange {
+                    val projectName = projectMapProvider.getProjectNameById(it.value)
+                    viewModel.projectChanged(it.value, projectName)
+                }
+            }) {
+                when (projectListState) {
+                    is ResultState.Success -> {
+                        val projectList = projectListState.data
+                        Option(
+                            value = "",
+                            attrs = {
+                                if (selectedProject.value == "" || selectedProject.value == null) {
+                                    selected()
+                                }
+                            }) {
+                            Text("Internal")
+                        }
+                        projectList?.forEach { project ->
+                            Option(
+                                value = project.key,
+                                attrs = {
+                                    if (project.key == selectedProject.value) {
+                                        selected()
+                                    }
+                                }) {
+                                Text(project.value)
+                            }
                         }
                     }
-            )
+                    is ResultState.Error -> {
+                        Option(value = "") {
+                            Text("Error loading projects")
+                        }
+                    }
+                    is ResultState.Loading -> {
+                        Option(value = "") {
+                            Text("Loading projects...")
+                        }
+                    }
+                }
+            }
             Button(
                 modifier = Modifier.width(450.px),
                 onClick = {

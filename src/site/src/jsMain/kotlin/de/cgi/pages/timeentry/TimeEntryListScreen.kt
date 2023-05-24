@@ -148,7 +148,12 @@ fun TimeEntryListItem(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(timeEntry.description ?: "Keine Beschreibung")
+            val description = if(timeEntry.description.isNullOrBlank()){
+                "Keine Beschreibung"
+            } else {
+                timeEntry.description
+            }
+            Text(description ?: "Keine Beschreibung")
             Spacer()
             Text("$startTime - $endTime")
             Spacer()

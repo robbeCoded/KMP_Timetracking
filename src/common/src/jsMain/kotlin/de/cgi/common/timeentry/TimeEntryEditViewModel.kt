@@ -74,7 +74,7 @@ actual class TimeEntryEditViewModel actual constructor(
             endTime = endTime.value.toString(),
             userId = userId,
             description = description.value,
-            projectId = projectId.value,
+            projectId = _projectId.value,
         ).onEach {
             _timeEntryEditState.value = it
         }.launchIn(jsScope)
@@ -116,7 +116,6 @@ actual class TimeEntryEditViewModel actual constructor(
             )
         }
     }
-    /*TODO Implement notifiers for else cases */
     actual fun startTimeChanged(startTime: LocalTime) {
         _startTime.value = startTime
 
@@ -166,7 +165,10 @@ actual class TimeEntryEditViewModel actual constructor(
         _description.value = description
     }
 
-    actual fun projectChanged(projectId: String, projectName: String) {
+    actual fun projectChanged(projectId: String?, projectName: String?) {
+        if(projectId == ""){
+            _projectId.value = null
+        }
         _projectId.value = projectId
         _projectName.value = projectName
     }

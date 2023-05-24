@@ -29,14 +29,18 @@ fun Route.newTimeEntry(
             //TODO: Fehlerbehandlung - empty Fields etc
 
             val userId = ObjectId(request.userId)
-            val project = request.projectId?.let {ObjectId(it)}
+            val projectId = if(!request.projectId.isNullOrBlank()){
+                ObjectId(request.projectId)
+            } else {
+                null
+            }
             val timeEntry = TimeEntry(
                 date = request.date,
                 startTime = request.startTime,
                 endTime = request.endTime,
                 userId = userId,
                 description = request.description,
-                projectId = project,
+                projectId = projectId,
                 timestamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString()
             )
 
@@ -64,7 +68,12 @@ fun Route.updateTimeEntry(
             //TODO: Fehlerbehandlung - empty Fields etc
 
             val userId = ObjectId(request.userId)
-            val project = request.projectId?.let {ObjectId(it)}
+            val projectId = if(!request.projectId.isNullOrBlank()){
+                ObjectId(request.projectId)
+            } else {
+                null
+            }
+
             val id = ObjectId(request.id)
             val timeEntry = TimeEntry(
                 id = id,
@@ -73,7 +82,7 @@ fun Route.updateTimeEntry(
                 endTime = request.endTime,
                 userId = userId,
                 description = request.description,
-                projectId = project,
+                projectId = projectId,
                 timestamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString()
             )
 

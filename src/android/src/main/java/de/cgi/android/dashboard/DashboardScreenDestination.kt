@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import de.cgi.android.dashboard.team.TeamDashboardViewModel
 import de.cgi.android.navigation.Router
 import de.cgi.common.UserRepository
+import de.cgi.common.dashboard.DashboardViewModel
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 

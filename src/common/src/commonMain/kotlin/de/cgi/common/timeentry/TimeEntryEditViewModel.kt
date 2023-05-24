@@ -37,7 +37,6 @@ expect class TimeEntryEditViewModel(
     fun durationChanged(duration: LocalTime)
     fun dateChanged(date: LocalDate)
     fun descriptionChanged(description: String)
-    fun projectChanged(projectId: String, projectName: String)
 
     fun getStartTime(): LocalTime?
     fun getEndTime(): LocalTime?
@@ -46,4 +45,5 @@ expect class TimeEntryEditViewModel(
     fun getDescription(): String?
     fun getProjectId(): String?
     fun getProjectName(): String?
+    fun projectChanged(projectId: String?, projectName: String?)
 }

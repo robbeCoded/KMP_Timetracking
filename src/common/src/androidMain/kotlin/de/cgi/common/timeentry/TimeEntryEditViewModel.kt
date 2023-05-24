@@ -167,7 +167,7 @@ actual class TimeEntryEditViewModel actual constructor(
         _description.value = description
     }
 
-    actual fun projectChanged(projectId: String, projectName: String) {
+    actual fun projectChanged(projectId: String?, projectName: String?) {
         _projectId.value = projectId
         _projectName.value = projectName
     }

@@ -65,6 +65,7 @@ fun ProjectDropdownMenu(
                         onClick = { }
                     )
                 }
+                else -> {}
             }
         }
     }
