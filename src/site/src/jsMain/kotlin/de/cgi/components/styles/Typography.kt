@@ -42,4 +42,11 @@ val Heading3 by ComponentStyle {
             .fontWeight(FontWeight.Medium)
     }
 }
+val Label by ComponentStyle {
+    base {
+        Modifier
+            .fontSize(14.px)
+            .fontWeight(FontWeight.Light)
+    }
+}
 

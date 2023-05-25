@@ -17,8 +17,7 @@ import de.cgi.common.timeentry.TimeEntryAddViewModel
 import de.cgi.common.timeentry.TimeEntryListViewModel
 import de.cgi.common.util.ResultState
 import de.cgi.components.layouts.PageLayout
-import de.cgi.components.widgets.InputFieldStyleBig
-import de.cgi.components.widgets.InputFieldStyleSmall
+import de.cgi.components.widgets.InputFieldStyle
 import kotlinx.datetime.toLocalDate
 import kotlinx.datetime.toLocalTime
 import org.jetbrains.compose.web.attributes.InputType
@@ -78,7 +77,7 @@ fun TimeEntryAdd(
                 }
                 Input(
                     InputType.Date,
-                    attrs = listOf(InputFieldStyleSmall)
+                    attrs = listOf(InputFieldStyle)
                         .toAttrs {
                             name("date")
                             value(date.toString())
@@ -94,7 +93,7 @@ fun TimeEntryAdd(
                 }
                 Input(
                     InputType.Time,
-                    attrs = listOf(InputFieldStyleSmall)
+                    attrs = listOf(InputFieldStyle)
                         .toAttrs {
                             name("duration")
                             value(duration.value.toString())
@@ -114,7 +113,7 @@ fun TimeEntryAdd(
                 }
                 Input(
                     InputType.Time,
-                    attrs = listOf(InputFieldStyleSmall)
+                    attrs = listOf(InputFieldStyle)
                         .toAttrs {
                             name("starttime")
                             value(startTime.value.toString())
@@ -131,7 +130,7 @@ fun TimeEntryAdd(
                 }
                 Input(
                     InputType.Time,
-                    attrs = listOf(InputFieldStyleSmall)
+                    attrs = listOf(InputFieldStyle)
                         .toAttrs {
                             name("endtime")
                             value(endTime.value.toString())
@@ -148,7 +147,7 @@ fun TimeEntryAdd(
             }
             TextInput(
                 value = description.value,
-                attrs = listOf(InputFieldStyleBig)
+                attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         onInput {
                             description.value = it.value

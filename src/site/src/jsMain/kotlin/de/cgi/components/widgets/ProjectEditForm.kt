@@ -9,25 +9,24 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
+import com.varabyte.kobweb.silk.components.icons.fa.FaCircleCheck
+import com.varabyte.kobweb.silk.components.icons.fa.FaTrash
 import com.varabyte.kobweb.silk.components.style.toAttrs
 import de.cgi.common.projects.ProjectEditViewModel
-import de.cgi.components.styles.CustomColors
-import de.cgi.components.styles.HorizontalSpacer
-import de.cgi.components.styles.VerticalSpacer
+import de.cgi.components.styles.*
 import kotlinx.datetime.toLocalDate
 import org.jetbrains.compose.web.attributes.InputType
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.Input
-import org.jetbrains.compose.web.dom.Label
-import org.jetbrains.compose.web.dom.Text
-import org.jetbrains.compose.web.dom.TextInput
+import org.jetbrains.compose.web.dom.*
 
 
 @Composable
 fun ProjectEditForm(
     viewModel: ProjectEditViewModel,
-    onNavigateBack: () -> Unit,
-    onProjectsUpdated: () -> Unit
+    onProjectsUpdated: () -> Unit,
+    onUpdate: () -> Unit,
+    updateDeleteClicked: () -> Unit
 ) {
     val startDate = viewModel.startDate.collectAsState()
     val endDate = viewModel.endDate.collectAsState()
@@ -47,123 +46,141 @@ fun ProjectEditForm(
     description.value = descriptionFlow.value ?: ""
 
 
-
-    Column(modifier = Modifier.fillMaxHeight().width(450.px)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column {
-                Label {
-                    Text("Start Date")
-                }
-                Input(
-                    InputType.Date,
-                    attrs = listOf(InputFieldStyleSmall)
-                        .toAttrs {
-                            value(startDate.value.toString())
-                            onChange {
-                                viewModel.startDateChanged(it.value.toLocalDate())
-                            }
-                        }
-                )
-            }
-            Column {
-                Label {
-                    Text("End Date")
-                }
-                Input(
-                    InputType.Date,
-                    attrs = listOf(InputFieldStyleSmall)
-                        .toAttrs {
-                            value(endDate.value.toString())
-                            onChange {
-                                viewModel.endDateChanged(it.value.toLocalDate())
-                            }
-                        }
-                )
-            }
-
-
-        }
-        Label {
-            Text("Project Title")
-        }
-        TextInput(
-            value = name.value,
-            attrs = listOf(InputFieldStyleBig)
-                .toAttrs {
-                    onInput {
-                        name.value = it.value
-                    }
-                }
-        )
-        Label {
-            Text("Description")
-        }
-        TextInput(
-            value = description.value,
-            attrs = listOf(InputFieldStyleBig)
-                .toAttrs {
-                    onInput {
-                        description.value = it.value
-                    }
-                }
-        )
-        VerticalSpacer(8)
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
-            Input(
-                InputType.Checkbox,
-                attrs = {
-                    checked(billable.value)
-                    onChange {
-                        viewModel.billableChanged(it.value)
-                    }
-                }
-            )
-            HorizontalSpacer(16)
-            Text("Project is Billable")
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+    Box(
+        modifier = Modifier
+            .padding(8.px)
+            .fillMaxHeight()
+            .width(40.percent)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            CustomColors.projectColorsList.forEach { color ->
-                val colorString = color.toString()
-                Box(
-                    modifier = Modifier
-                        .height(50.px)
-                        .width(50.px)
-                        .border(
-                            width = if (selectedColor.value == colorString) 3.px else 1.px,
-                            color = if (selectedColor.value == colorString) CustomColors.actionPrimary else CustomColors.black,
-                        )
-                        .background(color.toString())
-                        .onClick {
-                            viewModel.colorChanged(colorString)
-                        }
-                )
+            Div(
+                Heading3.toAttrs()
+            ) {
+                Text("Edit Time Entry")
             }
-        }
-        Button(
-            modifier = Modifier.width(450.px),
-            onClick = {
-                viewModel.descriptionChanged(description.value)
-                viewModel.nameChanged(name.value)
-                viewModel.updateProject()
-                onProjectsUpdated()
-                onNavigateBack()
-            }) {
-            Text("Update")
-        }
-        Button(
-            modifier = Modifier.width(450.px),
-            onClick = {
-                viewModel.deleteProject()
-                onProjectsUpdated()
-                onNavigateBack()
-            }) {
-            Text("Delete")
-        }
+            VerticalSpacer(16)
 
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier.width(40.percent),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Div(Label.toAttrs()) {
+                        Text("Start Date")
+                    }
+                    Input(
+                        InputType.Date,
+                        attrs = listOf(InputFieldStyle)
+                            .toAttrs {
+                                value(startDate.value.toString())
+                                onChange {
+                                    viewModel.startDateChanged(it.value.toLocalDate())
+                                }
+                            }
+                    )
+                }
+                Column(
+                    modifier = Modifier.width(40.percent),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Div(Label.toAttrs()) {
+                        Text("End Date")
+                    }
+                    Input(
+                        InputType.Date,
+                        attrs = listOf(InputFieldStyle)
+                            .toAttrs {
+                                value(endDate.value.toString())
+                                onChange {
+                                    viewModel.endDateChanged(it.value.toLocalDate())
+                                }
+                            }
+                    )
+                }
+
+
+            }
+            VerticalSpacer(16)
+            Div(Label.toAttrs()) {
+                Text("Project Title")
+            }
+            TextInput(
+                value = name.value,
+                attrs = listOf(InputFieldStyle)
+                    .toAttrs {
+                        onInput {
+                            name.value = it.value
+                        }
+                    }
+            )
+            VerticalSpacer(16)
+            Div(Label.toAttrs()) {
+                Text("Description")
+            }
+            TextInput(
+                value = description.value,
+                attrs = listOf(InputFieldStyle)
+                    .toAttrs {
+                        onInput {
+                            description.value = it.value
+                        }
+                    }
+            )
+            VerticalSpacer(16)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CheckboxInput(
+                    checked = (billable.value),
+                    attrs = listOf(CheckBoxStyle).toAttrs
+                    {
+                        onChange {
+                            viewModel.billableChanged(it.value)
+                        }
+                    }
+                )
+                HorizontalSpacer(16)
+                Div(Heading3.toAttrs()) {
+                    Text("Project is billable")
+                }
+            }
+            VerticalSpacer(16)
+            ColorSelection(
+                colorChanged = viewModel::colorChanged,
+                selectedColor = viewModel.color.collectAsState().value
+            )
+            VerticalSpacer(32)
+            AddEditFormButton(
+                onClick = {
+                    viewModel.descriptionChanged(description.value)
+                    viewModel.nameChanged(name.value)
+                    viewModel.updateProjectJs(onUpdate)
+                    updateDeleteClicked()
+                    onProjectsUpdated()
+                },
+                text = "Update"
+            )
+            VerticalSpacer(16)
+            AddEditFormButton(
+                onClick = {
+                    viewModel.deleteProjectJs(onUpdate)
+                    updateDeleteClicked()
+                    onProjectsUpdated()
+                },
+                text = "Delete"
+            )
+        }
     }
+
 }

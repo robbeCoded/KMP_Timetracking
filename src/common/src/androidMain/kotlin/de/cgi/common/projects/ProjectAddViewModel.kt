@@ -3,7 +3,6 @@ package de.cgi.common.projects
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.cgi.common.UserRepository
-import de.cgi.common.projects.ProjectAddUseCase
 import de.cgi.common.util.ResultState
 import de.cgi.common.data.model.Project
 import kotlinx.coroutines.Job
@@ -24,14 +23,6 @@ actual class ProjectAddViewModel actual constructor(
     private val userId: String = userRepository.getUserId()
 
     private val _projectAddState = MutableStateFlow<ResultState<Project?>>(ResultState.Loading)
-    actual val projectAddState: StateFlow<ResultState<Project?>> = _projectAddState
-
-    private val _projectDeleteState = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
-    actual val projectDeleteState: StateFlow<ResultState<Boolean>> = _projectDeleteState
-
-    private val _projectFetchState =
-        MutableStateFlow<ResultState<Project?>>(ResultState.Loading)
-    actual val projectFetchState: StateFlow<ResultState<Project?>> = _projectFetchState
 
     private val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
 
@@ -41,7 +32,7 @@ actual class ProjectAddViewModel actual constructor(
     private val _endDate = MutableStateFlow<LocalDate?>(currentDate)
     actual val endDate: StateFlow<LocalDate?> = _endDate
 
-    private val _name = MutableStateFlow("")
+    private val _name = MutableStateFlow("#E4E4E4")
     actual val name: StateFlow<String> = _name
 
     private val _description = MutableStateFlow<String?>(null)

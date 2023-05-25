@@ -9,28 +9,30 @@ import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.components.style.placeholderShown
+import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.*
 
 private val INTERACT_COLOR = Color.rgb(0x00, 0x70, 0xf3)
 val BORDER_COLOR = Color.rgb(0xea, 0xea, 0xea)
 
 /** Common styles for all todo widgets */
-val InputFieldStyleSmall by ComponentStyle.base {
+val InputFieldStyle by ComponentStyle.base {
     Modifier
-        .width(200.px)
+        .fillMaxWidth()
         .height(30.px)
+        .backgroundColor(Colors.Transparent)
         .border(1.px, LineStyle.Solid, Colors.Black)
         .borderRadius(10.px)
         .textDecorationLine(TextDecorationLine.None)
 }
-val InputFieldStyleBig by ComponentStyle.base {
+
+val CheckBoxStyle by ComponentStyle.base {
     Modifier
-        .width(450.px)
-        .height(30.px)
-        .border(1.px, LineStyle.Solid, Colors.Black)
-        .borderRadius(10.px)
-        .textDecorationLine(TextDecorationLine.None)
+        .height(20.px)
+        .width(20.px)
 }
+
+
 
 /** Styles for the bordered, outer container (the form component has an inner and outer layer) */
 val AuthContainerStyle by ComponentStyle.base {

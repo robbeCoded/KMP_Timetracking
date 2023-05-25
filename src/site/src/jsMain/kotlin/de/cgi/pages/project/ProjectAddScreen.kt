@@ -10,20 +10,21 @@ import de.cgi.components.widgets.ProjectAddForm
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
-
+/*
 @Page(routeOverride = "add")
 @Composable
 fun ProjectAddScreen() {
     val di = localDI()
-    val viewModel: ProjectAddViewModel by di.instance()
+    val projectAddViewModel: ProjectAddViewModel by di.instance()
     val ctx = rememberPageContext()
     val projectMapProvider: ProjectMapProvider by di.instance()
     PageLayout(title = "Project", pageContext = ctx) {
         ProjectAddForm(
-            viewModel = viewModel,
+            viewModel = projectAddViewModel,
             onNavigateBack = { ctx.router.navigateTo("/project/list") },
             onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() }
         )
     }
 }
 
+*/

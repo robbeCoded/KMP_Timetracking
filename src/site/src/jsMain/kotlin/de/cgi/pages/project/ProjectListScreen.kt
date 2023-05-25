@@ -1,20 +1,22 @@
 package de.cgi.pages.project
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.foundation.layout.*
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.style.toModifier
 import de.cgi.common.data.model.Project
+import de.cgi.common.projects.ProjectAddViewModel
+import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.common.projects.ProjectListViewModel
+import de.cgi.common.repository.ProjectMapProvider
 import de.cgi.common.util.format
 import de.cgi.components.layouts.PageLayout
 import de.cgi.components.styles.PageHeaderStyle
@@ -22,6 +24,8 @@ import de.cgi.components.styles.PageTitle
 import de.cgi.components.styles.Theme
 import de.cgi.components.styles.VerticalSpacer
 import de.cgi.components.util.AsyncData
+import de.cgi.components.widgets.ProjectAddForm
+import de.cgi.components.widgets.ProjectEditForm
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDate
 import org.jetbrains.compose.web.css.percent
@@ -36,13 +40,18 @@ import org.kodein.di.instance
 @Composable
 fun ProjectsListScreen() {
     val di = localDI()
-    val viewModel: ProjectListViewModel by di.instance()
+    val projectListViewModel: ProjectListViewModel by di.instance()
+    val projectEditViewModel: ProjectEditViewModel by di.instance()
+    val projectAddViewModel: ProjectAddViewModel by di.instance()
+    val projectMapProvider: ProjectMapProvider by di.instance()
     val ctx = rememberPageContext()
 
-    val projectListState by viewModel.listState.collectAsState()
+    val showEdit = remember { mutableStateOf(false) }
 
-    LaunchedEffect(viewModel.updateTrigger.value) {
-        viewModel.getProjects()
+    val projectListState by projectListViewModel.listState.collectAsState()
+
+    LaunchedEffect(projectListViewModel.updateTrigger.value) {
+        projectListViewModel.getProjects()
     }
 
     PageLayout(title = "Project", pageContext = ctx) {
@@ -63,25 +72,55 @@ fun ProjectsListScreen() {
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                AsyncData(resultState = projectListState.projectListState) { projectList ->
-                    projectList?.let {
-                        if (projectList.isNotEmpty()) {
-                            projectList.forEach { project ->
-                                ProjectListItem(
-                                    project = project,
-                                    onClick = { ctx.router.navigateTo("/edit/${project.id}") }
-                                )
+                Column(
+                    modifier = Modifier
+                        .padding(8.px)
+                        .width(55.percent),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    AsyncData(resultState = projectListState.projectListState) { projectList ->
+                        projectList?.let {
+                            if (projectList.isNotEmpty()) {
+                                projectList.forEach { project ->
+                                    ProjectListItem(
+                                        project = project,
+                                        onClick = { selectedProject ->
+                                            projectEditViewModel.clear()
+                                            projectEditViewModel.projectId = selectedProject.id
+                                            projectEditViewModel.getProjectById()
+                                            showEdit.value = true
+                                        }
+                                    )
+                                }
+                            } else {
+                                Text("There are no Projects yet.")
                             }
-                        } else {
-                            Text("Du hast noch keine Projekte angelegt.")
                         }
                     }
+                }
+
+                if (showEdit.value) {
+                    ProjectEditForm(
+                        viewModel = projectEditViewModel,
+                        onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() },
+                        onUpdate = { projectListViewModel.notifyProjectUpdates() },
+                        updateDeleteClicked = { showEdit.value = false }
+                    )
+                } else {
+                    ProjectAddForm(
+                        viewModel = projectAddViewModel,
+                        onProjectsUpdated = { projectMapProvider.notifyProjectUpdates() },
+                        onUpdate = { projectListViewModel.notifyProjectUpdates() }
+                    )
                 }
 
             }
 
 
-            Button(onClick = { ctx.router.navigateTo("/project/add") }) {
+            Button(onClick = {
+                showEdit.value = false
+            }) {
                 Text("Add project")
             }
 
@@ -97,6 +136,7 @@ fun ProjectListItem(
 ) {
     val startDate: LocalDate = project.startDate.toLocalDate()
     val endDate: LocalDate = project.endDate.toLocalDate()
+    val color = project.color.toString()
 
 
     Box(
@@ -104,8 +144,8 @@ fun ProjectListItem(
             .margin(8.px)
             .padding(8.px)
             .borderRadius(10.px)
-            .width(55.percent)
-            .backgroundColor(Theme.ItemColor.rgb)
+            .fillMaxWidth()
+            .styleModifier { property("background-color", color) }
             .onClick { onClick(project) }
     ) {
         Column(
@@ -116,7 +156,7 @@ fun ProjectListItem(
                 Modifier
                     .fontWeight(FontWeight.SemiBold)
                     .toAttrs()
-            ){
+            ) {
                 Text(project.name)
             }
             Text(project.description ?: "Keine Beschreibung")

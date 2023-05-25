@@ -20,7 +20,7 @@ import de.cgi.common.auth.SignInViewModel
 import de.cgi.components.styles.MainButtonStyle
 import de.cgi.components.styles.Theme
 import de.cgi.components.widgets.AuthContainerStyle
-import de.cgi.components.widgets.InputFieldStyleSmall
+import de.cgi.components.widgets.InputFieldStyle
 import org.jetbrains.compose.web.attributes.*
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.*
@@ -92,7 +92,7 @@ fun SignInForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
+                attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         placeholder("E-Mail Address")
                         name("email")
@@ -112,7 +112,7 @@ fun SignInForm(
             }
             Input(
                 InputType.Text,
-                attrs = listOf(InputFieldStyleSmall)
+                attrs = listOf(InputFieldStyle)
                     .toAttrs {
                         placeholder("Password")
                         name("password")

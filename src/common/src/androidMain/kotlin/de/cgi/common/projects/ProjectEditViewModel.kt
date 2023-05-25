@@ -22,14 +22,12 @@ actual class ProjectEditViewModel actual constructor(
     private val userId: String = userRepository.getUserId()
 
     private val _projectEditState = MutableStateFlow<ResultState<Project?>>(ResultState.Loading)
-    actual val projectEditState: StateFlow<ResultState<Project?>> = _projectEditState
 
     private val _projectDeleteState = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
-    actual val projectDeleteState: StateFlow<ResultState<Boolean>> = _projectDeleteState
 
     private val _projectFetchState =
         MutableStateFlow<ResultState<Project?>>(ResultState.Loading)
-    actual val projectFetchState: StateFlow<ResultState<Project?>> = _projectFetchState
+
 
     private val _startDate = MutableStateFlow<LocalDate?>(null)
     actual val startDate: StateFlow<LocalDate?> = _startDate
@@ -43,8 +41,8 @@ actual class ProjectEditViewModel actual constructor(
     private val _name = MutableStateFlow("")
     actual val name: StateFlow<String> = _name
 
-    private val _color = MutableStateFlow<String?>(null)
-    actual val color: StateFlow<String?> = _color
+    private val _color = MutableStateFlow("#E4E4E4")
+    actual val color: StateFlow<String> = _color
 
     private val _billable = MutableStateFlow(false)
     actual val billable: StateFlow<Boolean> = _billable
@@ -94,7 +92,7 @@ actual class ProjectEditViewModel actual constructor(
         _endDate.value = project.endDate.toLocalDate()
         _name.value = project.name
         _description.value = project.description
-        _color.value = project.color
+        _color.value = project.color ?: ""
         _billable.value = project.billable
     }
 

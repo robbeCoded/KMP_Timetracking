@@ -31,5 +31,13 @@ enum class Theme(
     CgiRed(hex = "#E31937", rgb = rgb(r = 227, g = 25, b = 55)),
     CgiPurple(hex = "#592EB2", rgb = rgb(r = 89, g = 46, b = 178)),
     CgiPurpleLight(hex = "#2B81D3", rgb = rgb(r = 43, g = 129, b = 211)),
-    LightGreen(hex = "#CEFFA7", rgb = rgb(r = 206, g = 255, b = 167))
+    LightGreen(hex = "#CEFFA7", rgb = rgb(r = 206, g = 255, b = 167)),
+
+    ProjectColor1(hex = "#BB7D8B", rgb = rgb(r = 187, g = 125, b = 139)),
+    ProjectColor2(hex = "#D0B8C7", rgb = rgb(r = 208, g = 184, b = 199)),
+    ProjectColor3(hex = "#D2CAD5", rgb = rgb(r = 210, g = 202, b = 213)),
+    ProjectColor4(hex = "#DFDAE2", rgb = rgb(r = 223, g = 218, b = 226)),
+    ProjectColor5(hex = "#F5F5F6", rgb = rgb(r = 245, g = 245, b = 246))
+
+
 }

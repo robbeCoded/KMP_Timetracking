@@ -11,14 +11,11 @@ expect class ProjectEditViewModel(
     userRepository: UserRepository,
     projectId: String
 ) {
-    val projectEditState: StateFlow<ResultState<Project?>>
-    val projectDeleteState: StateFlow<ResultState<Boolean>>
-    val projectFetchState: StateFlow<ResultState<Project?>>
     val startDate: StateFlow<LocalDate?>
     val endDate: StateFlow<LocalDate?>
     val description: StateFlow<String?>
     val name: StateFlow<String>
-    val color: StateFlow<String?>
+    val color: StateFlow<String>
     val billable: StateFlow<Boolean>
 
     fun updateProject()
