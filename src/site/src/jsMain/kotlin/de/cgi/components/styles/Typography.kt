@@ -42,3 +42,4 @@ val Heading3 by ComponentStyle {
             .fontWeight(FontWeight.Medium)
     }
 }
+

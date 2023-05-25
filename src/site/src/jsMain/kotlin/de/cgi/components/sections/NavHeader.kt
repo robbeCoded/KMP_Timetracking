@@ -20,6 +20,7 @@ import de.cgi.components.util.Constants
 import de.cgi.components.util.Res
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.kodein.di.compose.localDI
@@ -164,6 +165,9 @@ fun MenuItem(
             "Account" -> FaUser()
         }
         HorizontalSpacer(8)
-        Text(text)
+        Div(Heading3.toModifier().toAttrs()){
+            Text(text)
+        }
+
     }
 }

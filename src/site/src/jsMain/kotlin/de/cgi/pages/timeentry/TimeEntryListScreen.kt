@@ -22,6 +22,7 @@ import de.cgi.common.util.customDateFormatter
 import de.cgi.common.util.format
 import de.cgi.common.util.generateWeekDates
 import de.cgi.components.layouts.PageLayout
+import de.cgi.components.styles.PageHeaderStyle
 import de.cgi.components.styles.PageTitle
 import de.cgi.components.styles.Theme
 import de.cgi.components.util.AsyncData
@@ -29,6 +30,7 @@ import de.cgi.components.util.JsJodaTimeZoneModule
 import kotlinx.datetime.*
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.kodein.di.compose.localDI
@@ -58,12 +60,7 @@ fun TimeEntryListScreen() {
             verticalArrangement = Arrangement.Top,
         ) {
             Box(
-                modifier = Modifier
-                    .padding(8.px)
-                    .fillMaxWidth()
-                    .height(10.percent)
-                    .backgroundColor(Theme.TopAppbar.rgb)
-                    .boxShadow(3.px, 2.px, 3.px, 0.px, Theme.Grey5.rgb)
+                PageHeaderStyle.toModifier()
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
@@ -161,7 +158,9 @@ fun WeekdayHeader(
 
             Box(
                 modifier = Modifier
+                    .padding(topBottom = 4.px)
                     .width(14.percent)
+                    .height(8.percent)
                     .borderRadius(10.px)
                     .backgroundColor(backgroundColor)
                     .onClick { onDateSelected(weekDates[index]) }
@@ -210,7 +209,14 @@ fun TimeEntryListItem(
             } else {
                 timeEntry.description
             }
-            Text(description ?: "Keine Beschreibung")
+            Div(
+                Modifier
+                    .fontWeight(FontWeight.SemiBold)
+                    .toAttrs()
+            ){
+                Text(description ?: "Keine Beschreibung")
+            }
+
             Spacer()
             Text("$startTime - $endTime")
             Spacer()

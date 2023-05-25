@@ -2,6 +2,7 @@ import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
 import kotlinx.html.script
 
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.jetbrains.compose)
@@ -27,14 +28,6 @@ kobweb {
                 link {
                     rel = "stylesheet"
                     href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-                }
-
-                script {
-                    src = "https://cdn.jsdelivr.net/npm/flatpickr"
-                }
-                link {
-                    rel = "stylesheet"
-                    href = "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
                 }
             }
         }
