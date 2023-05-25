@@ -35,7 +35,6 @@ fun initSilk(ctx: InitSilkContext) {
 @App
 @Composable
 fun MyApp(content: @Composable () -> Unit) = withDI(webModule) {
-
     SilkApp {
         val colorMode = getColorMode()
         LaunchedEffect(colorMode) {

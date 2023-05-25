@@ -43,7 +43,7 @@ fun TimeEntryEditScreen() {
 
     val projectMapProvider: ProjectMapProvider by di.instance()
 
-    PageLayout(title = "Edit Time Entry") {
+    PageLayout(title = "Time Tracking", pageContext = ctx) {
         Column(modifier = Modifier.fillMaxSize()) {
             TimeEntryEdit(
                 viewModel = viewModel,

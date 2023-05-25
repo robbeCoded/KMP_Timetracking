@@ -18,7 +18,7 @@ fun HomePage() {
     val di = localDI()
     val userRepository: UserRepository by di.instance()
     val ctx = rememberPageContext()
-    PageLayout("Home") {
+    PageLayout("Home", ctx) {
         if (userRepository.getUserId().isBlank()){
             ctx.router.navigateTo("/auth/signin")
         } else {

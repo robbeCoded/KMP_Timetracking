@@ -30,7 +30,7 @@ actual class TimeEntryListViewModel actual constructor(
     private val selectedDate: StateFlow<LocalDate> = _selectedDate
 
     private val _totalDuration = MutableStateFlow(LocalTime(0, 0, 0))
-    private val totalDuration: StateFlow<LocalTime> = _totalDuration
+    val totalDuration: StateFlow<LocalTime> = _totalDuration
 
     actual val updateTrigger: MutableState<Boolean> = mutableStateOf(false)
 

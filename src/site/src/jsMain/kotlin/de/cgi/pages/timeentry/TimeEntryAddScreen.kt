@@ -38,7 +38,7 @@ fun TimeEntryAddScreen() {
     val projectMapProvider: ProjectMapProvider by di.instance()
     val ctx = rememberPageContext()
 
-    PageLayout(title = "Add Time Entry") {
+    PageLayout(title = "Time Tracking", pageContext = ctx) {
         TimeEntryAdd(
             viewModel = viewModel,
             onNavigateBack = { ctx.router.navigateTo("/timeentry/list") },

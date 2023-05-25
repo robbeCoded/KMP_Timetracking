@@ -38,7 +38,7 @@ fun ProjectAddScreen() {
     val viewModel: ProjectAddViewModel by di.instance()
     val ctx = rememberPageContext()
     val projectMapProvider: ProjectMapProvider by di.instance()
-    PageLayout(title = "Neues Projekt") {
+    PageLayout(title = "Project", pageContext = ctx) {
         ProjectAdd(
             viewModel = viewModel,
             onNavigateBack = { ctx.router.navigateTo("/project/list") },

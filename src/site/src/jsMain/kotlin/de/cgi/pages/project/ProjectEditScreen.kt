@@ -42,7 +42,7 @@ fun ProjectEditScreen() {
     viewModel.projectId = projectId
     val projectMapProvider: ProjectMapProvider by di.instance()
 
-    PageLayout(title = "Neues Projekt") {
+    PageLayout(title = "Project", pageContext = ctx) {
         ProjectEditForm(
             viewModel = viewModel,
             onNavigateBack = { ctx.router.navigateTo("/project/list") },

@@ -39,7 +39,7 @@ fun ProjectsListScreen() {
         viewModel.getProjects()
     }
 
-    PageLayout(title = "Projekte") {
+    PageLayout(title = "Project", pageContext = ctx) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
