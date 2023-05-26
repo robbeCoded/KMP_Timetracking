@@ -49,8 +49,7 @@ fun ProjectEditForm(
     Box(
         modifier = Modifier
             .padding(8.px)
-            .fillMaxHeight()
-            .width(40.percent)
+            .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
@@ -59,7 +58,7 @@ fun ProjectEditForm(
             Div(
                 Heading3.toAttrs()
             ) {
-                Text("Edit Time Entry")
+                Text("Edit Project")
             }
             VerticalSpacer(16)
 

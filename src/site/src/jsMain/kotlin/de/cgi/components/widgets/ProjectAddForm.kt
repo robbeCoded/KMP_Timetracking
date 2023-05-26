@@ -56,7 +56,7 @@ fun ProjectAddForm(
             Div(
                 Heading3.toAttrs()
             ) {
-                Text("New Time Entry")
+                Text("New Project")
             }
             VerticalSpacer(16)
 

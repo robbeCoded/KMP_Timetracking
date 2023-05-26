@@ -23,12 +23,6 @@ actual class ProjectAddViewModel actual constructor(
 
     private val _projectAddState = MutableStateFlow<ResultState<Project?>>(ResultState.Loading)
 
-    private val _projectDeleteState = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
-
-    private val _projectFetchState =
-        MutableStateFlow<ResultState<Project?>>(ResultState.Loading)
-
-
     private val currentDate = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Berlin")).date
 
     private val _startDate = MutableStateFlow<LocalDate?>(currentDate)
