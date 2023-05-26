@@ -1,31 +1,33 @@
 package de.cgi.pages.auth
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
-import com.varabyte.kobweb.silk.components.forms.Button
+import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.toAttrs
-import com.varabyte.kobweb.silk.components.style.toModifier
 import de.cgi.common.auth.SignUpState
 import de.cgi.common.auth.SignUpViewModel
-import de.cgi.components.styles.MainButtonStyle
-import de.cgi.components.styles.Theme
-import de.cgi.components.widgets.AuthContainerStyle
-import de.cgi.components.widgets.InputFieldStyle
-import org.jetbrains.compose.web.attributes.*
+import de.cgi.components.layouts.AuthLayout
+import de.cgi.components.styles.AuthHeading
+import de.cgi.components.styles.Label
+import de.cgi.components.styles.VerticalSpacer
+import de.cgi.components.util.Res
+import de.cgi.components.widgets.AddEditFormButton
+import de.cgi.components.widgets.InputFieldStyleAuth
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.Form
-import org.jetbrains.compose.web.dom.Input
-import org.jetbrains.compose.web.dom.Label
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.PasswordInput
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextInput
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -37,31 +39,69 @@ fun SignUpScreen() {
     val signUpState by viewModel.signUpState.collectAsState()
     val ctx = rememberPageContext()
 
-    Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        SignUpForm(
-            onSignUpClick = viewModel::signUp,
-            onSignUpNameChanged = viewModel::signUpNameChanged,
-            onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
-            onSignUpEmailChanged = viewModel::signUpEmailChanged
-        )
-        Button(onClick = { ctx.router.navigateTo("/auth/signin") }) {
-            Text("Sign in")
+
+    AuthLayout(title = "Sign Up") {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.Top
+        ) {
+            Box(modifier = Modifier.width(40.percent))
+            Column(
+                modifier = Modifier
+                    .width(30.percent)
+                    .fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Div(AuthHeading.toAttrs()) {
+                    Text("CGI")
+                }
+                VerticalSpacer(16)
+                SignUpForm(
+                    onSignUpClick = viewModel::signUp,
+                    onSignUpEmailChanged = viewModel::signUpEmailChanged,
+                    onSignUpPasswordChanged = viewModel::signUpPasswordChanged,
+                    onSignUpNameChanged = viewModel::signUpNameChanged
+                )
+
+                VerticalSpacer(32)
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Already have an account?")
+                    Link(path = "/auth/signin", text = "Sign In")
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .padding(16.px)
+                    .width(40.percent),
+                contentAlignment = Alignment.TopEnd
+            ) {
+                Image(
+                    modifier = Modifier
+                        .height(300.px)
+                        .width(300.px),
+                    src = Res.Image.loginCorner,
+                    desc = "Profile Picture"
+                )
+            }
         }
+
     }
 
-    when(signUpState) {
-        is SignUpState.Success -> { ctx.router.navigateTo("/auth/signin") }
-        is SignUpState.Loading -> { }
-        is SignUpState.Failure -> { }
-        is SignUpState.Error -> { }
+    when (signUpState) {
+        is SignUpState.Success -> {
+            ctx.router.navigateTo("/auth/signin")
+        }
+        is SignUpState.Loading -> {}
+        is SignUpState.Failure -> {}
+        is SignUpState.Error -> {}
         else -> {}
     }
-
-
 }
 
 
@@ -77,85 +117,61 @@ fun SignUpForm(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    Form(attrs = listOf(AuthContainerStyle).toAttrs {
-        onSubmit { evt ->
-            evt.preventDefault()
-            onSignUpClick()
+
+    Column(modifier = Modifier.width(60.percent)) {
+
+        Div(Label.toAttrs()) {
+            Text("Name")
         }
-    }) {
-        Column(Modifier.fillMaxSize()) {
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Name")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyle)
-                    .toAttrs {
-                        placeholder("Full Name")
-                        name("name")
-                        onChange {
-                            name = it.value
-                            onSignUpNameChanged(it.value)
-                        }
+        TextInput(
+            value = name,
+            attrs = listOf(InputFieldStyleAuth)
+                .toAttrs {
+                    onInput {
+                        name = it.value
+                        onSignUpNameChanged(it.value)
                     }
-            )
+                }
+        )
+        VerticalSpacer(16)
 
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("E-Mail")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyle)
-                    .toAttrs {
-                        placeholder("E-Mail Address")
-                        name("email")
-                        onChange {
-                            email = it.value
-                            onSignUpEmailChanged(it.value)
-                        }
-                    }
-            )
-
-            Label(
-                attrs = Modifier
-                    .classNames("form-label")
-                    .toAttrs(),
-            ) {
-                Text("Password")
-            }
-            Input(
-                InputType.Text,
-                attrs = listOf(InputFieldStyle)
-                    .toAttrs {
-                        placeholder("Password")
-                        name("password")
-                        onChange {
-                            password = it.value
-                            onSignUpPasswordChanged(it.value)
-                        }
-                    }
-            )
-            org.jetbrains.compose.web.dom.Button(
-                attrs = MainButtonStyle.toModifier()
-                    .height(40.px)
-                    .border(width = 0.px)
-                    .borderRadius(r = 5.px)
-                    .backgroundColor(Theme.Primary.rgb)
-                    .color(Colors.White)
-                    .cursor(Cursor.Pointer)
-                    .toAttrs()
-            ) {
-                Text("Sign Up")
-            }
+        Div(Label.toAttrs()) {
+            Text("E-Mail")
         }
+        TextInput(
+            value = email,
+            attrs = listOf(InputFieldStyleAuth)
+                .toAttrs {
+                    onInput {
+                        email = it.value
+                        onSignUpEmailChanged(it.value)
+                    }
+                }
+        )
 
+        VerticalSpacer(16)
+
+        Div(Label.toAttrs()) {
+            Text("Password")
+        }
+        PasswordInput(
+            value = password,
+            attrs = listOf(InputFieldStyleAuth)
+                .toAttrs {
+                    onInput {
+                        password = it.value
+                        onSignUpPasswordChanged(it.value)
+                    }
+                }
+        )
+
+        VerticalSpacer(32)
+
+        AddEditFormButton(
+            onClick = {
+                onSignUpClick()
+            },
+            text = "Sign Up"
+        )
     }
 }

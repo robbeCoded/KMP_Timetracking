@@ -5,10 +5,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
-import com.varabyte.kobweb.compose.ui.modifiers.margin
-import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.link
 import org.jetbrains.compose.web.css.px
 
 val PageTitle by ComponentStyle {
@@ -19,11 +16,21 @@ val PageTitle by ComponentStyle {
     }
 }
 
+val AuthHeading by ComponentStyle {
+    base {
+        Modifier
+            .fontSize(64.px)
+            .fontWeight(FontWeight.Bold)
+            .color(Theme.CgiRed.rgb)
+    }
+}
+
 val Heading1 by ComponentStyle {
     base {
         Modifier
             .fontSize(32.px)
             .fontWeight(FontWeight.Bold)
+            .color(Theme.CgiRed.rgb)
     }
 }
 

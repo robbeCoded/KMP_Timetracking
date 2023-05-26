@@ -15,5 +15,6 @@ object Constants {
 object Res {
     object Image {
         const val noProfile = "/no_profile_picture.jpg"
+        const val loginCorner = "/login_corner.png"
     }
 }

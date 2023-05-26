@@ -7,6 +7,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRightToBracket
 import com.varabyte.kobweb.silk.components.icons.fa.FaCircleCheck
 import com.varabyte.kobweb.silk.components.icons.fa.FaTrash
 import com.varabyte.kobweb.silk.components.style.toAttrs
@@ -27,6 +28,8 @@ fun AddEditFormButton(
     val color = when (text) {
         "Update" -> Theme.ActionPrimary.rgb
         "Submit" -> Theme.ActionPrimary.rgb
+        "Sign In" -> Theme.ActionPrimary.rgb
+        "Sign Up" -> Theme.ActionPrimary.rgb
         "Delete" -> Theme.ActionRed.rgb
         else -> Theme.LightGrey.rgb
     }
@@ -49,6 +52,8 @@ fun AddEditFormButton(
             when (text) {
                 "Update" -> FaCircleCheck()
                 "Submit" -> FaCircleCheck()
+                "Sign In" -> FaArrowRightToBracket()
+                "Sign Up" -> FaArrowRightToBracket()
                 "Delete" -> FaTrash()
             }
             HorizontalSpacer(16)
