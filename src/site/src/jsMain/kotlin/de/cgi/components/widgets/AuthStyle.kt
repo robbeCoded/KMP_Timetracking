@@ -26,6 +26,16 @@ val InputFieldStyle by ComponentStyle.base {
         .textDecorationLine(TextDecorationLine.None)
 }
 
+val InputFieldStyleBig by ComponentStyle.base {
+    Modifier
+        .fillMaxWidth()
+        .height(60.px)
+        .backgroundColor(Colors.Transparent)
+        .border(1.px, LineStyle.Solid, Colors.Black)
+        .borderRadius(10.px)
+        .textDecorationLine(TextDecorationLine.None)
+}
+
 val CheckBoxStyle by ComponentStyle.base {
     Modifier
         .height(20.px)

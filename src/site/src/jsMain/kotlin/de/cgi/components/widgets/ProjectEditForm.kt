@@ -127,7 +127,7 @@ fun ProjectEditForm(
             }
             TextInput(
                 value = description.value,
-                attrs = listOf(InputFieldStyle)
+                attrs = listOf(InputFieldStyleBig)
                     .toAttrs {
                         onInput {
                             description.value = it.value
