@@ -103,10 +103,10 @@ fun ProjectAddForm(
                             }
                     )
                 }
-
-
             }
+
             VerticalSpacer(16)
+
             Div(de.cgi.components.styles.Label.toAttrs()) {
                 Text("Project Title")
             }
