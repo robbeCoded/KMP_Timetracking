@@ -125,7 +125,7 @@ fun ProjectEditForm(
             Div(Label.toAttrs()) {
                 Text("Description")
             }
-            TextInput(
+            TextArea(
                 value = description.value,
                 attrs = listOf(InputFieldStyleBig)
                     .toAttrs {

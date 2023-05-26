@@ -123,7 +123,7 @@ fun ProjectAddForm(
             Div(de.cgi.components.styles.Label.toAttrs()) {
                 Text("Description")
             }
-            TextInput(
+            TextArea(
                 value = description.value,
                 attrs = listOf(InputFieldStyleBig)
                     .toAttrs {

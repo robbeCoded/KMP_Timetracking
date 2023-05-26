@@ -51,8 +51,17 @@ fun ProjectListItem(
                 }
                 FaPen()
             }
+            Div(
+                Modifier
+                    .styleModifier {
+                        property("word-break", "break-word")
+                        property("overflow-wrap", "break-word")
+                    }
+                    .toAttrs()
+            ) {
+                Text(project.description ?: "Keine Beschreibung")
+            }
 
-            Text(project.description ?: "Keine Beschreibung")
             Spacer()
             Text(
                 "${startDate.format()} - ${endDate.format()}"

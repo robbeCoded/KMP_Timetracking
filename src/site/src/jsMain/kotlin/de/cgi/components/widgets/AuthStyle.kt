@@ -34,6 +34,8 @@ val InputFieldStyleBig by ComponentStyle.base {
         .border(1.px, LineStyle.Solid, Colors.Black)
         .borderRadius(10.px)
         .textDecorationLine(TextDecorationLine.None)
+        .verticalAlign(VerticalAlign.Top)
+        .overflowY(Overflow.Auto)
 }
 
 val CheckBoxStyle by ComponentStyle.base {

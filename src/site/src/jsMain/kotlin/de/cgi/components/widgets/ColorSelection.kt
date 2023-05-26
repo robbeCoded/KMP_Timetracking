@@ -1,15 +1,12 @@
 package de.cgi.components.widgets
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import de.cgi.common.projects.ProjectEditViewModel
 import de.cgi.components.styles.Theme
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
