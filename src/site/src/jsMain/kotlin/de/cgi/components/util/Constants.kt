@@ -14,6 +14,6 @@ object Constants {
 
 object Res {
     object Image {
-        const val noProfile = "public/no_profile_picture.jpg"
+        const val noProfile = "/no_profile_picture.jpg"
     }
 }

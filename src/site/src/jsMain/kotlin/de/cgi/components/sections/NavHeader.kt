@@ -79,6 +79,7 @@ fun NavMenu(
                     modifier = Modifier
                         .height(40.percent)
                         .width(40.percent)
+                        .borderRadius(50.percent)
                         .objectFit(ObjectFit.Cover),
                     src = Res.Image.noProfile,
                     desc = "Profile Picture"
@@ -89,7 +90,6 @@ fun NavMenu(
                     .toAttrs()){
                     Text(name)
                 }
-
             }
             Column(modifier = Modifier.fillMaxSize()) {
                 MenuItem(
