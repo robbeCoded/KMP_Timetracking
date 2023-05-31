@@ -12,10 +12,7 @@ import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.*
 import com.varabyte.kobweb.silk.components.style.*
 import de.cgi.common.UserRepository
-import de.cgi.components.styles.Heading1
-import de.cgi.components.styles.Heading3
-import de.cgi.components.styles.HorizontalSpacer
-import de.cgi.components.styles.Theme
+import de.cgi.components.styles.*
 import de.cgi.components.util.Constants
 import de.cgi.components.util.Res
 import org.jetbrains.compose.web.css.percent
@@ -77,8 +74,8 @@ fun NavMenu(
 
                 Image(
                     modifier = Modifier
-                        .height(40.percent)
-                        .width(40.percent)
+                        .height(80.px)
+                        .width(80.px)
                         .borderRadius(50.percent)
                         .objectFit(ObjectFit.Cover),
                     src = Res.Image.noProfile,

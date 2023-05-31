@@ -28,7 +28,7 @@ val AuthHeading by ComponentStyle {
 val Heading1 by ComponentStyle {
     base {
         Modifier
-            .fontSize(32.px)
+            .fontSize(40.px)
             .fontWeight(FontWeight.Bold)
             .color(Theme.CgiRed.rgb)
     }

@@ -2,6 +2,7 @@ package de.cgi.components.util
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import de.cgi.common.util.ResultState
@@ -10,8 +11,8 @@ import org.jetbrains.compose.web.dom.Text
 @Composable
 fun <T> AsyncData(
     resultState: ResultState<T?>?,
-    loadingContent: @Composable () -> Unit = { Box(modifier = Modifier.fillMaxSize()) {Text("Loading")} },
-    errorContent: @Composable () -> Unit = { Box(modifier = Modifier.fillMaxSize()) {Text("Error")} },
+    loadingContent: @Composable () -> Unit = { Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {Text("Loading")} },
+    errorContent: @Composable () -> Unit = { Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {Text("Error")} },
     content: @Composable (data: T?) -> Unit
 ) {
     resultState.let { state ->

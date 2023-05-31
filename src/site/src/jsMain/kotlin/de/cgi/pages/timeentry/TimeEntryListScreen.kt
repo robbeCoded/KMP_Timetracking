@@ -128,7 +128,13 @@ fun TimeEntryListScreen() {
                                     }
                                 }
                             } else {
-                                Text("There are no time entries for this date.")
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text("There are no time entries for this date.")
+                                }
+
                             }
 
                         }
